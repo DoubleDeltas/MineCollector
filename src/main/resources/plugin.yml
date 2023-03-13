@@ -21,3 +21,6 @@ commands:
   가이드:
     aliases: [rkdlem, guide, 도움, ehdna, help]
     description: 마인콜렉터 가이드를 봅니다.
+  테스트:
+    aliases: [test]
+    description: 테스트 커맨드입니다.

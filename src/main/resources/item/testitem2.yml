@@ -1,0 +1,11 @@
+v: 3218
+type: DIAMOND_SHOVEL
+meta:
+  meta-type: UNSPECIFIC
+  display-name: {
+    extra: [{"text": "asdf"}],
+    text: ""
+  }
+  enchants:
+    DAMAGE_ALL: 3
+  Damage: 150

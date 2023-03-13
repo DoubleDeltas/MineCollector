@@ -7,21 +7,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public final class BookCommand extends MineCollectorCommand {
-    private static final BookCommand instance = new BookCommand();
-    private BookCommand() {
-        super();
-    }
-    public static BookCommand getInstance() {
-        return instance;
-    }
-
     @Override
     public String getCommandName() { return "도감"; }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        ItemStack testItem = MineCollector.getPlugin().embeddedItemManager.createItem("testitem");
+        ItemStack testItem = MineCollector.getPlugin().itemManager.createItem("collect_book");
+
         player.getInventory().addItem(testItem);
         return false;
     }

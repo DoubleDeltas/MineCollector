@@ -1,10 +1,10 @@
 ==: org.bukkit.inventory.ItemStack
-v: 1
+v: 3218
 type: DIAMOND_SWORD
 amount: 1
 durability: 100
 meta:
-  ==: org.bukkit.inventory.ItemMeta
+  ==: org.bukkit.inventory.meta.ItemMeta
   display-name: test sword
   lore:
     - lore1
