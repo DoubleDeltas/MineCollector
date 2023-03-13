@@ -1,0 +1,14 @@
+==: org.bukkit.inventory.ItemStack
+v: 1
+type: DIAMOND_SWORD
+amount: 1
+durability: 100
+meta:
+  ==: org.bukkit.inventory.ItemMeta
+  display-name: test sword
+  lore:
+    - lore1
+    - lore2
+  enchants:
+    DAMAGE_ALL: 1
+    FIRE_ASPECT: 2
