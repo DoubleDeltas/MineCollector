@@ -18,12 +18,12 @@ public class OpenBookEventListener implements Listener {
         Player player = e.getPlayer();
         PlayerInventory playerInventory = player.getInventory();
 
-        if (playerInventory.getItemInMainHand().equals(collectionBook)
-                || playerInventory.getItemInOffHand().equals(collectionBook))
-        {
-            e.setCancelled(true);
-            new HubGui().openGui(player);
-            SoundUtil.playPageAll(player);
-        }
+        if (!playerInventory.getItemInMainHand().equals(collectionBook)
+                && !playerInventory.getItemInOffHand().equals(collectionBook))
+            return;
+
+        e.setCancelled(true);
+        new HubGui().openGui(player);
+        SoundUtil.playPageAll(player);
     }
 }
