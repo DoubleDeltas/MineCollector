@@ -1,7 +1,7 @@
 package com.doubledeltas.minecollector.item.itemCode;
 
 public enum StaticItem implements ItemCode {
-    COLLECT_BOOK("collect_book"),
+    COLLECTION_BOOK("collection_book"),
     ;
 
     private final String pathName;

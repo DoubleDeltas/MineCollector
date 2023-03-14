@@ -14,7 +14,7 @@ public class InlineItemManager extends ItemManager {
     protected ItemStack loadItem(ItemCode itemCode) {
         if (itemCode instanceof StaticItem staticItem)
             return switch (staticItem) {
-                case COLLECT_BOOK -> getCollectBook();
+                case COLLECTION_BOOK -> getCollectBook();
             };
         else if (itemCode instanceof GuiItem guiItem)
             return switch (guiItem) {

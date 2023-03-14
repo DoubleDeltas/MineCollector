@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Level;
 
 public final class MineCollector extends JavaPlugin {
-    public final ItemManager itemManager = new InlineItemManager();
+    private final ItemManager itemManager = new InlineItemManager();
 
     public static MineCollector getPlugin() {
         return MineCollector.getPlugin(MineCollector.class);
