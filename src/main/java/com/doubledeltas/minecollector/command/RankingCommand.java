@@ -4,9 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 public final class RankingCommand extends MineCollectorCommand {
-    static {
-        MineCollectorCommand.addCommand(new RankingCommand());
-    }
+
     @Override
     public String getCommandName() { return "랭킹"; }
 

@@ -4,9 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 public final class GuideCommand extends MineCollectorCommand {
-    static {
-        MineCollectorCommand.addCommand(new GuideCommand());
-    }
+
     @Override
     public String getCommandName() { return "가이드"; }
 

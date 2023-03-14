@@ -4,11 +4,19 @@ import com.doubledeltas.minecollector.MineCollector;
 import org.bukkit.command.CommandExecutor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
 public abstract class MineCollectorCommand implements CommandExecutor {
-    private static List<MineCollectorCommand> commands = new ArrayList<>();
+    private static List<MineCollectorCommand> commands = Arrays.asList(
+            new BookCommand(),
+            new CheckCommand(),
+            new CollectCommand(),
+            new GuideCommand(),
+            new RankingCommand(),
+            new TestCommand()
+    )
 
     protected static void addCommand(MineCollectorCommand command) {
         commands.add(command);
