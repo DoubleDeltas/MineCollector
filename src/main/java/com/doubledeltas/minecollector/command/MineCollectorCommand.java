@@ -16,11 +16,7 @@ public abstract class MineCollectorCommand implements CommandExecutor {
             new GuideCommand(),
             new RankingCommand(),
             new TestCommand()
-    )
-
-    protected static void addCommand(MineCollectorCommand command) {
-        commands.add(command);
-    }
+    );
 
     public abstract String getCommandName();
 
