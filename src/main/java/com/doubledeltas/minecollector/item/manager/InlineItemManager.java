@@ -2,31 +2,38 @@ package com.doubledeltas.minecollector.item.manager;
 
 import com.doubledeltas.minecollector.item.ItemBuilder;
 import com.doubledeltas.minecollector.item.ItemManager;
+import com.doubledeltas.minecollector.item.itemCode.GuiItem;
+import com.doubledeltas.minecollector.item.itemCode.ItemCode;
+import com.doubledeltas.minecollector.item.itemCode.StaticItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class InlineItemManager extends ItemManager {
 
     @Override
-    protected ItemStack loadItem(String itemId) {
-        return switch (itemId) {
-            case "collect_book"     -> getCollectBook();
-            case "gui_black"        -> getGuiBlack();
-            case "gui_gray"         -> getGuiGray();
-            case "gui_noPrev"       -> getGuiNoPrev();
-            case "gui_prev"         -> getGuiPrev();
-            case "gui_noNext"       -> getGuiNoNext();
-            case "gui_next"         -> getGuiNext();
-            case "gui_back"         -> getGuiBack();
-            case "gui_collection"   -> getGuiCollection();
-            case "gui_dump"         -> getGuiDump();
-            case "gui_ranking"      -> getGuiRanking();
-            case "gui_unknown"      -> getGuiUnknown();
-            case "gui_ok"           -> getGuiOk();
-            case "gui_hmm"          -> getGuiHmm();
-            case "gui_no"           -> getGuiNo();
-            default -> null;
-        };
+    protected ItemStack loadItem(ItemCode itemCode) {
+        if (itemCode instanceof StaticItem staticItem)
+            return switch (staticItem) {
+                case COLLECT_BOOK -> getCollectBook();
+            };
+        else if (itemCode instanceof GuiItem guiItem)
+            return switch (guiItem) {
+                case BLACK -> getGuiBlack();
+                case GRAY -> getGuiGray();
+                case NO_PREV -> getGuiNoPrev();
+                case PREV -> getGuiPrev();
+                case NO_NEXT -> getGuiNoNext();
+                case NEXT -> getGuiNext();
+                case BACK -> getGuiBack();
+                case COLLECTION -> getGuiCollection();
+                case DUMP -> getGuiDump();
+                case RANKING -> getGuiRanking();
+                case UNKNOWN -> getGuiUnknown();
+                case OK -> getGuiOk();
+                case HMM -> getGuiHmm();
+                case NO -> getGuiNo();
+            };
+        return null;
     }
 
     private ItemStack getCollectBook() {
@@ -110,7 +117,6 @@ public class InlineItemManager extends ItemManager {
         return new ItemBuilder(Material.RED_BANNER)
                 .build();
     }
-
 
 
 }

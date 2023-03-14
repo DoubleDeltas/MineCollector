@@ -2,6 +2,7 @@ package com.doubledeltas.minecollector.item.manager;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.item.ItemManager;
+import com.doubledeltas.minecollector.item.itemCode.ItemCode;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.yaml.snakeyaml.Yaml;
@@ -22,14 +23,14 @@ public class EmbeddedItemManager extends ItemManager {
 
     /**
      * 아이템을 불러옵니다.
-     * @param itemId 아이템 경로
+     * @param itemCode 아이템 경로
      * @return 불러온 아이템
      */
     @Override
-    protected ItemStack loadItem(String itemId) {
+    protected ItemStack loadItem(ItemCode itemCode) {
         Yaml yaml = new Yaml();
-        Map<String, Object> itemMap = yaml.load(plugin.getResource("item/%s.yml".formatted(itemId)));
-        MineCollector.log("loaded item - " + itemId + ":");
+        Map<String, Object> itemMap = yaml.load(plugin.getResource("item/%s.yml".formatted(itemCode.getPathName())));
+        MineCollector.log("loaded item - " + itemCode + ":");
         MineCollector.log(itemMap.toString());
         return ItemStack.deserialize(itemMap);
     }

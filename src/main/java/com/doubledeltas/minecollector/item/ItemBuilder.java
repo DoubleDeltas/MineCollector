@@ -27,7 +27,10 @@ public class ItemBuilder {
 
     public ItemBuilder lore(String... newLores) {
         List<String> lores = meta.getLore();
-        lores.addAll(List.of(newLores));
+        if (lores == null)
+            lores = List.of(newLores);
+        else
+            lores.addAll(List.of(newLores));
         meta.setLore(lores);
         return this;
     }
