@@ -1,9 +1,13 @@
 package com.doubledeltas.minecollector.item;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.block.banner.Pattern;
+import org.bukkit.block.banner.PatternType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
@@ -38,6 +42,17 @@ public class ItemBuilder {
     public ItemBuilder glowing() {
         meta.addEnchant(Enchantment.ARROW_INFINITE, 1, false);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        return this;
+    }
+
+    public ItemBuilder addBannerPattern(DyeColor color, PatternType pattern) {
+        BannerMeta bannerMeta = (BannerMeta) meta;
+        bannerMeta.addPattern(new Pattern(color, pattern));
+        return this;
+    }
+
+    public ItemBuilder itemFlags(ItemFlag flag) {
+        meta.addItemFlags(flag);
         return this;
     }
 

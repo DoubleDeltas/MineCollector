@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.gui;
 
+import com.doubledeltas.minecollector.MineCollector;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,11 +12,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class Gui implements Listener{
-    private Inventory inventory;
+    protected Inventory inventory;
 
-    public Gui(JavaPlugin plugin, int size, String title) {
-        inventory = Bukkit.createInventory(null, size, title);
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    public Gui(int row, String title) {
+        inventory = Bukkit.createInventory(null, row * 9, title);
+        MineCollector.getPlugin().getServer().getPluginManager().registerEvents(this, MineCollector.getPlugin());
     }
 
     public Inventory getInventory() { return inventory; }
