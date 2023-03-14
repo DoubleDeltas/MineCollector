@@ -7,6 +7,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public final class BookCommand extends MineCollectorCommand {
+    static {
+        MineCollectorCommand.addCommand(new BookCommand());
+    }
+
     @Override
     public String getCommandName() { return "도감"; }
 

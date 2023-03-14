@@ -4,6 +4,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 public final class CheckCommand extends MineCollectorCommand {
+    static {
+        MineCollectorCommand.addCommand(new CheckCommand());
+    }
+
     @Override
     public String getCommandName() { return "체크"; }
 

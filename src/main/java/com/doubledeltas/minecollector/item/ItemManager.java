@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.item;
 
+import com.doubledeltas.minecollector.item.manager.EmbeddedItemManager;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;

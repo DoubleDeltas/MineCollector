@@ -4,6 +4,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 public final class CollectCommand extends MineCollectorCommand {
+    static {
+        MineCollectorCommand.addCommand(new CollectCommand());
+    }
+
     @Override
     public String getCommandName() { return "수집"; }
 

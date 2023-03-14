@@ -1,7 +1,7 @@
 package com.doubledeltas.minecollector;
 
 import com.doubledeltas.minecollector.command.MineCollectorCommand;
-import com.doubledeltas.minecollector.item.InlineItemManager;
+import com.doubledeltas.minecollector.item.manager.InlineItemManager;
 import com.doubledeltas.minecollector.item.ItemManager;
 import org.bukkit.plugin.java.JavaPlugin;
 

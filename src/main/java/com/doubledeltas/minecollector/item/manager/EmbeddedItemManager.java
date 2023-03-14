@@ -1,6 +1,7 @@
-package com.doubledeltas.minecollector.item;
+package com.doubledeltas.minecollector.item.manager;
 
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.item.ItemManager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.yaml.snakeyaml.Yaml;

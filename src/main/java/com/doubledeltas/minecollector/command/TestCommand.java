@@ -6,6 +6,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class TestCommand extends MineCollectorCommand {
+    static {
+        MineCollectorCommand.addCommand(new TestCommand());
+    }
+
     @Override
     public String getCommandName() {
         return "테스트";
