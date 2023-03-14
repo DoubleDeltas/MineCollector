@@ -22,21 +22,21 @@ public abstract class Gui implements Listener{
     public Inventory getInventory() { return inventory; }
 
     @EventHandler
-    private final void handleEvent(InventoryOpenEvent e) {
+    public final void handleEvent(InventoryOpenEvent e) {
         if (!e.getInventory().equals(inventory))
             return;
         onOpen((Player) e.getPlayer(), e);
     }
 
     @EventHandler
-    private final void handleEvent(InventoryCloseEvent e) {
+    public final void handleEvent(InventoryCloseEvent e) {
         if (!e.getInventory().equals(inventory))
             return;
         onClose((Player) e.getPlayer(), e);
     }
 
     @EventHandler
-    private final void handleEvent(InventoryClickEvent e) {
+    public final void handleEvent(InventoryClickEvent e) {
         if (!e.getInventory().equals(inventory))
             return;
         onClick((Player) e.getWhoClicked(), e);
