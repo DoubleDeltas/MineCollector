@@ -20,8 +20,12 @@ public class SoundUtil {
         for (int i=0; i<6; i++) {
             scheduler.runTaskLater(MineCollector.getPlugin(), () -> {
                 for (int j=0; j<2; j++)
-                    player.playSound(player, Sound.ITEM_BOOK_PAGE_TURN, 1, 2);
+                    player.playSound(player, Sound.ITEM_BOOK_PAGE_TURN, 1F, 2F);
             }, 2 + i);
         }
+    }
+
+    public static void playPage(Player player) {
+        player.playSound(player, Sound.UI_LOOM_SELECT_PATTERN, 0.5F, 1F);
     }
 }
