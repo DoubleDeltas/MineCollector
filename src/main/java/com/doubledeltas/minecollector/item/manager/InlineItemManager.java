@@ -121,7 +121,7 @@ public class InlineItemManager extends ItemManager {
 
     private ItemStack getGuiBack() {
         return new ItemBuilder(Material.IRON_DOOR)
-                .displayName("§a§lBack")
+                .displayName("§c§lBack")
                 .build();
     }
 
