@@ -19,7 +19,7 @@ public final class BookCommand extends MineCollectorCommand {
         Player player = (Player) sender;
         ItemStack collectionBook = MineCollector.getPlugin().getItemManager().getItem(StaticItem.COLLECTION_BOOK);
 
-        if (player.getInventory().contains(collectionBook)) {
+        if (player.getInventory().contains(collectionBook) || player.getInventory().getItemInOffHand().equals(collectionBook)) {
             player.sendMessage(Titles.MSG_PREFIX + "이미 도감을 가지고 있군요! 인벤토리를 다시 찾아보실래요?");
             SoundUtil.playFail(player);
         }
