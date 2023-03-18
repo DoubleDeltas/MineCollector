@@ -1,13 +1,10 @@
 package com.doubledeltas.minecollector.data;
 
 import com.doubledeltas.minecollector.MineCollector;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
@@ -22,20 +19,15 @@ public class DataManager {
     public static FileConfiguration config;
 
     public static void loadConfig() {
+        MineCollector plugin = MineCollector.getPlugin();
         Path folder = MineCollector.getPlugin().getDataFolder().toPath();
 
-        try {
-            configFile = folder.resolve(CONFIG_FILENAME).toFile();
-            config = YamlConfiguration.loadConfiguration(configFile);
-            if (!configFile.exists() || configFile.length() == 0) {
-                MineCollector.log("asdf");
-                config.options().copyDefaults(true);
-                config.save(configFile);
-            }
-            MineCollector.getPlugin().saveDefaultConfig();
+        configFile = folder.resolve(CONFIG_FILENAME).toFile();
+        if (!configFile.exists() || configFile.length() == 0) {
+            plugin.getConfig().options().copyDefaults(true);
+            plugin.saveDefaultConfig();
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        config = YamlConfiguration.loadConfiguration(configFile);
+        plugin.saveDefaultConfig();
     }
 }

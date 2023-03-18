@@ -3,11 +3,10 @@ package com.doubledeltas.minecollector;
 import com.doubledeltas.minecollector.command.MineCollectorCommand;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.event.EventManager;
-import com.doubledeltas.minecollector.item.manager.InlineItemManager;
 import com.doubledeltas.minecollector.item.ItemManager;
+import com.doubledeltas.minecollector.item.manager.InlineItemManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.logging.Level;
 
 public final class MineCollector extends JavaPlugin {
@@ -23,13 +22,7 @@ public final class MineCollector extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        File cfile = new File(getDataFolder(), "config.yml");
-        if (cfile.length() == 0) {
-            getConfig().options().copyDefaults(true);
-            saveDefaultConfig();
-        }
-
-//        DataManager.loadConfig();
+        DataManager.loadConfig();
         EventManager.loadEventHandlers();
         MineCollectorCommand.loadCommands();
         getLogger().log(Level.INFO, "마인콜렉터 플러그인이 켜졌습니다!");
