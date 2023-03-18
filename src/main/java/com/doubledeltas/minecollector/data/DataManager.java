@@ -23,7 +23,7 @@ public class DataManager {
         Path folder = MineCollector.getPlugin().getDataFolder().toPath();
 
         configFile = folder.resolve(CONFIG_FILENAME).toFile();
-        if (!configFile.exists() || configFile.length() == 0) {
+        if (configFile.length() == 0) {
             plugin.getConfig().options().copyDefaults(true);
             plugin.saveDefaultConfig();
         }
