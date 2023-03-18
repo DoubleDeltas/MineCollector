@@ -1,6 +1,6 @@
 package com.doubledeltas.minecollector.command;
 
-import com.doubledeltas.minecollector.util.SoundUtil;
+import com.doubledeltas.minecollector.MineCollector;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,7 +17,8 @@ public class TestCommand extends MineCollectorCommand {
         if (!(sender instanceof Player player))
             return false;
 
-//        SoundUtil.playPageAll(player);
+        String lang = MineCollector.getPlugin().getConfig().getString("language");
+        player.sendMessage(lang);
 
         return true;
     }

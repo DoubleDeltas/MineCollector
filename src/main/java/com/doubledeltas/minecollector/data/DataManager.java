@@ -22,28 +22,20 @@ public class DataManager {
     public static FileConfiguration config;
 
     public static void loadConfig() {
-        Path folder = Bukkit.getServer().getPluginManager()
-                .getPlugin(MineCollector.getPlugin().getName())
-                .getDataFolder()
-                .toPath();
+        Path folder = MineCollector.getPlugin().getDataFolder().toPath();
 
         try {
-            if (!Files.exists(folder)) {
-                Files.createDirectories(folder);
-            }
-
             configFile = folder.resolve(CONFIG_FILENAME).toFile();
             config = YamlConfiguration.loadConfiguration(configFile);
-            config.options().copyDefaults();
-            config.save(configFile);
+            if (!configFile.exists() || configFile.length() == 0) {
+                MineCollector.log("asdf");
+                config.options().copyDefaults(true);
+                config.save(configFile);
+            }
             MineCollector.getPlugin().saveDefaultConfig();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static FileConfiguration getConfig() {
-        return config;
     }
 }
