@@ -3,7 +3,7 @@ package com.doubledeltas.minecollector.command;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public final class GuideCommand extends MineCollectorCommand {
+public final class GuideCommand extends GameCommand {
 
     @Override
     public String getCommandName() { return "가이드"; }

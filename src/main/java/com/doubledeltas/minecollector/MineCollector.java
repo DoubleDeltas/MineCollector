@@ -1,6 +1,6 @@
 package com.doubledeltas.minecollector;
 
-import com.doubledeltas.minecollector.command.MineCollectorCommand;
+import com.doubledeltas.minecollector.command.GameCommand;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.event.EventManager;
 import com.doubledeltas.minecollector.item.ItemManager;
@@ -22,9 +22,9 @@ public final class MineCollector extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        DataManager.loadConfig();
+        DataManager.setup();
         EventManager.loadEventHandlers();
-        MineCollectorCommand.loadCommands();
+        GameCommand.loadCommands();
         getLogger().log(Level.INFO, "마인콜렉터 플러그인이 켜졌습니다!");
     }
 

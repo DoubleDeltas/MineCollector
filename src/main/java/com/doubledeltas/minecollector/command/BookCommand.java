@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public final class BookCommand extends MineCollectorCommand {
+public final class BookCommand extends GameCommand {
 
     @Override
     public String getCommandName() { return "도감"; }
