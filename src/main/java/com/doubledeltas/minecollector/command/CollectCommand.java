@@ -9,7 +9,7 @@ public final class CollectCommand extends GameCommand {
     public String getCommandName() { return "수집"; }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         return false;
     }
 }

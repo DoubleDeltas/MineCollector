@@ -15,7 +15,7 @@ public final class BookCommand extends GameCommand {
     public String getCommandName() { return "도감"; }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
         ItemStack collectionBook = MineCollector.getPlugin().getItemManager().getItem(StaticItem.COLLECTION_BOOK);
 

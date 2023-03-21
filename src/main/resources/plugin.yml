@@ -2,10 +2,13 @@ name: MineCollector
 version: '${version}'
 main: com.doubledeltas.minecollector.MineCollector
 api-version: 1.19
-prefix: Mcol
+prefix: MineCollector
 authors: [ DoubleDeltas ]
 description: MineCollector plugin
 commands:
+  마인콜렉터:
+    aliases: [minecollector, mcol]
+    description: 마인콜렉터 메인 커맨드입니다.
   수집:
     aliases: [tnwlq, collect]
     description: 아이템을 수집합니다.

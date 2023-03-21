@@ -9,7 +9,7 @@ public final class CheckCommand extends GameCommand {
     public String getCommandName() { return "체크"; }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         return false;
     }
 }
