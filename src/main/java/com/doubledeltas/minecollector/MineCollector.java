@@ -30,6 +30,7 @@ public final class MineCollector extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        DataManager.saveAll();
         getLogger().log(Level.INFO, "마인콜렉터 플러그인이 꺼졌습니다.");
     }
 

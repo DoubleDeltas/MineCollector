@@ -2,7 +2,7 @@ name: MineCollector
 version: '${version}'
 main: com.doubledeltas.minecollector.MineCollector
 api-version: 1.19
-prefix: MineCollector
+prefix: Mcol
 authors: [ DoubleDeltas ]
 description: MineCollector plugin
 commands:

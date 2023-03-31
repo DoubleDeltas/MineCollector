@@ -1,14 +1,14 @@
 package com.doubledeltas.minecollector.data;
 
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.constant.Titles;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 
 /**
  * 데이터 관련 클래스
@@ -39,6 +39,8 @@ public class DataManager {
                 UUID uuid = data.getUuid();
                 playerData.put(uuid, data);
             }
+            
+            MineCollector.log(DATA_PATH.listFiles().length + "개 게임 데이터 불러옴!");
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -69,5 +71,30 @@ public class DataManager {
         }
         playerData.put(uuid, data);
         return true;
+    }
+
+    public static boolean saveAll() {
+        try {
+            for (UUID uuid: playerData.keySet()) {
+                File dataFile = new File(DATA_PATH, uuid + ".yml");
+                FileWriter writer = new FileWriter(dataFile);
+                playerData.get(uuid).serialize(writer);
+            }
+            MineCollector.log("게임데이터 저장됨!");
+            return true;
+        } catch (IOException e) {
+            MineCollector.log(Level.SEVERE, "게임데이터 저장 실패!");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 저장된 데이터가 있는지 봅니다.
+     * @param player 플레이어
+     * @return 플레이어 데이터 있는 지 여부
+     */
+    public static boolean hasData(Player player) {
+        return playerData.containsKey(player.getUniqueId());
     }
 }

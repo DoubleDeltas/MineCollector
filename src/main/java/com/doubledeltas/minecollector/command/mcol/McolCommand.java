@@ -9,6 +9,7 @@ public class McolCommand extends GameCommand {
 
     public McolCommand() {
         this.subcommands.add(new ReloadCommand());
+        this.subcommands.add(new SaveCommand());
     }
 
     @Override

@@ -10,7 +10,7 @@ public class OnLoginEventListener implements Listener {
     @EventHandler
     public void handleEvent(PlayerLoginEvent e) {
         Player player = e.getPlayer();
-        if (!player.hasPlayedBefore())
+        if (!DataManager.hasData(player))
             DataManager.addNewPlayerData(player);
     }
 }
