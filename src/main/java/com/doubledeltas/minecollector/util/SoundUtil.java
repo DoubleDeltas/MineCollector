@@ -28,4 +28,9 @@ public class SoundUtil {
     public static void playPage(Player player) {
         player.playSound(player, Sound.UI_LOOM_SELECT_PATTERN, 0.5F, 1F);
     }
+
+    public static void playCollect(Player player) {
+        player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+        player.playSound(player, Sound.BLOCK_BEACON_ACTIVATE, 1F, 2F);
+    }
 }

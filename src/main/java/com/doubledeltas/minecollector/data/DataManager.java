@@ -1,7 +1,6 @@
 package com.doubledeltas.minecollector.data;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.constant.Titles;
 import org.bukkit.entity.Player;
 
 import java.io.*;
@@ -35,7 +34,7 @@ public class DataManager {
 
             // load all player data
             for (File file : DATA_PATH.listFiles()) {
-                GameData data = GameData.deserialize(new FileReader(file));
+                GameData data = GameData.loadFromYaml(new FileReader(file));
                 UUID uuid = data.getUuid();
                 playerData.put(uuid, data);
             }
@@ -64,7 +63,7 @@ public class DataManager {
 
         GameData data = null;
         try {
-            data = GameData.deserialize(new FileReader(dataFile));
+            data = GameData.loadFromYaml(new FileReader(dataFile));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return false;
@@ -78,7 +77,7 @@ public class DataManager {
             for (UUID uuid: playerData.keySet()) {
                 File dataFile = new File(DATA_PATH, uuid + ".yml");
                 FileWriter writer = new FileWriter(dataFile);
-                playerData.get(uuid).serialize(writer);
+                playerData.get(uuid).saveToYaml(writer);
             }
             MineCollector.log("게임데이터 저장됨!");
             return true;
@@ -96,5 +95,14 @@ public class DataManager {
      */
     public static boolean hasData(Player player) {
         return playerData.containsKey(player.getUniqueId());
+    }
+
+    /**
+     * 플레이어의 데이터를 가져옵니다.
+     * @param player 플레이어
+     * @return 플레이어의 데이터
+     */
+    public static GameData getData(Player player) {
+        return playerData.get(player.getUniqueId());
     }
 }

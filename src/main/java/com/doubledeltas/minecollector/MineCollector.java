@@ -1,10 +1,12 @@
 package com.doubledeltas.minecollector;
 
 import com.doubledeltas.minecollector.command.GameCommand;
+import com.doubledeltas.minecollector.constant.Titles;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.event.EventManager;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.manager.InlineItemManager;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
@@ -25,13 +27,13 @@ public final class MineCollector extends JavaPlugin {
         DataManager.setup();
         EventManager.loadEventHandlers();
         GameCommand.loadCommands();
-        getLogger().log(Level.INFO, "마인콜렉터 플러그인이 켜졌습니다!");
+        MineCollector.log(Level.INFO, "마인콜렉터 플러그인이 켜졌습니다!");
     }
 
     @Override
     public void onDisable() {
         DataManager.saveAll();
-        getLogger().log(Level.INFO, "마인콜렉터 플러그인이 꺼졌습니다.");
+        MineCollector.log(Level.INFO, "마인콜렉터 플러그인이 꺼졌습니다.");
     }
 
     /**
@@ -49,5 +51,18 @@ public final class MineCollector extends JavaPlugin {
      */
     public static void log(String msg) {
         log(Level.INFO, msg);
+    }
+
+    /**
+     * 플레이어 또는 콘솔에게 마인콜렉터 메시지를 보냅니다.
+     * @param target
+     * @param msg
+     */
+    public static void send(CommandSender target, String msg) {
+        target.sendMessage(Titles.MSG_PREFIX + msg);
+    }
+
+    public static void broadcast(String msg) {
+        getPlugin().getServer().broadcastMessage(Titles.MSG_PREFIX + msg);
     }
 }

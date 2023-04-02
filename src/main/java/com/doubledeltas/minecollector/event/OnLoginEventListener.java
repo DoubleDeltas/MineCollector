@@ -12,5 +12,8 @@ public class OnLoginEventListener implements Listener {
         Player player = e.getPlayer();
         if (!DataManager.hasData(player))
             DataManager.addNewPlayerData(player);
+
+        // if player name is changed, the name in data is also changed.
+        DataManager.getData(player).setName(player.getName());
     }
 }
