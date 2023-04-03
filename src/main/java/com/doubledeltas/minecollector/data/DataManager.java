@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.data;
 
+import com.doubledeltas.minecollector.GameDirector;
 import com.doubledeltas.minecollector.MineCollector;
 import org.bukkit.entity.Player;
 
@@ -30,6 +31,15 @@ public class DataManager {
 
             if (!DATA_PATH.isDirectory()) {
                 DATA_PATH.mkdirs();
+            }
+
+            // 접속중인 플레이어의 데이터 파일이 없으면 만듦
+            for (Player player: MineCollector.getPlugin().getServer().getOnlinePlayers()) {
+                UUID uuid = player.getUniqueId();
+                File dataFile = new File(DATA_PATH, uuid + ".yml");
+
+                if (!dataFile.exists())
+                    DataManager.save(new GameData(player));
             }
 
             // load all player data
@@ -72,20 +82,37 @@ public class DataManager {
         return true;
     }
 
-    public static boolean saveAll() {
+    /**
+     * 게임 데이터를 저장합니다.
+     * @param data 저장할 게임 데이터
+     * @return 저장 성공 여부
+     */
+    public static boolean save(GameData data) {
         try {
-            for (UUID uuid: playerData.keySet()) {
-                File dataFile = new File(DATA_PATH, uuid + ".yml");
-                FileWriter writer = new FileWriter(dataFile);
-                playerData.get(uuid).saveToYaml(writer);
-            }
-            MineCollector.log("게임데이터 저장됨!");
+            File dataFile = new File(DATA_PATH, data.getUuid() + ".yml");
+            FileWriter writer = new FileWriter(dataFile);
+            data.saveToYaml(writer);
             return true;
         } catch (IOException e) {
-            MineCollector.log(Level.SEVERE, "게임데이터 저장 실패!");
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * 모든 게임 데이터를 저장합니다.
+     * @return 모든 데이터 저장 성공 여부
+     */
+    public static boolean saveAll() {
+        for (GameData data: playerData.values()) {
+            boolean result = DataManager.save(data);
+            if (!result) {
+                MineCollector.log(Level.SEVERE, "게임데이터 저장 실패!");
+                return false;
+            }
+        }
+        MineCollector.log("게임데이터 저장됨!");
+        return true;
     }
 
     /**
