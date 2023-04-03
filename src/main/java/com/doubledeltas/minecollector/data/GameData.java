@@ -49,7 +49,7 @@ public class GameData implements Serializable {
      * 데이터를 {@code Map} 객체로 만듭니다.
      * @return 맵
      */
-    private Map<String, Object> toMap() {
+    public Map<String, Object> toMap() {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("name", name);
         map.put("uuid", uuid.toString());
@@ -96,9 +96,10 @@ public class GameData implements Serializable {
      * @return 수집 개수, 없으면 0.
      */
     public int getCollection(Material material) {
-        if (!collection.containsKey(material))
+        String itemId = material.getKey().toString();
+        if (!collection.containsKey(itemId))
             return 0;
-        return collection.get(material);
+        return collection.get(itemId);
     }
 
     /**
@@ -124,10 +125,9 @@ public class GameData implements Serializable {
 
     /**
      * 도감의 수집 개수를 증가시킵니다.
-     * @param itemStack 아이템
-     * @param amount 증가시킬 개수
+     * @param itemStack 아이템 스택
      */
-    public void addCollection(ItemStack itemStack, int amount) {
-        addCollection(itemStack.getType(), amount);
+    public void addCollection(ItemStack itemStack) {
+        addCollection(itemStack.getType(), itemStack.getAmount());
     }
 }

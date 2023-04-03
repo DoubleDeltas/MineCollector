@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.command;
 
+import com.doubledeltas.minecollector.GameDirector;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.constant.Titles;
 import com.doubledeltas.minecollector.data.DataManager;
@@ -12,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public final class CollectCommand extends GameCommand {
@@ -28,14 +30,12 @@ public final class CollectCommand extends GameCommand {
 
         int amount;
 
-        GameData playerData = DataManager.getData(player);
         ItemStack handItem = player.getInventory().getItemInMainHand();
         int handAmount = handItem.getAmount();
         Material handType = handItem.getType();
 
         if (handType == Material.AIR)
-            // 공기가 수집되어있지 않으면 수집(1), 아니면 수집 안함(0)
-            amount = 1 - playerData.getCollection(Material.AIR);
+            amount = 1;
         else if (args.length < 1)
             amount = 1;
         else if (Stream.of("다", "전부", "모두", "all", "ek", "wjsqn", "ahen").anyMatch(args[0]::equalsIgnoreCase))
@@ -51,7 +51,7 @@ public final class CollectCommand extends GameCommand {
             }
         }
 
-        if (amount < 1 && handType != Material.AIR) {
+        if (amount < 1) {
             MineCollector.send(player, "§c수집할 아이템의 수는 1 이상이어야 합니다!");
             SoundUtil.playFail(player);
             return false;
@@ -62,13 +62,16 @@ public final class CollectCommand extends GameCommand {
             SoundUtil.playFail(player);
             return false;
         }
-        if (amount > handAmount) {
+        if (amount > handAmount && handType != Material.AIR) {
             MineCollector.send(player, "§c들고 있는 아이템의 수가 부족합니다!");
             SoundUtil.playFail(player);
             return false;
         }
 
-        playerData.addCollection(handType, amount);
+        GameDirector.collect(player, new ItemStack(handItem.getType(), amount));
+        handItem.setAmount(handAmount - amount);
+        player.getInventory().setItemInMainHand(handItem);
+
         SoundUtil.playCollect(player);
         player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 100, 1, 1, 1);
         return true;
