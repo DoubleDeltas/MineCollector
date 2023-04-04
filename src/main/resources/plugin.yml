@@ -7,7 +7,7 @@ authors: [ DoubleDeltas ]
 description: MineCollector plugin
 commands:
   마인콜렉터:
-    aliases: [minecollector, mcol]
+    aliases: [minecollector, mcol, 마콜]
     description: 마인콜렉터 메인 커맨드입니다.
   수집:
     aliases: [tnwlq, collect]
@@ -22,7 +22,7 @@ commands:
     aliases: [fodzld, ranking, rank]
     description: 수집 점수 랭킹을 봅니다.
   가이드:
-    aliases: [rkdlem, guide, 도움, ehdna, help]
+    aliases: [rkdlem, guide, 도움, ehdna, help, 도움말]
     description: 마인콜렉터 가이드를 봅니다.
   테스트:
     aliases: [test]
