@@ -1,17 +1,19 @@
-package com.doubledeltas.minecollector.command.mcol;
+package com.doubledeltas.minecollector.command.impl.mcol;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.command.GameCommand;
+import com.doubledeltas.minecollector.command.Subcommand;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class DataReloadCommand extends GameCommand {
+import java.util.List;
+
+public class DataReloadCommand extends Subcommand {
     @Override
-    public String getCommandName() {
-        return "data";
+    public List<String> getAliases() {
+        return List.of("data", "데이터");
     }
 
     @Override

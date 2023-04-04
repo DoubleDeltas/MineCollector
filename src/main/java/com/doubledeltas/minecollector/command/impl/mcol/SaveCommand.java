@@ -1,18 +1,20 @@
-package com.doubledeltas.minecollector.command.mcol;
+package com.doubledeltas.minecollector.command.impl.mcol;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.command.GameCommand;
+import com.doubledeltas.minecollector.command.Subcommand;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SaveCommand extends GameCommand {
+import java.util.List;
+
+public class SaveCommand extends Subcommand {
 
     @Override
-    public String getCommandName() {
-        return "save";
+    public List<String> getAliases() {
+        return List.of("save", "저장");
     }
 
     @Override
@@ -30,4 +32,5 @@ public class SaveCommand extends GameCommand {
 
         return false;
     }
+
 }

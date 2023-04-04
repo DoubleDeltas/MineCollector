@@ -1,15 +1,16 @@
-package com.doubledeltas.minecollector.command;
+package com.doubledeltas.minecollector.command.impl;
 
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.command.RootCommand;
 import com.doubledeltas.minecollector.constant.Titles;
-import com.doubledeltas.minecollector.util.SoundUtil;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
+import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public final class BookCommand extends GameCommand {
+public final class BookCommand extends RootCommand {
 
     @Override
     public String getCommandName() { return "도감"; }

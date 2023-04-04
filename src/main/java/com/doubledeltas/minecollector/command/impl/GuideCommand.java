@@ -1,9 +1,10 @@
-package com.doubledeltas.minecollector.command;
+package com.doubledeltas.minecollector.command.impl;
 
+import com.doubledeltas.minecollector.command.RootCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public final class GuideCommand extends GameCommand {
+public final class GuideCommand extends RootCommand {
 
     @Override
     public String getCommandName() { return "가이드"; }

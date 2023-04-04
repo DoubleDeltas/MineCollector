@@ -1,14 +1,12 @@
-package com.doubledeltas.minecollector.command;
+package com.doubledeltas.minecollector.command.impl;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.data.DataManager;
-import com.doubledeltas.minecollector.data.GameData;
+import com.doubledeltas.minecollector.command.RootCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-public class TestCommand extends GameCommand {
+public class TestCommand extends RootCommand {
 
     @Override
     public String getCommandName() {

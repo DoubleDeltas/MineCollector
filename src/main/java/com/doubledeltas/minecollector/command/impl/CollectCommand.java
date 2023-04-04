@@ -1,10 +1,9 @@
-package com.doubledeltas.minecollector.command;
+package com.doubledeltas.minecollector.command.impl;
 
 import com.doubledeltas.minecollector.GameDirector;
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.constant.Titles;
-import com.doubledeltas.minecollector.data.DataManager;
-import com.doubledeltas.minecollector.data.GameData;
+import com.doubledeltas.minecollector.command.GameCommand;
+import com.doubledeltas.minecollector.command.RootCommand;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -13,10 +12,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.stream.Stream;
 
-public final class CollectCommand extends GameCommand {
+public final class CollectCommand extends RootCommand {
 
     @Override
     public String getCommandName() { return "수집"; }

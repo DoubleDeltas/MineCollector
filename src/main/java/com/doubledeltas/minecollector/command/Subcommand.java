@@ -1,6 +1,9 @@
-package com.doubledeltas.minecollector.command.mcol;
+package com.doubledeltas.minecollector.command;
 
-import com.doubledeltas.minecollector.command.GameCommand;
+import java.util.List;
 
 public abstract class Subcommand extends GameCommand {
+
+    public abstract List<String> getAliases();
+
 }
