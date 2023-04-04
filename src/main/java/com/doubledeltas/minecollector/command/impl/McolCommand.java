@@ -1,11 +1,11 @@
-package com.doubledeltas.minecollector.command.mcol;
+package com.doubledeltas.minecollector.command.impl.mcol;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.command.GameCommand;
+import com.doubledeltas.minecollector.command.Subcommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class McolCommand extends GameCommand {
+public class McolCommand extends Subcommand {
 
     public McolCommand() {
         this.subcommands.add(new ReloadCommand());
