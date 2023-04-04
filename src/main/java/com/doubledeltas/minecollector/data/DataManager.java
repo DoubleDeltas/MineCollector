@@ -23,12 +23,21 @@ public class DataManager {
     private static Map<UUID, GameData> playerData = new HashMap<>();
 
     public static void setup() {
-        try {
-            if (!CONFIG_PATH.isFile()) {
-                PLUGIN.getConfig().options().copyDefaults(true);
-                PLUGIN.saveDefaultConfig();
-            }
+        DataManager.loadConfig();
+        DataManager.loadData();
+    }
 
+    public static void loadConfig() {
+        if (!CONFIG_PATH.isFile()) {
+            PLUGIN.getConfig().options().copyDefaults(true);
+            PLUGIN.saveDefaultConfig();
+        }
+        MineCollector.getPlugin().reloadConfig();
+        MineCollector.log("콘피그 불러옴!");
+    }
+
+    public static void loadData() {
+        try {
             if (!DATA_PATH.isDirectory()) {
                 DATA_PATH.mkdirs();
             }
@@ -48,7 +57,7 @@ public class DataManager {
                 UUID uuid = data.getUuid();
                 playerData.put(uuid, data);
             }
-            
+
             MineCollector.log(DATA_PATH.listFiles().length + "개 게임 데이터 불러옴!");
         }
         catch (FileNotFoundException e) {

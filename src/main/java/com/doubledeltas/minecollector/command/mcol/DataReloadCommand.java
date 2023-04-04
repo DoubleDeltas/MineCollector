@@ -16,7 +16,7 @@ public class DataReloadCommand extends GameCommand {
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
-        DataManager.setup();
+        DataManager.loadData();
         MineCollector.send(sender, "데이터를 리로드하였습니다!");
         if (sender instanceof Player player)
             SoundUtil.playHighRing(player);

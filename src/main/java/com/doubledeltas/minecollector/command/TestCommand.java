@@ -20,8 +20,10 @@ public class TestCommand extends GameCommand {
         if (!(sender instanceof Player player))
             return false;
 
-        GameData data = DataManager.getData(player);
-        MineCollector.send(player, data.toMap().toString());
+//        GameData data = DataManager.getData(player);
+//        MineCollector.send(player, data.toMap().toString());
+
+        MineCollector.send(player, MineCollector.getPlugin().getConfig().getString("language"));
 
         return true;
     }
