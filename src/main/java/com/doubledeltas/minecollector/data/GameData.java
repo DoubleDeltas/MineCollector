@@ -130,4 +130,21 @@ public class GameData implements Serializable {
     public void addCollection(ItemStack itemStack) {
         addCollection(itemStack.getType(), itemStack.getAmount());
     }
+
+    /**
+     * 컬렉션의 단계수를 가져옵니다.
+     * @param itemId 아이템 ID
+     * @return 컬렉션 단계
+     */
+    public int getLevel(String itemId) {
+        if (!collection.containsKey(itemId))
+            return 0;
+        int amount = collection.get(itemId);
+        int level = 0;
+        while (amount > 0) {
+            amount /= 4;
+            level++;
+        }
+        return level;
+    }
 }
