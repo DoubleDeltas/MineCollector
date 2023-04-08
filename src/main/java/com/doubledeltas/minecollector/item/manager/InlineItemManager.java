@@ -37,6 +37,7 @@ public class InlineItemManager extends ItemManager {
                 case OK -> getGuiOk();
                 case HMM -> getGuiHmm();
                 case NO -> getGuiNo();
+                case AIR_PLACEHOLDER -> getGuiAirPlaceholder();
             };
         return null;
     }
@@ -155,6 +156,7 @@ public class InlineItemManager extends ItemManager {
                 .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE)
                 .addBannerPattern(DyeColor.WHITE, PatternType.SQUARE_BOTTOM_LEFT)
                 .addBannerPattern(DyeColor.LIGHT_GRAY, PatternType.BORDER)
+                .displayName("§7???")
                 .itemFlags(ItemFlag.HIDE_POTION_EFFECTS)
                 .build();
     }
@@ -167,6 +169,7 @@ public class InlineItemManager extends ItemManager {
                 .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_RIGHT)
                 .addBannerPattern(DyeColor.LIME, PatternType.BORDER)
                 .itemFlags(ItemFlag.HIDE_POTION_EFFECTS)
+                .displayName("§a수집하기!")
                 .build();
     }
 
@@ -176,6 +179,7 @@ public class InlineItemManager extends ItemManager {
                 .addBannerPattern(DyeColor.ORANGE, PatternType.STRIPE_SMALL)
                 .addBannerPattern(DyeColor.ORANGE, PatternType.BORDER)
                 .itemFlags(ItemFlag.HIDE_POTION_EFFECTS)
+                .displayName("§e수집 중입니다...")
                 .build();
     }
 
@@ -185,8 +189,15 @@ public class InlineItemManager extends ItemManager {
                 .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_DOWNRIGHT)
                 .addBannerPattern(DyeColor.RED, PatternType.BORDER)
                 .itemFlags(ItemFlag.HIDE_POTION_EFFECTS)
+                .displayName("§c수집할 수 없습니다!")
                 .build();
     }
 
+    private ItemStack getGuiAirPlaceholder() {
+        return new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+                .displayName("§f공기")
+                .lore("§7수집되었습니다!")
+                .build();
+    }
 
 }
