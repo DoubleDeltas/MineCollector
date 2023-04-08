@@ -1,21 +1,22 @@
 package com.doubledeltas.minecollector.command.impl;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.command.RootCommand;
+import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.command.impl.mcol.ReloadCommand;
 import com.doubledeltas.minecollector.command.impl.mcol.SaveCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class McolCommand extends RootCommand {
+import java.util.List;
+
+public class McolCommand extends CommandRoot {
 
     public McolCommand() {
-        this.subcommands.add(new ReloadCommand());
-        this.subcommands.add(new SaveCommand());
+        this.subcommands = List.of(new ReloadCommand(), new SaveCommand());
     }
 
     @Override
-    public String getCommandName() {
+    public String getName() {
         return "마인콜렉터";
     }
 

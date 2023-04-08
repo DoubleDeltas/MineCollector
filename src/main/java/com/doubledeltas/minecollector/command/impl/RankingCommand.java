@@ -1,13 +1,13 @@
 package com.doubledeltas.minecollector.command.impl;
 
-import com.doubledeltas.minecollector.command.RootCommand;
+import com.doubledeltas.minecollector.command.CommandRoot;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public final class RankingCommand extends RootCommand {
+public final class RankingCommand extends CommandRoot {
 
     @Override
-    public String getCommandName() { return "랭킹"; }
+    public String getName() { return "랭킹"; }
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {

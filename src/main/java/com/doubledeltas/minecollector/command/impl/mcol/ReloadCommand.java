@@ -1,13 +1,13 @@
 package com.doubledeltas.minecollector.command.impl.mcol;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.command.Subcommand;
+import com.doubledeltas.minecollector.command.CommandNode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class ReloadCommand extends Subcommand {
+public class ReloadCommand extends CommandNode {
 
     @Override
     public List<String> getAliases() {
@@ -15,8 +15,7 @@ public class ReloadCommand extends Subcommand {
     }
 
     public ReloadCommand() {
-        this.subcommands.add(new ConfigReloadCommand());
-        this.subcommands.add(new DataReloadCommand());
+        this.subcommands = List.of(new ReloadConfigCommand(), new ReloadDataCommand());
     }
 
     @Override

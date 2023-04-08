@@ -1,7 +1,7 @@
 package com.doubledeltas.minecollector.command.impl;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.command.RootCommand;
+import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.constant.Titles;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
 import com.doubledeltas.minecollector.util.SoundUtil;
@@ -10,10 +10,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public final class BookCommand extends RootCommand {
+public final class BookCommand extends CommandRoot {
 
     @Override
-    public String getCommandName() { return "도감"; }
+    public String getName() { return "도감"; }
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {

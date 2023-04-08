@@ -1,7 +1,7 @@
 package com.doubledeltas.minecollector.command.impl.mcol;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.command.Subcommand;
+import com.doubledeltas.minecollector.command.CommandNode;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.command.Command;
@@ -10,19 +10,19 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class DataReloadCommand extends Subcommand {
+public class ReloadConfigCommand extends CommandNode {
     @Override
     public List<String> getAliases() {
-        return List.of("data", "데이터");
+        return List.of("config", "콘피그");
     }
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
-        DataManager.loadData();
-        MineCollector.send(sender, "데이터를 리로드하였습니다!");
+        DataManager.loadConfig();
+        MineCollector.send(sender, "콘피그를 리로드하였습니다!");
         if (sender instanceof Player player)
             SoundUtil.playHighRing(player);
-        
+
         return false;
     }
 }

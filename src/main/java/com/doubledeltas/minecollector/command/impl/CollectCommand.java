@@ -2,8 +2,7 @@ package com.doubledeltas.minecollector.command.impl;
 
 import com.doubledeltas.minecollector.GameDirector;
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.command.GameCommand;
-import com.doubledeltas.minecollector.command.RootCommand;
+import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -14,10 +13,10 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.stream.Stream;
 
-public final class CollectCommand extends RootCommand {
+public final class CollectCommand extends CommandRoot {
 
     @Override
-    public String getCommandName() { return "수집"; }
+    public String getName() { return "수집"; }
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
