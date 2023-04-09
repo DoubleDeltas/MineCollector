@@ -1,9 +1,9 @@
 package com.doubledeltas.minecollector.command.impl;
 
-import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.command.impl.mcol.ReloadCommand;
 import com.doubledeltas.minecollector.command.impl.mcol.SaveCommand;
+import com.doubledeltas.minecollector.util.MessageUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -22,8 +22,8 @@ public class McolCommand extends CommandRoot {
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
-        MineCollector.send(sender, "명령어가 잘못되었습니다!");
-        MineCollector.send(sender, "올바른 명령어: §e/mcol [reload|save] ...");
+        MessageUtil.send(sender, "명령어가 잘못되었습니다!");
+        MessageUtil.send(sender, "올바른 명령어: §e/mcol [reload|save] ...");
         return false;
     }
 }

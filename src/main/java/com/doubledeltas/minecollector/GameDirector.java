@@ -2,6 +2,7 @@ package com.doubledeltas.minecollector;
 
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
+import com.doubledeltas.minecollector.util.MessageUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -18,7 +19,7 @@ public class GameDirector {
                 return;
 
             if (data.getCollection(item.getType()) == 0) {
-                MineCollector.broadcast(
+                MessageUtil.broadcast(
                         "§e%s§a님이 §e%s §a아이템을 처음 수집했습니다!"
                                 .formatted(player.getName(), item.getType().toString())
                 );

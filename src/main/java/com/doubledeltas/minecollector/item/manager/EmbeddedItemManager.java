@@ -3,6 +3,7 @@ package com.doubledeltas.minecollector.item.manager;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.ItemCode;
+import com.doubledeltas.minecollector.util.MessageUtil;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.yaml.snakeyaml.Yaml;
@@ -30,8 +31,8 @@ public class EmbeddedItemManager extends ItemManager {
     protected ItemStack loadItem(ItemCode itemCode) {
         Yaml yaml = new Yaml();
         Map<String, Object> itemMap = yaml.load(plugin.getResource("item/%s.yml".formatted(itemCode.getPathName())));
-        MineCollector.log("loaded item - " + itemCode + ":");
-        MineCollector.log(itemMap.toString());
+        MessageUtil.log("loaded item - " + itemCode + ":");
+        MessageUtil.log(itemMap.toString());
         return ItemStack.deserialize(itemMap);
     }
 }

@@ -7,11 +7,9 @@ import com.doubledeltas.minecollector.item.itemCode.ItemCode;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Dye;
 
 public class InlineItemManager extends ItemManager {
 

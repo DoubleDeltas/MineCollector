@@ -1,7 +1,7 @@
 package com.doubledeltas.minecollector.data;
 
-import com.doubledeltas.minecollector.GameDirector;
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.util.MessageUtil;
 import org.bukkit.entity.Player;
 
 import java.io.*;
@@ -33,7 +33,7 @@ public class DataManager {
             PLUGIN.saveDefaultConfig();
         }
         MineCollector.getPlugin().reloadConfig();
-        MineCollector.log("콘피그 불러옴!");
+        MessageUtil.log("콘피그 불러옴!");
     }
 
     public static void loadData() {
@@ -58,7 +58,7 @@ public class DataManager {
                 playerData.put(uuid, data);
             }
 
-            MineCollector.log(DATA_PATH.listFiles().length + "개 게임 데이터 불러옴!");
+            MessageUtil.log(DATA_PATH.listFiles().length + "개 게임 데이터 불러옴!");
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -116,11 +116,11 @@ public class DataManager {
         for (GameData data: playerData.values()) {
             boolean result = DataManager.save(data);
             if (!result) {
-                MineCollector.log(Level.SEVERE, "게임데이터 저장 실패!");
+                MessageUtil.log(Level.SEVERE, "게임데이터 저장 실패!");
                 return false;
             }
         }
-        MineCollector.log("게임데이터 저장됨!");
+        MessageUtil.log("게임데이터 저장됨!");
         return true;
     }
 

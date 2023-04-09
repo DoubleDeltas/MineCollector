@@ -7,14 +7,12 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.Reader;
-import java.io.Serializable;
 import java.io.Writer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-public class GameData implements Serializable {
+public class GameData {
     private static final DumperOptions DUMPER_OPTIONS = new DumperOptions();
 
     String name;

@@ -2,11 +2,13 @@ package com.doubledeltas.minecollector.command;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.impl.*;
-import org.bukkit.command.*;
+import com.doubledeltas.minecollector.util.MessageUtil;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabExecutor;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class CommandRoot extends CommandNode implements TabExecutor {
 
@@ -25,7 +27,7 @@ public abstract class CommandRoot extends CommandNode implements TabExecutor {
             pluginCommand.setExecutor(root);
             pluginCommand.setTabCompleter(root);
         }
-        MineCollector.log(roots.size() + "개 커맨드 불러옴!");
+        MessageUtil.log(roots.size() + "개 커맨드 불러옴!");
     }
 
     public abstract String getName();
