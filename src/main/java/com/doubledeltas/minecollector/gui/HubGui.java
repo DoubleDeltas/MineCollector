@@ -1,7 +1,6 @@
 package com.doubledeltas.minecollector.gui;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.constant.Titles;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.GuiItem;
 import com.doubledeltas.minecollector.util.SoundUtil;
@@ -17,7 +16,7 @@ public class HubGui extends Gui {
     private static final int INDEX_BACK = 52;
 
     public HubGui() {
-        super(6, Titles.GUI_TITLE);
+        super(6, Gui.GUI_TITLE);
 
         ItemManager itemManager = MineCollector.getPlugin().getItemManager();
 
