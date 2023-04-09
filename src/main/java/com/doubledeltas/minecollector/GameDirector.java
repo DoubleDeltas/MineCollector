@@ -23,8 +23,8 @@ public class GameDirector {
 
             if (data.getCollection(item.getType()) == 0) {
                 MessageUtil.broadcastRaw(
-                        new TextComponent("§e%s§a님이 §e".formatted(player.getName())),
-                        new TranslatableComponent(item.getType().getItemTranslationKey()),
+                        new TextComponent("§e%s§a님이".formatted(player.getName())),
+                        new TranslatableComponent("%1$s "+ item.getType().getItemTranslationKey(), "§e"),
                         new TextComponent(" §a아이템을 처음 수집했습니다!")
                 );
             }
