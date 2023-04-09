@@ -28,7 +28,7 @@ public class GameDirector {
                 itemNameComponent.setColor(ChatColor.YELLOW);
 
                 MessageUtil.broadcastRaw(
-                        new TextComponent("§e%s§a님이".formatted(player.getName())),
+                        new TextComponent("§e%s§a님이 ".formatted(player.getName())),
                         itemNameComponent,
                         new TextComponent(" §a아이템을 처음 수집했습니다!")
                 );
