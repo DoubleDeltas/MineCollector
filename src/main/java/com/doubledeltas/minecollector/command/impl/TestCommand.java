@@ -2,12 +2,11 @@ package com.doubledeltas.minecollector.command.impl;
 
 import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.util.MessageUtil;
+import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
 
 public class TestCommand extends CommandRoot {
 
@@ -21,8 +20,7 @@ public class TestCommand extends CommandRoot {
         if (!(sender instanceof Player player))
             return false;
 
-        for (Material material: Arrays.copyOfRange(Material.values(), 0, 10))
-            MessageUtil.send(player, material.getItemTranslationKey());
+        MessageUtil.sendRaw(player, new TranslatableComponent(Material.POTATO.getItemTranslationKey()));
 
         return true;
     }

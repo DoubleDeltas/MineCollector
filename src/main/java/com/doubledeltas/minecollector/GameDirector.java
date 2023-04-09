@@ -3,6 +3,9 @@ package com.doubledeltas.minecollector;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.util.MessageUtil;
+import net.md_5.bungee.api.chat.SelectorComponent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,9 +22,10 @@ public class GameDirector {
                 return;
 
             if (data.getCollection(item.getType()) == 0) {
-                MessageUtil.broadcast(
-                        "§e%s§a님이 §e%s §a아이템을 처음 수집했습니다!"
-                                .formatted(player.getName(), item.getType().toString())
+                MessageUtil.broadcastRaw(
+                        new TextComponent("§e%s§a님이 §e".formatted(player.getName())),
+                        new TranslatableComponent(item.getType().getItemTranslationKey()),
+                        new TextComponent(" §a아이템을 처음 수집했습니다!")
                 );
             }
             data.addCollection(item);
