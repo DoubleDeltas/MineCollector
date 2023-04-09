@@ -6,6 +6,7 @@ import com.doubledeltas.minecollector.util.SoundUtil;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -22,7 +23,7 @@ public final class GuideCommand extends CommandRoot {
         BaseComponent component = new TextComponent("여기");
         component.setColor(ChatColor.GREEN);
         component.setUnderlined(true);
-        component.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, GUIDE_LINK));
+        component.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, GUIDE_LINK));
 
         MessageUtil.sendRaw(sender,
                 component,
