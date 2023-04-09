@@ -145,4 +145,13 @@ public class GameData {
         }
         return level;
     }
+
+    /**
+     * 컬렉션의 단계수를 가져옵니다.
+     * @param material 아이템 타입
+     * @return 컬렉션 단계
+     */
+    public int getLevel(Material material) {
+        return getLevel(material.getKey().toString());
+    }
 }

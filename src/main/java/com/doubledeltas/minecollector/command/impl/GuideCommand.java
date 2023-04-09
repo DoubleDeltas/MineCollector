@@ -20,13 +20,13 @@ public final class GuideCommand extends CommandRoot {
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         BaseComponent component = new TextComponent("여기");
-        component.setColor(ChatColor.GREEN);
+        component.setColor(ChatColor.YELLOW);
         component.setUnderlined(true);
         component.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, GUIDE_LINK));
 
         MessageUtil.sendRaw(sender,
                 component,
-                new TextComponent("§e를 눌러 마인콜렉터에 대해 알아보세요!")
+                new TextComponent("§a를 눌러 마인콜렉터에 대해 알아보세요!")
         );
 
         if (sender instanceof Player player)

@@ -11,10 +11,6 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 
 public abstract class Gui implements Listener{
-    public static String GUI_TITLE = "§8[ §2마인§0콜렉터 §8]§0 ";
-    public static String GUI_TITLE_COLLECTION = GUI_TITLE + "- 도감";
-    public static String GUI_TITLE_DUMP = GUI_TITLE + "- 수집";
-
     protected Inventory inventory;
 
     public Gui(int row, String title) {

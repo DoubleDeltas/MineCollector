@@ -7,8 +7,6 @@ import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import java.util.stream.IntStream;
-
 public class HubGui extends Gui {
     private static final int INDEX_COLLECTION = 20;
     private static final int INDEX_DUMP = 24;
@@ -16,16 +14,14 @@ public class HubGui extends Gui {
     private static final int INDEX_BACK = 52;
 
     public HubGui() {
-        super(6, Gui.GUI_TITLE);
+        super(6, "§8[ §2마인§0콜렉터 §8]§0");
 
         ItemManager itemManager = MineCollector.getPlugin().getItemManager();
 
-        IntStream.rangeClosed(0, 44).forEach(i -> {
+        for (int i=0; i<=44; i++)
             inventory.setItem(i, itemManager.getItem(GuiItem.GRAY));
-        });
-        IntStream.rangeClosed(45, 53).forEach(i -> {
+        for (int i=45; i<=53; i++)
             inventory.setItem(i, itemManager.getItem(GuiItem.BLACK));
-        });
         inventory.setItem(INDEX_COLLECTION, itemManager.getItem(GuiItem.COLLECTION));
         inventory.setItem(INDEX_DUMP, itemManager.getItem(GuiItem.DUMP));
         inventory.setItem(INDEX_RANKING, itemManager.getItem(GuiItem.RANKING));
@@ -37,7 +33,7 @@ public class HubGui extends Gui {
         e.setCancelled(true);
 
         if (e.getRawSlot() == INDEX_COLLECTION) {
-            new CollectionGui(1).openGui(player);
+            new CollectionGui(player, 1).openGui(player);
             SoundUtil.playPage(player);
         }
         else if (e.getRawSlot() == INDEX_DUMP) {
