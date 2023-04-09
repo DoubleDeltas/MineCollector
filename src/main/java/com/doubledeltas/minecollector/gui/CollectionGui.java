@@ -22,7 +22,7 @@ public class CollectionGui extends Gui {
 
         ItemManager itemManager = MineCollector.getPlugin().getItemManager();
 
-        for (int i=0; i<44; i++) {
+        for (int i=0; i <= 44; i++) {
             int idx = (page - 1) * 45 + i;
             if (idx >= Material.values().length) {
                 inventory.setItem(i, itemManager.getItem(GuiItem.GRAY));
