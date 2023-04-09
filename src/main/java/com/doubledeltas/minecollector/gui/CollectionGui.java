@@ -11,7 +11,6 @@ import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.checkerframework.checker.units.qual.C;
 
 public class CollectionGui extends Gui {
     private static final int INDEX_PREV = 47;
@@ -71,11 +70,11 @@ public class CollectionGui extends Gui {
         e.setCancelled(true);
 
         if (e.getRawSlot() == INDEX_PREV && page > 1) {
-            new CollectionGui(player, page - 1);
+            new CollectionGui(player, page - 1).openGui(player);
             SoundUtil.playPage(player);
         }
         else if (e.getRawSlot() == INDEX_NEXT && !isLastPage()) {
-            new CollectionGui(player, page + 1);
+            new CollectionGui(player, page + 1).openGui(player);
             SoundUtil.playPage(player);
         }
         else if (e.getRawSlot() == INDEX_BACK) {
@@ -85,6 +84,6 @@ public class CollectionGui extends Gui {
     }
 
     private boolean isLastPage() {
-        return (this.page + 1) * 45 < Material.values().length;
+        return (this.page + 1) * 45 >= Material.values().length;
     }
 }
