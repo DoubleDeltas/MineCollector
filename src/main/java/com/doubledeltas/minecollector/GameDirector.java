@@ -3,6 +3,8 @@ package com.doubledeltas.minecollector;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.util.MessageUtil;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.SelectorComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.TranslatableComponent;
@@ -22,9 +24,12 @@ public class GameDirector {
                 return;
 
             if (data.getCollection(item.getType()) == 0) {
+                BaseComponent itemNameComponent = new TranslatableComponent(item.getType().getItemTranslationKey());
+                itemNameComponent.setColor(ChatColor.YELLOW);
+
                 MessageUtil.broadcastRaw(
                         new TextComponent("§e%s§a님이".formatted(player.getName())),
-                        new TranslatableComponent("%1$s "+ item.getType().getItemTranslationKey(), "§e"),
+                        itemNameComponent,
                         new TextComponent(" §a아이템을 처음 수집했습니다!")
                 );
             }
