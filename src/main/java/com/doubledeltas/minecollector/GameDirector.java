@@ -27,6 +27,11 @@ public class GameDirector {
             ChatColor.of("#ff4488")
     };
 
+    /**
+     * 아이템을 수집합니다.
+     * @param player 플레이어
+     * @param items 수집할 아이템들
+     */
     public static void collect(Player player, Collection<ItemStack> items) {
 
         GameData data = DataManager.getData(player);
@@ -48,10 +53,21 @@ public class GameDirector {
         }
     }
 
+
+    /**
+     * 아이템을 수집합니다.
+     * @param player 플레이어
+     * @param item 수집할 아이템
+     */
     public static void collect(Player player, ItemStack item) {
         collect(player, List.of(item));
     }
 
+    /**
+     * 아이템이 수집 가능한지 확인합니다.
+     * @param item 아이템
+     * @return 수집 가능 여부
+     */
     public static boolean isCollectable(ItemStack item) {
         ItemManager itemManager = MineCollector.getPlugin().getItemManager();
 
@@ -62,6 +78,11 @@ public class GameDirector {
         return !item.getItemMeta().hasDisplayName();
     }
 
+    /**
+     * 첫 수집 공지를 띄웁니다.
+     * @param target 수집한 플레이어
+     * @param material 수집한 아이템 종류
+     */
     private static void noticeFirstCollection(Player target, Material material) {
         BaseComponent itemNameComponent = new TranslatableComponent(material.getItemTranslationKey());
         itemNameComponent.setColor(ChatColor.YELLOW);
@@ -75,6 +96,12 @@ public class GameDirector {
            SoundUtil.playHighRing(p);
     }
 
+    /**
+     * 단계 도달 축하 공지를 띄웁니다.
+     * @param target 수집한 플레이어
+     * @param material 수집한 아이템 종류
+     * @param level 도달한 단계 수
+     */
     private static void noticeLevelUp(Player target, Material material, int level) {
         if (level < 5) return;
 

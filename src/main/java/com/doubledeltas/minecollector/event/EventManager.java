@@ -9,7 +9,8 @@ import java.util.List;
 public class EventManager {
     private static List<Listener> listeners = Arrays.asList(
             new OpenBookEventListener(),
-            new OnLoginEventListener()
+            new OnLoginEventListener(),
+            new OnAdvancementDoneEventListener()
     );
 
     public static void loadEventHandlers() {
