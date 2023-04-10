@@ -11,6 +11,7 @@ import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class CollectionGui extends Gui {
     private static final int INDEX_PREV = 47;
@@ -60,9 +61,11 @@ public class CollectionGui extends Gui {
         for (int i=45; i<=53; i++)
             inventory.setItem(i, itemManager.getItem(GuiItem.BLACK));
         inventory.setItem(INDEX_PREV, itemManager.getItem((page == 1) ? GuiItem.NO_PREV : GuiItem.PREV));
-        inventory.setItem(INDEX_CORE, itemManager.createItem(GuiItem.CORE,
-                new GameStatistics(DataManager.getData(player)).toMap()
-        ));
+
+        ItemStack coreItem = itemManager.createItem(GuiItem.CORE, new GameStatistics(DataManager.getData(player)).toMap());
+        coreItem.setAmount(page);
+        inventory.setItem(INDEX_CORE, coreItem);
+
         inventory.setItem(INDEX_NEXT, itemManager.getItem(isLastPage() ? GuiItem.NO_NEXT : GuiItem.NEXT));
         inventory.setItem(INDEX_BACK, itemManager.getItem(GuiItem.BACK));
     }
