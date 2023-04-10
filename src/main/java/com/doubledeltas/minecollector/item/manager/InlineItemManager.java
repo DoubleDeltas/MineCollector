@@ -202,8 +202,12 @@ public class InlineItemManager extends ItemManager {
 
     private ItemStack getGuiRawCore() {
         return new ItemBuilder(Material.END_CRYSTAL)
-                .displayName("§7컬렉션 점수: §e§l[score]")
-                .lore("§b§l[score]")
+                .displayName("§f컬렉션 점수: §e§l[totalScore]")
+                .lore(
+                        "§7 - 수집 점수: §f§l[collectionScore]",
+                        "§7 - 쌓기 점수: §a§l[stackScore]",
+                        "§7 - 발전 점수: §b§l[advScore]"
+                )
                 .build();
     }
 }

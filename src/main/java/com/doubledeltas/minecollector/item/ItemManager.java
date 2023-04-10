@@ -44,11 +44,11 @@ public abstract class ItemManager {
      * @see EmbeddedItemManager#getItem(ItemCode) GUI 아이콘으로는 이것을 사용해보세요!
      * @return 아이템
      */
-    public ItemStack createItem(ItemCode itemCode, Map<String, Object> vars) {
+    public ItemStack createItem(ItemCode itemCode, Map<String, ? extends Object> vars) {
         ItemStack item = this.getItem(itemCode).clone();
         ItemMeta meta = item.getItemMeta();
 
-        for (Map.Entry<String, Object> entry: vars.entrySet()) {
+        for (Map.Entry<String, ? extends Object> entry: vars.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue().toString();
 
