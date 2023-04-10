@@ -33,4 +33,17 @@ public class SoundUtil {
         player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
         player.playSound(player, Sound.BLOCK_BEACON_ACTIVATE, 1F, 2F);
     }
+
+    public static void playHighFirework(Player player) {
+        player.playSound(player, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1F, 2F);
+        player.playSound(player, Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 1F, 2F);
+        player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1F, 2F);
+    }
+
+    public static void playLegend(Player player) {
+        player.playSound(player, Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1F, 1F);
+        player.playSound(player, Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 1F, 1F);
+        player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+        player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1F, 2F);
+    }
 }
