@@ -89,6 +89,14 @@ public class GameData {
     public void setName(String name) { this.name = name; }
 
     /**
+     * 도감 Map을 가져옵니다. 수집 개수를 가져올 떄는 {@link GameData#getCollection(Material)}를 이용하세요.
+     * @return 도감 Map
+     */
+    public Map<String, Integer> getCollectionMap() {
+        return this.collection;
+    }
+
+    /**
      * 도감의 수집 개수를 가져옵니다.
      * @param material 아이템 타입
      * @return 수집 개수, 없으면 0.
