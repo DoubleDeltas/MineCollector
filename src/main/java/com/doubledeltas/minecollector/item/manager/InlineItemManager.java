@@ -36,9 +36,11 @@ public class InlineItemManager extends ItemManager {
                 case HMM -> getGuiHmm();
                 case NO -> getGuiNo();
                 case AIR_PLACEHOLDER -> getGuiAirPlaceholder();
+                case CORE -> getGuiRawCore();
             };
         return null;
     }
+
 
     private ItemStack getCollectBook() {
         return new ItemBuilder(Material.KNOWLEDGE_BOOK)
@@ -198,4 +200,10 @@ public class InlineItemManager extends ItemManager {
                 .build();
     }
 
+    private ItemStack getGuiRawCore() {
+        return new ItemBuilder(Material.END_CRYSTAL)
+                .displayName("§7컬렉션 점수: §e§l[score]")
+                .lore("§b§l[score]")
+                .build();
+    }
 }

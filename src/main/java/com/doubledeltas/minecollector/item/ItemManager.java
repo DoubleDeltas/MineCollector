@@ -3,9 +3,12 @@ package com.doubledeltas.minecollector.item;
 import com.doubledeltas.minecollector.item.itemCode.ItemCode;
 import com.doubledeltas.minecollector.item.manager.EmbeddedItemManager;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 아이템 데이터를 다루는 객체입니다.
@@ -22,7 +25,7 @@ public abstract class ItemManager {
      *
      * 경고: 이 아이템을 수정하면 안됩니다!
      * @param itemCode 아이템 경로
-     * @see EmbeddedItemManager#createItem(ItemCode) 아이템을 수정하려면 이 메소드를 사용하세요.
+     * @see EmbeddedItemManager#createItem(ItemCode, Map) 아이템을 수정하려면 이 메소드를 사용하세요.
      * @return 아이템
      */
     public ItemStack getItem(ItemCode itemCode) {
@@ -37,11 +40,42 @@ public abstract class ItemManager {
     /**
      * 새로운 아이템을 만들어 가져옵니다. 이 아이템은 개인 아이템 등에 활용될 수 있습니다.
      * @param itemCode 아이템 경로
+     * @param vars {@code [placeholder]}에 채울 변수
+     * @see EmbeddedItemManager#getItem(ItemCode) GUI 아이콘으로는 이것을 사용해보세요!
+     * @return 아이템
+     */
+    public ItemStack createItem(ItemCode itemCode, Map<String, Object> vars) {
+        ItemStack item = this.getItem(itemCode).clone();
+        ItemMeta meta = item.getItemMeta();
+
+        for (Map.Entry<String, Object> entry: vars.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue().toString();
+
+            if (meta.hasDisplayName()) {
+                meta.setDisplayName(meta.getDisplayName().replace("[" + key + "]", value));
+            }
+
+            if (meta.hasLore()) {
+                List<String> newLore = meta.getLore().stream()
+                        .map(lore -> lore.replace("[" + key + "]", value))
+                        .collect(Collectors.toList());
+                meta.setLore(newLore);
+            }
+        }
+
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    /**
+     * 새로운 아이템을 만들어 가져옵니다. 이 아이템은 개인 아이템 등에 활용될 수 있습니다.
+     * @param itemCode 아이템 경로
      * @see EmbeddedItemManager#getItem(ItemCode) GUI 아이콘으로는 이것을 사용해보세요!
      * @return 아이템
      */
     public ItemStack createItem(ItemCode itemCode) {
-        return this.getItem(itemCode).clone();
+        return this.createItem(itemCode, Map.of());
     }
 
     /**

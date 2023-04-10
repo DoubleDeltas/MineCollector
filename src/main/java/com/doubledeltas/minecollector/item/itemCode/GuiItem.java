@@ -15,7 +15,8 @@ public enum GuiItem implements ItemCode {
     OK("ok"),
     HMM("hmm"),
     NO("no"),
-    AIR_PLACEHOLDER("air_placeholder")
+    AIR_PLACEHOLDER("air_placeholder"),
+    CORE("core")
     ;
 
     private final String subpathName;
