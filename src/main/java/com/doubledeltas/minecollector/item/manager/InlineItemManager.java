@@ -94,7 +94,7 @@ public class InlineItemManager extends ItemManager {
 
     private ItemStack getGuiNoNext() {
         return new ItemBuilder(Material.RED_BANNER)
-                .displayName("§c이전 페이지가 없습니다")
+                .displayName("§c다음 페이지가 없습니다")
                 .addBannerPattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE)
                 .addBannerPattern(DyeColor.WHITE, PatternType.HALF_VERTICAL)
                 .addBannerPattern(DyeColor.RED, PatternType.SQUARE_TOP_LEFT)
@@ -108,7 +108,7 @@ public class InlineItemManager extends ItemManager {
 
     private ItemStack getGuiNext() {
         return new ItemBuilder(Material.BLACK_BANNER)
-                .displayName("§e이전 페이지로")
+                .displayName("§e다음 페이지로")
                 .addBannerPattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE)
                 .addBannerPattern(DyeColor.WHITE, PatternType.HALF_VERTICAL)
                 .addBannerPattern(DyeColor.BLACK, PatternType.SQUARE_TOP_LEFT)
