@@ -49,6 +49,11 @@ public final class CollectCommand extends CommandRoot {
             }
         }
 
+        if (!GameDirector.isCollectable(handItem)) {
+            MessageUtil.send(player, "§c이 아이템은 수집할 수 없습니다!");
+            SoundUtil.playFail(player);
+            return false;
+        }        
         if (amount < 1) {
             MessageUtil.send(player, "§c수집할 아이템의 수는 1 이상이어야 합니다!");
             SoundUtil.playFail(player);

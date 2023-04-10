@@ -57,6 +57,8 @@ public class GameDirector {
 
         if (itemManager.getItem(StaticItem.COLLECTION_BOOK).equals(item))
             return true;
+        if (!item.hasItemMeta())
+            return true;
         return !item.getItemMeta().hasDisplayName();
     }
 
