@@ -11,6 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public final class CollectCommand extends CommandRoot {
@@ -72,5 +75,10 @@ public final class CollectCommand extends CommandRoot {
         SoundUtil.playCollect(player);
         player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 100, 1, 1, 1);
         return true;
+    }
+
+    @Override
+    public List<String> getTabRecommendation() {
+        return List.of("1", "all", "모두");
     }
 }
