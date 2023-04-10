@@ -2,6 +2,8 @@ package com.doubledeltas.minecollector;
 
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
+import com.doubledeltas.minecollector.item.ItemManager;
+import com.doubledeltas.minecollector.item.itemCode.StaticItem;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -50,12 +52,20 @@ public class GameDirector {
         collect(player, List.of(item));
     }
 
-    private static void noticeFirstCollection(Player rarget, Material material) {
+    public static boolean isCollectable(ItemStack item) {
+        ItemManager itemManager = MineCollector.getPlugin().getItemManager();
+
+        if (itemManager.getItem(StaticItem.COLLECTION_BOOK).equals(item))
+            return true;
+        return !item.getItemMeta().hasDisplayName();
+    }
+
+    private static void noticeFirstCollection(Player target, Material material) {
         BaseComponent itemNameComponent = new TranslatableComponent(material.getItemTranslationKey());
         itemNameComponent.setColor(ChatColor.YELLOW);
 
         MessageUtil.broadcastRaw(
-                new TextComponent("§e%s§a님이 ".formatted(rarget.getName())),
+                new TextComponent("§e%s§a님이 ".formatted(target.getName())),
                 itemNameComponent,
                 new TextComponent(" §a아이템을 처음 수집했습니다!")
         );
