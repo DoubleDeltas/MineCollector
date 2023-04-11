@@ -2,6 +2,7 @@ package com.doubledeltas.minecollector;
 
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
+import com.doubledeltas.minecollector.data.GameStatistics;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
 import com.doubledeltas.minecollector.util.MessageUtil;
@@ -11,6 +12,8 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.Material;
+import org.bukkit.advancement.Advancement;
+import org.bukkit.advancement.AdvancementDisplayType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -79,6 +82,25 @@ public class GameDirector {
     }
 
     /**
+     * 발전과제를 달성했을 때의 처리입니다.
+     * @param player 달성한 플레이어
+     * @param advancement 달성한 발전과제
+     */
+    public static void resolveAdvancement(Player player, Advancement advancement) {
+        assert advancement.getDisplay() != null;
+        AdvancementDisplayType type = advancement.getDisplay().getType();
+
+        GameData data = DataManager.getData(player);
+        data.addAdvCleared(type);
+
+        GameStatistics stats = new GameStatistics(data);
+        MessageUtil.send(player, "§f발전과제 점수 §b§l%s§f점을 얻었습니다. (현재 §e%s§f점)".formatted(
+                GameStatistics.getAdvWeight(type), stats.getTotalScore()
+        ));
+        SoundUtil.playFirework(player);
+    }
+
+    /**
      * 첫 수집 공지를 띄웁니다.
      * @param target 수집한 플레이어
      * @param material 수집한 아이템 종류
@@ -140,6 +162,5 @@ public class GameDirector {
             for (Player p: MineCollector.getPlugin().getServer().getOnlinePlayers())
                 SoundUtil.playLegend(p);
         }
-
     }
 }

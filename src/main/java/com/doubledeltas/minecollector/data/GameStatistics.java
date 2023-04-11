@@ -1,5 +1,7 @@
 package com.doubledeltas.minecollector.data;
 
+import org.bukkit.advancement.AdvancementDisplayType;
+
 import java.util.Map;
 
 public class GameStatistics {
@@ -23,7 +25,9 @@ public class GameStatistics {
             this.stackScore += (data.getLevel(key) - 1) * 0.1F;
         }
 
-        this.advScore = 0.0F;
+        this.advScore = data.getAdvCleared(AdvancementDisplayType.TASK) * getAdvWeight(AdvancementDisplayType.TASK)
+                        + data.getAdvCleared(AdvancementDisplayType.GOAL) * getAdvWeight(AdvancementDisplayType.GOAL)
+                        + data.getAdvCleared(AdvancementDisplayType.CHALLENGE) * getAdvWeight(AdvancementDisplayType.CHALLENGE);
 
         this.totalScore = collectionScore + stackScore + advScore;
     }
@@ -55,5 +59,18 @@ public class GameStatistics {
                 "advScore", advScore,
                 "totalScore", totalScore
         );
+    }
+
+    /**
+     * 발전과제 타입 별 점수를 얻습니다.
+     * @param type 발전과제 타입
+     * @return
+     */
+    public static float getAdvWeight(AdvancementDisplayType type) {
+        return switch (type) {
+            case TASK -> 1.0F;
+            case GOAL -> 2.0F;
+            case CHALLENGE -> 3.0F;
+        };
     }
 }

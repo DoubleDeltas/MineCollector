@@ -1,6 +1,7 @@
 package com.doubledeltas.minecollector.data;
 
 import org.bukkit.Material;
+import org.bukkit.advancement.AdvancementDisplayType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.yaml.snakeyaml.DumperOptions;
@@ -15,9 +16,10 @@ import java.util.UUID;
 public class GameData {
     private static final DumperOptions DUMPER_OPTIONS = new DumperOptions();
 
-    String name;
-    UUID uuid;
-    Map<String, Integer> collection;
+    private String name;
+    private UUID uuid;
+    private Map<String, Integer> collection;
+    private Map<AdvancementDisplayType, Integer> advCleared;
 
     static {
         DUMPER_OPTIONS.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
@@ -30,6 +32,10 @@ public class GameData {
         this.name = player.getName();
         this.uuid = player.getUniqueId();
         this.collection = new LinkedHashMap<>();
+        this.advCleared = new LinkedHashMap<>();
+        advCleared.put(AdvancementDisplayType.TASK, 0);
+        advCleared.put(AdvancementDisplayType.GOAL, 0);
+        advCleared.put(AdvancementDisplayType.CHALLENGE, 0);
     }
 
     /**
@@ -41,6 +47,11 @@ public class GameData {
         this.name = (String) map.get("name");
         this.uuid = UUID.fromString((String) map.get("uuid"));
         this.collection = (Map<String, Integer>) map.get("collection");
+        this.advCleared = new LinkedHashMap<>();
+        Map<String, Integer> advClearedStringKeyed = (Map<String, Integer>) map.get("advancement_cleared");
+        advCleared.put(AdvancementDisplayType.TASK, advClearedStringKeyed.get("task"));
+        advCleared.put(AdvancementDisplayType.GOAL, advClearedStringKeyed.get("goal"));
+        advCleared.put(AdvancementDisplayType.CHALLENGE, advClearedStringKeyed.get("challenge"));
     }
 
     /**
@@ -52,6 +63,13 @@ public class GameData {
         map.put("name", name);
         map.put("uuid", uuid.toString());
         map.put("collection", collection);
+
+        Map<String, Object> advClearedStringKeyed = new LinkedHashMap<>();
+        advClearedStringKeyed.put("task", advCleared.get(AdvancementDisplayType.TASK));
+        advClearedStringKeyed.put("goal", advCleared.get(AdvancementDisplayType.GOAL));
+        advClearedStringKeyed.put("challenge", advCleared.get(AdvancementDisplayType.CHALLENGE));
+
+        map.put("advancement_cleared", advClearedStringKeyed);
         return map;
     }
 
@@ -161,5 +179,22 @@ public class GameData {
      */
     public int getLevel(Material material) {
         return getLevel(material.getKey().toString());
+    }
+
+    /**
+     * 달성한 발전과제 수를 보여줍니다.
+     * @param type 발전과제 타입
+     * @return 달성한 발전과제 수
+     */
+    public int getAdvCleared(AdvancementDisplayType type) {
+        return advCleared.get(type);
+    }
+
+    /**
+     * 발전과제 달성 수를 증가시킵니다.
+     * @param type 달성한 발전과제 타입
+     */
+    public void addAdvCleared(AdvancementDisplayType type) {
+        advCleared.put(type, advCleared.get(type) + 1);
     }
 }
