@@ -50,10 +50,11 @@ public class RankingItemCommand extends CommandNode {
         List<GameData> top10 = DataManager.getTop10(keyFunc);
         int top10Size = top10.size();
 
+        MessageUtil.send(sender, "");
         MessageUtil.sendRaw(sender,
                 new TextComponent("§e\""),
                 new TranslatableComponent(material.getItemTranslationKey()),
-                new TextComponent("§e\" 점수 TOP 10 리스트:")
+                new TextComponent("§e\" 수집 수 TOP 10 리스트:")
         );
 
         if (top10Size == 1) { // 아무도 수집하지 않음

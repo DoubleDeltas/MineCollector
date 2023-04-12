@@ -54,8 +54,8 @@ public final class RankingCommand extends CommandRoot {
         List<GameData> top10 = DataManager.getTop10(keyFunc);
         int top10Size = top10.size();
 
-        // todo...
-        MessageUtil.send(sender," §e%s 점수 TOP 10 리스트:".formatted(categoryWord));
+        MessageUtil.send(sender, "");
+        MessageUtil.send(sender,"§e%s 점수 TOP 10 리스트:".formatted(categoryWord));
 
         if (top10Size == 1) { // 아무도 수집하지 않음
             MessageUtil.send(sender, " §7- 아직 아무도 아이템을 수집하지 않았군요! :)");
@@ -79,11 +79,11 @@ public final class RankingCommand extends CommandRoot {
 
     @Override
     public List<String> getTabRecommendation(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length > 1)
-            return List.of();
-        return List.of(
-                "total", "collection", "stack", "advancement",
-                "전체점수", "수집점수", "쌓기점수", "발전점수"
-        );
+        if (args.length == 1)
+            return List.of(
+                    "total", "collection", "stack", "advancement",
+                    "전체점수", "수집점수", "쌓기점수", "발전점수"
+            );
+        return List.of();
     }
 }

@@ -82,8 +82,10 @@ public final class CheckCommand extends CommandRoot {
 
     @Override
     public List<String> getTabRecommendation(CommandSender sender, Command command, String label, String[] args) {
-        return Arrays.stream(Material.values())
-                .map(material -> material.getKey().toString())
-                .collect(Collectors.toList());
+        if (args.length == 1)
+            return Arrays.stream(Material.values())
+                    .map(material -> material.getKey().toString())
+                    .collect(Collectors.toList());
+        return List.of();
     }
 }
