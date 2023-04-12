@@ -52,7 +52,7 @@ public final class CheckCommand extends CommandRoot {
         itemNameComponent.setColor(ChatColor.YELLOW);
 
         if (amount == 0) {
-            MessageUtil.broadcastRaw(
+            MessageUtil.sendRaw(player,
                     itemNameComponent,
                     new TextComponent(" §c아이템은 아직 수집되지 않았습니다!")
             );
@@ -61,17 +61,17 @@ public final class CheckCommand extends CommandRoot {
         }
 
         if (material == Material.AIR)
-            MessageUtil.broadcastRaw(
+            MessageUtil.sendRaw(player,
                     itemNameComponent,
                     new TextComponent(" §a아이템은 수집되었습니다!")
             );
         else if (quo == 0)
-            MessageUtil.broadcastRaw(
+            MessageUtil.sendRaw(player,
                     itemNameComponent,
                     new TextComponent(" §a아이템은 §e%s§a개 수집되었습니다! (§e%s§a단계)".formatted(rem, level))
             );
         else
-            MessageUtil.broadcastRaw(
+            MessageUtil.sendRaw(player,
                     itemNameComponent,
                     new TextComponent(" §a아이템은 §e%s§a셋 §e%s§a개 수집되었습니다! (§e%s§a단계)".formatted(quo, rem, level))
             );
