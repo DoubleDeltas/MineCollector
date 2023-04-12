@@ -63,10 +63,14 @@ public class RankingItemCommand extends CommandNode {
         else {
             for (int i=1; i < top10Size; i++) {
                 GameData data = top10.get(i);
+                int amount = keyFunc.apply(data);
+                int quo = amount / 64;
+                int rem = amount % 64;
                 MessageUtil.send(sender,
                         " §7- "
                                 + ((i < 10) ? "§70" : "")
-                                + "§e%s. §f%s§7: §e§l%d".formatted(i, data.getName(), keyFunc.apply(data))
+                                + "§e%s. §f%s§7: §e§l%d".formatted(i, data.getName(), amount)
+                                + ((quo > 0) ? " §7(%d셋 %d개)".formatted(quo, rem) : "")
                 );
             }
         }
