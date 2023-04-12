@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public final class GuideCommand extends CommandRoot {
-    public static final String GUIDE_LINK = "http://mzpedia.kro.kr/wiki/index.php/%EB%A7%88%EC%9D%B8%EC%BD%9C%EB%A0%89%ED%84%B0/%EA%B0%80%EC%9D%B4%EB%93%9C";
+    public static final String GUIDE_LINK = "https://github.com/DoubleDeltas/MineCollector/blob/main/README.md";
 
     @Override
     public String getName() { return "가이드"; }
