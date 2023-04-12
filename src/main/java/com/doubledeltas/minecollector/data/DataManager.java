@@ -151,7 +151,12 @@ public class DataManager {
     public static <K extends Comparable<K>> List<GameData> getTop10(Function<GameData, K> keyFunc) {
         List<GameData> top10 = new ArrayList<>();
         top10.add(null);
-        top10.addAll(playerData.values().stream().sorted(Comparator.comparing(keyFunc)).limit(10).toList());
+        top10.addAll(
+                playerData.values().stream()
+                        .sorted(Comparator.comparing(keyFunc).reversed())
+                        .limit(10)
+                        .toList()
+        );
         return top10;
     }
 }
