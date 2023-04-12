@@ -14,11 +14,13 @@ import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementDisplayType;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 public class GameDirector {
     public static ChatColor[] LEVEL_UP_MSG_COLORS = new ChatColor[] {
@@ -55,7 +57,6 @@ public class GameDirector {
             }
         }
     }
-
 
     /**
      * 아이템을 수집합니다.

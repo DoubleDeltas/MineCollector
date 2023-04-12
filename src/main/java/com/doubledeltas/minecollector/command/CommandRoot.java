@@ -38,12 +38,12 @@ public abstract class CommandRoot extends CommandNode implements TabExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         return resolveCommand(sender, command, label, args);
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         return resolveTabCompletion(sender, command, label, args);
     }
 }

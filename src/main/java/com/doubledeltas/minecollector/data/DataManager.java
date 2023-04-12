@@ -5,9 +5,8 @@ import com.doubledeltas.minecollector.util.MessageUtil;
 import org.bukkit.entity.Player;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
 import java.util.logging.Level;
 
 /**
@@ -140,5 +139,19 @@ public class DataManager {
      */
     public static GameData getData(Player player) {
         return playerData.get(player.getUniqueId());
+    }
+
+    /**
+     * 특정 기준으로 Top 10을 불러옵니다.
+     * 인덱스 0은 {@code null}이고, 1부터 10까지 각 순위권에 해당합니다.
+     * @param keyFunc 키 함수
+     * @param <K> 키 함수 반환 타입
+     * @return Top 10 리스트
+     */
+    public static <K extends Comparable<K>> List<GameData> getTop10(Function<GameData, K> keyFunc) {
+        List<GameData> top10 = new ArrayList<>();
+        top10.add(null);
+        top10.addAll(playerData.values().stream().sorted(Comparator.comparing(keyFunc)).limit(10).toList());
+        return top10;
     }
 }

@@ -11,24 +11,24 @@ import java.util.stream.Stream;
 public abstract class CommandNode {
     protected List<CommandNode> subcommands = List.of();
 
-    protected boolean resolveCommand(CommandSender sender, Command command, String label, String[] args) {
+    protected final boolean resolveCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length > 0)
             for (CommandNode subcommand: subcommands) {
-                if (subcommand.getAliases().stream().anyMatch(args[0]::equals))
+                if (subcommand.getAliases().contains(args[0]))
                     return subcommand.resolveCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
             }
         return onRawCommand(sender, command, label, args);
     }
 
-    protected List<String> resolveTabCompletion(CommandSender sender, Command command, String label, String[] args) {
+    protected final List<String> resolveTabCompletion(CommandSender sender, Command command, String label, String[] args) {
         if (args.length > 0)
             for (CommandNode subcommand: subcommands) {
-                if (subcommand.getAliases().stream().anyMatch(args[0]::equals))
+                if (subcommand.getAliases().contains(args[0]))
                     return subcommand.resolveTabCompletion(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
             }
         return Stream.concat(
                 subcommands.stream().map(CommandNode::getAliases).flatMap(List::stream),
-                this.getTabRecommendation().stream()
+                this.getTabRecommendation(sender, command, label, args).stream()
         ).collect(Collectors.toList());
     }
 
@@ -36,7 +36,7 @@ public abstract class CommandNode {
 
     public abstract boolean onRawCommand(CommandSender sender, Command command, String label, String[] args);
 
-    public List<String> getTabRecommendation() {
+    public List<String> getTabRecommendation(CommandSender sender, Command command, String label, String[] args) {
         return List.of();
     }
 }

@@ -30,7 +30,6 @@ public final class BookCommand extends CommandRoot {
             SoundUtil.playHighRing(player);
         }
 
-
         return false;
     }
 }

@@ -81,7 +81,9 @@ public final class CollectCommand extends CommandRoot {
     }
 
     @Override
-    public List<String> getTabRecommendation() {
+    public List<String> getTabRecommendation(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length > 1) return List.of();
+
         return List.of("1", "all", "모두");
     }
 }
