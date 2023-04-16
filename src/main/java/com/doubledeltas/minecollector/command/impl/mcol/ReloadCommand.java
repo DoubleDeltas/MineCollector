@@ -16,7 +16,9 @@ public class ReloadCommand extends CommandNode {
     }
 
     public ReloadCommand() {
-        this.subcommands = List.of(new ReloadConfigCommand(), new ReloadDataCommand());
+        this.subcommands = List.of(
+//                new ReloadConfigCommand(),
+                new ReloadDataCommand());
     }
 
     @Override
