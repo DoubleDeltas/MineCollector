@@ -22,7 +22,7 @@ public class DataManager {
     private static Map<UUID, GameData> playerData = new HashMap<>();
 
     public static void setup() {
-        DataManager.loadConfig();
+//        DataManager.loadConfig();
         DataManager.loadData();
     }
 
