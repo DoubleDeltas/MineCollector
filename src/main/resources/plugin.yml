@@ -9,21 +9,23 @@ commands:
   마인콜렉터:
     aliases: [minecollector, mcol, 마콜]
     description: 마인콜렉터 메인 커맨드입니다.
+    permission: minecollector.mcol
   수집:
     aliases: [tnwlq, collect]
     description: 아이템을 수집합니다.
+#    permission: minecollector.collect
   체크:
     aliases: [cpzm, check]
     description: 아이템을 몇 개 수집했는지 체크합니다.
   도감:
     aliases: [ehrka, book, getbook]
     description: 도감을 얻습니다.
+#    permission: minecollector.collect
   랭킹:
     aliases: [fodzld, ranking, rank]
     description: 수집 점수 랭킹을 봅니다.
+#    permission: minecollector.ranking
   가이드:
     aliases: [rkdlem, guide, 도움, ehdna, help, 도움말]
     description: 마인콜렉터 가이드를 봅니다.
-  테스트:
-    aliases: [test]
-    description: 테스트 커맨드입니다.
+#    permission: minecollector.guide
