@@ -1,22 +1,25 @@
 package com.doubledeltas.minecollector.config;
 
+import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.config.chapter.AnnouncementChapter;
 import com.doubledeltas.minecollector.config.chapter.DBChapter;
 import com.doubledeltas.minecollector.config.chapter.GameChapter;
 import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
+import com.doubledeltas.minecollector.util.MessageUtil;
+import org.checkerframework.checker.units.qual.C;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.error.YAMLException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public class Config {
-    public static Config DEFAULT = new Config(
-            false,
-            ScoringChapter.DEFAULT,
-            AnnouncementChapter.DEFAULT,
-            GameChapter.DEFAULT,
-            DBChapter.DEFAULT
-    );
+    public static LoaderOptions LOADER_OPTIONS = new LoaderOptions();
+    public static File CONFIG_FILE = new File(MineCollector.getPlugin().getDataFolder(), "config.yml");
 
     private boolean             enabled;
     private ScoringChapter      scoring;
@@ -38,20 +41,35 @@ public class Config {
         this.db = db;
     }
 
-    /**
-     * YAML 파일 reader에서 config를 불러온다.
-     * @param reader 불러올 YAML 파일 Reader
-     * @return Config 객체
-     * @throws YAMLException YAML 포맷에 맞지 않음
-     * @throws InvalidConfigException Config validation에 맞지 않음
-     */
-    public static Config loadFromYaml(FileReader reader)
-        throws YAMLException, InvalidConfigException
-    {
-        Yaml yaml = new Yaml();
-        ConfigValidator validation = new ConfigValidator(yaml.load(reader));
-        if (validation.isValid())
-            throw new InvalidConfigException(validation.getCauses())
-        return validation.getResult();
+    public static Config load() {
+        Yaml yaml = new Yaml(new Constructor(Config.class, LOADER_OPTIONS));
+        try {
+            Config config = yaml.load(new FileReader(CONFIG_FILE));
+            MessageUtil.log("콘피그 불러옴!");
+            return config;
+        } catch (FileNotFoundException e) {
+
+            return null;
+        }
+    }
+
+    public boolean enabled() {
+        return enabled;
+    }
+
+    public ScoringChapter scoring() {
+        return scoring;
+    }
+
+    public AnnouncementChapter announcement() {
+        return announcement;
+    }
+
+    public GameChapter game() {
+        return game;
+    }
+
+    public DBChapter db() {
+        return db;
     }
 }

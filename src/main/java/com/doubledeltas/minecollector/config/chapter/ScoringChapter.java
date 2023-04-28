@@ -5,20 +5,6 @@ import org.bukkit.advancement.AdvancementDisplayType;
 import java.util.Map;
 
 public class ScoringChapter {
-    public static ScoringChapter DEFAULT = new ScoringChapter(
-            true,
-            1.0F,
-            true,
-            4,
-            0.1F,
-            true,
-            Map.of(
-                    AdvancementDisplayType.TASK, 1.0F,
-                    AdvancementDisplayType.GOAL, 2.0F,
-                    AdvancementDisplayType.CHALLENGE, 3.0F
-            )
-    );
-
     private boolean collectionEnabled;
     private float   collectionScore;
 
@@ -45,9 +31,5 @@ public class ScoringChapter {
         this.stackScore = stackScore;
         this.advancementEnabled = advancementEnabled;
         this.advancementScores = advancementScores;
-    }
-
-    public static ScoringChapter convert(Map<String, Object> map) {
-
     }
 }
