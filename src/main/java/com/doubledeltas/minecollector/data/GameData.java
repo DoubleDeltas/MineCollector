@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.error.YAMLException;
 
 import java.io.Reader;
 import java.io.Writer;
@@ -87,7 +88,9 @@ public class GameData {
      * @param reader 데이터를 불러올 {@code Reader}
      * @return 불러온 {@link GameData} 객체
      */
-    public static GameData loadFromYaml(Reader reader) {
+    public static GameData loadFromYaml(Reader reader)
+        throws YAMLException
+    {
         Yaml yaml = new Yaml();
         return new GameData(yaml.loadAs(reader, Map.class));
     }

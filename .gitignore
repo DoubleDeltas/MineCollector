@@ -84,7 +84,7 @@ ehthumbs_vista.db
 # Dump file
 *.stackdump
 
-# Folder config file
+# Folder com.doubledeltas.minecollector.config file
 [Dd]esktop.ini
 
 # Recycle Bin used on file shares
@@ -103,7 +103,7 @@ $RECYCLE.BIN/
 .gradle
 build/
 
-# Ignore Gradle GUI config
+# Ignore Gradle GUI com.doubledeltas.minecollector.config
 gradle-app.setting
 
 # Cache of project

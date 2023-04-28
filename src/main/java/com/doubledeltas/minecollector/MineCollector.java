@@ -23,7 +23,7 @@ public final class MineCollector extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        DataManager.setup();
+        DataManager.loadData();
         EventManager.loadEventHandlers();
         CommandRoot.loadCommands();
         MessageUtil.log(Level.INFO, "마인콜렉터 플러그인이 켜졌습니다!");

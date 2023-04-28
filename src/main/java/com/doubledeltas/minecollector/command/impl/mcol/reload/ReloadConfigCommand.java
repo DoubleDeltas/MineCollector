@@ -1,14 +1,15 @@
-package com.doubledeltas.minecollector.command.impl.mcol;
+package com.doubledeltas.minecollector.command.impl.mcol.reload;
 
-import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandNode;
-import com.doubledeltas.minecollector.data.DataManager;
+import com.doubledeltas.minecollector.config.ConfigManager;
+import com.doubledeltas.minecollector.config.InvalidConfigException;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class ReloadConfigCommand extends CommandNode {
@@ -19,7 +20,15 @@ public class ReloadConfigCommand extends CommandNode {
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
-        DataManager.loadConfig();
+        try {
+            ConfigManager.loadConfig();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (InvalidConfigException e) {
+
+        }
         MessageUtil.send(sender, "콘피그를 리로드하였습니다!");
         if (sender instanceof Player player)
             SoundUtil.playHighRing(player);

@@ -1,4 +1,4 @@
-package com.doubledeltas.minecollector.command.impl.mcol;
+package com.doubledeltas.minecollector.command.impl.mcol.reload;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandNode;
