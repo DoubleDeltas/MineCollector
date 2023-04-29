@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
@@ -40,6 +41,13 @@ public class DumpGui extends Gui {
             e.setCancelled(true);
 
         if (e.getRawSlot() == INDEX_COLLECT && state == ProcessState.OK) {
+            if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
+                MessageUtil.send(player, "§c지금은 수집할 수 없습니다!");
+                player.closeInventory();
+                SoundUtil.playFail(player);
+                return;
+            }
+
             setState(ProcessState.HMM);
 
             for (int i=0; i<=44; i++) {
@@ -63,6 +71,17 @@ public class DumpGui extends Gui {
         else if (e.getRawSlot() == INDEX_BACK) {
             new HubGui().openGui(player);
             SoundUtil.playPage(player);
+        }
+    }
+
+    @Override
+    public void onClose(Player player, InventoryCloseEvent e) {
+        super.onClose(player, e);
+        for (int i=0; i<45; i++) {
+            ItemStack item = inventory.getItem(i);
+            if (item == null)
+                continue;
+            player.getWorld().dropItem(player.getLocation(), item);
         }
     }
 

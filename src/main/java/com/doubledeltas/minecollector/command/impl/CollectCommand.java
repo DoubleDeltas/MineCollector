@@ -1,6 +1,7 @@
 package com.doubledeltas.minecollector.command.impl;
 
 import com.doubledeltas.minecollector.GameDirector;
+import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
@@ -23,6 +24,12 @@ public final class CollectCommand extends CommandRoot {
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
             MessageUtil.send(sender, "§c이 명령어는 플레이어만 칠 수 있습니다!");
+            return false;
+        }
+
+        if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
+            MessageUtil.send(sender, "§c지금은 수집할 수 없습니다!");
+            SoundUtil.playFail(player);
             return false;
         }
 

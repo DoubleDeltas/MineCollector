@@ -3,8 +3,8 @@
 # 마인콜렉터 설정 파일입니다.
 # This is MineCollector configuration file.
 
-# 마인콜렉터 기능을 활성화합니다.
-# "false"일 시 수집, 도감 열기, 랭킹 보기 등 모든 기능이 비활성화됩니다.
+# 도감 및 수집 기능을 활성화합니다.
+# enable opening collection book and collecting
 enabled: true
 
 # ========= SCORING =========
