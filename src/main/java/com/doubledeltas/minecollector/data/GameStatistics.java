@@ -1,10 +1,20 @@
 package com.doubledeltas.minecollector.data;
 
+import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
+import lombok.Getter;
 import org.bukkit.advancement.AdvancementDisplayType;
 
+import java.util.Arrays;
 import java.util.Map;
 
+@Getter
 public class GameStatistics {
+    private static final ScoringChapter SCORING_CONFIG
+            = MineCollector.getInstance().getMcolConfig().getScoring();
+    private static final Map<AdvancementDisplayType, Float> ADVANCEMENT_SCORE_MAP
+            = SCORING_CONFIG.getAdvancementScores();
+
     private float totalScore;
 
     private float collectionScore;
@@ -18,35 +28,37 @@ public class GameStatistics {
     public GameStatistics(GameData data) {
         Map<String, Integer> collectionMap = data.getCollectionMap();
 
-        this.collectionScore = collectionMap.size();
+        this.totalScore = 0.0F;
 
-        this.stackScore = 0.0F;
-        for (String key: collectionMap.keySet()) {
-            this.stackScore += (data.getLevel(key) - 1) * 0.1F;
+        if (SCORING_CONFIG.isCollectionEnabled()) {
+            this.collectionScore = collectionMap.size();
+            this.totalScore += collectionScore;
+        }
+        else {
+            this.collectionScore = Float.NaN;
         }
 
-        this.advScore = data.getAdvCleared(AdvancementDisplayType.TASK) * getAdvWeight(AdvancementDisplayType.TASK)
-                        + data.getAdvCleared(AdvancementDisplayType.GOAL) * getAdvWeight(AdvancementDisplayType.GOAL)
-                        + data.getAdvCleared(AdvancementDisplayType.CHALLENGE) * getAdvWeight(AdvancementDisplayType.CHALLENGE);
+        if (SCORING_CONFIG.isStackEnabled()) {
+            this.stackScore = 0.0F;
+            for (String key: collectionMap.keySet()) {
+                this.stackScore += (data.getLevel(key) - 1) * 0.1F;
+            }
+            this.totalScore += stackScore;
+        }
+        else {
+            this.stackScore = Float.NaN;
+        }
 
-        this.totalScore = collectionScore + stackScore + advScore;
+        if (SCORING_CONFIG.isAdvancementEnabled()) {
+            this.advScore = (float) Arrays.stream(AdvancementDisplayType.values())
+                    .mapToDouble(type -> data.getAdvCleared(type) * ADVANCEMENT_SCORE_MAP.get(type))
+                    .sum();
+            this.totalScore += advScore;
+        }
+        else {
+            this.advScore = Float.NaN;
+        }
     }
-
-    /**
-     * Map으로부터 게임 데이터 통계를 얻습니다.
-     * @param map 불러올 Map
-     */
-    public GameStatistics(Map<String, Float> map) {
-        this.collectionScore = map.get("collectionScore");
-        this.stackScore = map.get("stackScore");
-        this.advScore = map.get("advScore");
-        this.totalScore = collectionScore + stackScore + advScore;
-    }
-
-    public float getTotalScore() { return totalScore; }
-    public float getCollectionScore() { return collectionScore; }
-    public float getStackScore() { return stackScore; }
-    public float getAdvScore() { return advScore; }
 
     /**
      * 게임 데이터 통계를 수정할 수 없는 Map으로 만듭니다.
@@ -59,18 +71,5 @@ public class GameStatistics {
                 "advScore", advScore,
                 "totalScore", totalScore
         );
-    }
-
-    /**
-     * 발전과제 타입 별 점수를 얻습니다.
-     * @param type 발전과제 타입
-     * @return
-     */
-    public static float getAdvWeight(AdvancementDisplayType type) {
-        return switch (type) {
-            case TASK -> 1.0F;
-            case GOAL -> 2.0F;
-            case CHALLENGE -> 3.0F;
-        };
     }
 }

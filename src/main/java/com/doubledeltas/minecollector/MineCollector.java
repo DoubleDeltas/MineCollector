@@ -44,7 +44,7 @@ public final class MineCollector extends JavaPlugin {
         MessageUtil.log(Level.INFO, "마인콜렉터 플러그인이 꺼졌습니다.");
     }
 
-    public McolConfig mcolConfig() {
+    public McolConfig getMcolConfig() {
         return this.config;
     }
 

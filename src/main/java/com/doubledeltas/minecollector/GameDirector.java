@@ -1,6 +1,8 @@
 package com.doubledeltas.minecollector;
 
+import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.config.chapter.AnnouncementChapter;
+import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
@@ -36,7 +38,9 @@ public class GameDirector {
             ChatColor.LIGHT_PURPLE,
             ChatColor.of("#ff4488")
     };
-    public static AnnouncementChapter ANNOUNCEMENT_CONFIG = MineCollector.getInstance().mcolConfig().getAnnouncement();
+    private static final McolConfig CONFIG = MineCollector.getInstance().getMcolConfig();
+    private static final ScoringChapter SCORING_CONFIG = CONFIG.getScoring();
+    private static final AnnouncementChapter ANNOUNCEMENT_CONFIG = CONFIG.getAnnouncement();
 
     /**
      * 아이템을 수집합니다.
@@ -103,8 +107,8 @@ public class GameDirector {
         GameStatistics stats = new GameStatistics(data);
         MessageUtil.send(ANNOUNCEMENT_CONFIG.getAdvancement(), player,
                 "§f발전과제 점수 §b§l%s§f점을 얻었습니다. (현재 §e%s§f점)"
-                        .formatted(GameStatistics.getAdvWeight(type), stats.getTotalScore()
-        ));
+                        .formatted(SCORING_CONFIG.getAdvancementScores().get(type), stats.getTotalScore())
+        );
         for (Player p: ANNOUNCEMENT_CONFIG.getAdvancement().resolve(player))
             SoundUtil.playFirework(p);
     }
