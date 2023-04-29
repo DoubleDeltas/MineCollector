@@ -10,10 +10,6 @@ import java.util.Map;
 
 @Getter
 public class GameStatistics {
-    private static final ScoringChapter SCORING_CONFIG
-            = MineCollector.getInstance().getMcolConfig().getScoring();
-    private static final Map<AdvancementDisplayType, Float> ADVANCEMENT_SCORE_MAP
-            = SCORING_CONFIG.getAdvancementScores();
 
     private float totalScore;
 
@@ -26,11 +22,14 @@ public class GameStatistics {
      * @param data 게임 데이터
      */
     public GameStatistics(GameData data) {
+        ScoringChapter scoringConfig = MineCollector.getInstance().getMcolConfig().getScoring();
+        Map<AdvancementDisplayType, Float> advancementScores = scoringConfig.getAdvancementScores();
+
         Map<String, Integer> collectionMap = data.getCollectionMap();
 
         this.totalScore = 0.0F;
 
-        if (SCORING_CONFIG.isCollectionEnabled()) {
+        if (scoringConfig.isCollectionEnabled()) {
             this.collectionScore = collectionMap.size();
             this.totalScore += collectionScore;
         }
@@ -38,7 +37,7 @@ public class GameStatistics {
             this.collectionScore = Float.NaN;
         }
 
-        if (SCORING_CONFIG.isStackEnabled()) {
+        if (scoringConfig.isStackEnabled()) {
             this.stackScore = 0.0F;
             for (String key: collectionMap.keySet()) {
                 this.stackScore += (data.getLevel(key) - 1) * 0.1F;
@@ -49,9 +48,9 @@ public class GameStatistics {
             this.stackScore = Float.NaN;
         }
 
-        if (SCORING_CONFIG.isAdvancementEnabled()) {
+        if (scoringConfig.isAdvancementEnabled()) {
             this.advScore = (float) Arrays.stream(AdvancementDisplayType.values())
-                    .mapToDouble(type -> data.getAdvCleared(type) * ADVANCEMENT_SCORE_MAP.get(type))
+                    .mapToDouble(type -> data.getAdvCleared(type) * advancementScores.get(type))
                     .sum();
             this.totalScore += advScore;
         }

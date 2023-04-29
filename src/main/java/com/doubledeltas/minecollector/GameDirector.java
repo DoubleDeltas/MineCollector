@@ -38,9 +38,6 @@ public class GameDirector {
             ChatColor.LIGHT_PURPLE,
             ChatColor.of("#ff4488")
     };
-    private static final McolConfig CONFIG = MineCollector.getInstance().getMcolConfig();
-    private static final ScoringChapter SCORING_CONFIG = CONFIG.getScoring();
-    private static final AnnouncementChapter ANNOUNCEMENT_CONFIG = CONFIG.getAnnouncement();
 
     /**
      * 아이템을 수집합니다.
@@ -98,18 +95,21 @@ public class GameDirector {
      * @param advancement 달성한 발전과제
      */
     public static void resolveAdvancement(Player player, Advancement advancement) {
-        assert advancement.getDisplay() != null;
+        McolConfig config = MineCollector.getInstance().getMcolConfig();
+        AnnouncementChapter announcementConfig = config.getAnnouncement();
+        ScoringChapter scoringConfig = config.getScoring();
+
         AdvancementDisplayType type = advancement.getDisplay().getType();
 
         GameData data = DataManager.getData(player);
         data.addAdvCleared(type);
 
         GameStatistics stats = new GameStatistics(data);
-        MessageUtil.send(ANNOUNCEMENT_CONFIG.getAdvancement(), player,
+        MessageUtil.send(announcementConfig.getAdvancement(), player,
                 "§f발전과제 점수 §b§l%s§f점을 얻었습니다. (현재 §e%s§f점)"
-                        .formatted(SCORING_CONFIG.getAdvancementScores().get(type), stats.getTotalScore())
+                        .formatted(scoringConfig.getAdvancementScores().get(type), stats.getTotalScore())
         );
-        for (Player p: ANNOUNCEMENT_CONFIG.getAdvancement().resolve(player))
+        for (Player p: announcementConfig.getAdvancement().resolve(player))
             SoundUtil.playFirework(p);
     }
 
@@ -119,15 +119,17 @@ public class GameDirector {
      * @param material 수집한 아이템 종류
      */
     private static void noticeFirstCollection(Player target, Material material) {
+        AnnouncementChapter announcementConfig = MineCollector.getInstance().getMcolConfig().getAnnouncement();
+
         BaseComponent itemNameComponent = new TranslatableComponent(material.getItemTranslationKey());
         itemNameComponent.setColor(ChatColor.YELLOW);
 
-        MessageUtil.sendRaw(ANNOUNCEMENT_CONFIG.getCollection(), target, List.of(
+        MessageUtil.sendRaw(announcementConfig.getCollection(), target, List.of(
                 new TextComponent("§e%s§a님이 ".formatted(target.getName())),
                 itemNameComponent,
                 new TextComponent(" §a아이템을 처음 수집했습니다!")
         ));
-        for (Player p: ANNOUNCEMENT_CONFIG.getCollection().resolve(target))
+        for (Player p: announcementConfig.getCollection().resolve(target))
            SoundUtil.playHighRing(p);
     }
 
@@ -138,10 +140,12 @@ public class GameDirector {
      * @param level 도달한 단계 수
      */
     private static void noticeLevelUp(Player target, Material material, int level) {
-        if (level < ANNOUNCEMENT_CONFIG.getHighLevelMinimum()) return;
+        AnnouncementChapter announcementConfig = MineCollector.getInstance().getMcolConfig().getAnnouncement();
+
+        if (level < announcementConfig.getHighLevelMinimum()) return;
 
         ChatColor color = LEVEL_UP_MSG_COLORS[Math.min(level, LEVEL_UP_MSG_COLORS.length - 1)];
-        int amount = (int) Math.pow(ANNOUNCEMENT_CONFIG.getHighLevelMinimum(), level - 1);
+        int amount = (int) Math.pow(announcementConfig.getHighLevelMinimum(), level - 1);
 
         BaseComponent[] components = new BaseComponent[4];
         components[0] = new TextComponent("님의 ");
@@ -163,7 +167,7 @@ public class GameDirector {
         BaseComponent itemNameComponent = new TranslatableComponent(material.getItemTranslationKey());
         itemNameComponent.setColor(ChatColor.YELLOW);
 
-        MessageUtil.sendRaw(ANNOUNCEMENT_CONFIG.getHighLevelReached(), target, List.of(
+        MessageUtil.sendRaw(announcementConfig.getHighLevelReached(), target, List.of(
                 new TextComponent("§e%s".formatted(target.getName())),
                 components[0],
                 itemNameComponent,
@@ -172,11 +176,11 @@ public class GameDirector {
                 components[3]
         ));
         if (level <= 8) {
-            for (Player p: ANNOUNCEMENT_CONFIG.getCollection().resolve(target))
+            for (Player p: announcementConfig.getCollection().resolve(target))
                 SoundUtil.playHighFirework(p);
         }
         else {
-            for (Player p: ANNOUNCEMENT_CONFIG.getCollection().resolve(target))
+            for (Player p: announcementConfig.getCollection().resolve(target))
                 SoundUtil.playLegend(p);
         }
     }
