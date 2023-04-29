@@ -6,20 +6,29 @@ import com.doubledeltas.minecollector.config.chapter.DBChapter;
 import com.doubledeltas.minecollector.config.chapter.GameChapter;
 import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
 import com.doubledeltas.minecollector.util.MessageUtil;
-import org.checkerframework.checker.units.qual.C;
+import lombok.*;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.constructor.SafeConstructor;
-import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
+import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+@Data
 public class Config {
     public static LoaderOptions LOADER_OPTIONS = new LoaderOptions();
-    public static File CONFIG_FILE = new File(MineCollector.getPlugin().getDataFolder(), "config.yml");
+    public static Representer REPRESENTER = new Representer(new DumperOptions());
+    public static File CONFIG_PATH = new File(MineCollector.getPlugin().getDataFolder(), "config.yml");
+
+    static {
+        PropertyUtils propUtils = new PropertyUtils();
+        propUtils.setAllowReadOnlyProperties(true);
+        REPRESENTER.setPropertyUtils(propUtils);
+    }
 
     private boolean             enabled;
     private ScoringChapter      scoring;
@@ -27,49 +36,21 @@ public class Config {
     private GameChapter         game;
     private DBChapter           db;
 
-    public Config(
-            boolean             enabled,
-            ScoringChapter      scoring,
-            AnnouncementChapter announcement,
-            GameChapter         game,
-            DBChapter           db
-    ) {
-        this.enabled = enabled;
-        this.scoring = scoring;
-        this.announcement = announcement;
-        this.game = game;
-        this.db = db;
-    }
-
     public static Config load() {
-        Yaml yaml = new Yaml(new Constructor(Config.class, LOADER_OPTIONS));
+        // 파일이 없으면 기본 콘피그 파일 생성
+        if (!CONFIG_PATH.isFile()) {
+            MineCollector.getPlugin().getConfig().options().copyDefaults(true);
+            MineCollector.getPlugin().saveDefaultConfig();
+            MessageUtil.log("기본 콘피그 파일 생성됨!");
+        }
+
+        Yaml yaml = new Yaml(new Constructor(Config.class, LOADER_OPTIONS), REPRESENTER);
         try {
-            Config config = yaml.load(new FileReader(CONFIG_FILE));
+            Config config = yaml.load(new FileReader(CONFIG_PATH));
             MessageUtil.log("콘피그 불러옴!");
             return config;
         } catch (FileNotFoundException e) {
-
             return null;
         }
-    }
-
-    public boolean enabled() {
-        return enabled;
-    }
-
-    public ScoringChapter scoring() {
-        return scoring;
-    }
-
-    public AnnouncementChapter announcement() {
-        return announcement;
-    }
-
-    public GameChapter game() {
-        return game;
-    }
-
-    public DBChapter db() {
-        return db;
     }
 }
