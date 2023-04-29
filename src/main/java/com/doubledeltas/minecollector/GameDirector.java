@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector;
 
+import com.doubledeltas.minecollector.config.chapter.AnnouncementChapter;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
@@ -22,6 +23,12 @@ import java.util.List;
 
 public class GameDirector {
     public static ChatColor[] LEVEL_UP_MSG_COLORS = new ChatColor[] {
+            null,
+            null,
+            ChatColor.YELLOW,
+            ChatColor.YELLOW,
+            ChatColor.YELLOW,
+            ChatColor.YELLOW,
             ChatColor.AQUA,
             ChatColor.DARK_AQUA,
             ChatColor.BLUE,
@@ -29,6 +36,7 @@ public class GameDirector {
             ChatColor.LIGHT_PURPLE,
             ChatColor.of("#ff4488")
     };
+    public static AnnouncementChapter ANNOUNCEMENT_CONFIG = MineCollector.getInstance().mcolConfig().getAnnouncement();
 
     /**
      * 아이템을 수집합니다.
@@ -93,10 +101,12 @@ public class GameDirector {
         data.addAdvCleared(type);
 
         GameStatistics stats = new GameStatistics(data);
-        MessageUtil.send(player, "§f발전과제 점수 §b§l%s§f점을 얻었습니다. (현재 §e%s§f점)".formatted(
-                GameStatistics.getAdvWeight(type), stats.getTotalScore()
+        MessageUtil.send(ANNOUNCEMENT_CONFIG.getAdvancement(), player,
+                "§f발전과제 점수 §b§l%s§f점을 얻었습니다. (현재 §e%s§f점)"
+                        .formatted(GameStatistics.getAdvWeight(type), stats.getTotalScore()
         ));
-        SoundUtil.playFirework(player);
+        for (Player p: ANNOUNCEMENT_CONFIG.getAdvancement().resolve(player))
+            SoundUtil.playFirework(p);
     }
 
     /**
@@ -108,12 +118,12 @@ public class GameDirector {
         BaseComponent itemNameComponent = new TranslatableComponent(material.getItemTranslationKey());
         itemNameComponent.setColor(ChatColor.YELLOW);
 
-        MessageUtil.broadcastRaw(
+        MessageUtil.sendRaw(ANNOUNCEMENT_CONFIG.getCollection(), target, List.of(
                 new TextComponent("§e%s§a님이 ".formatted(target.getName())),
                 itemNameComponent,
                 new TextComponent(" §a아이템을 처음 수집했습니다!")
-        );
-        for (Player p: MineCollector.getInstance().getServer().getOnlinePlayers())
+        ));
+        for (Player p: ANNOUNCEMENT_CONFIG.getCollection().resolve(target))
            SoundUtil.playHighRing(p);
     }
 
@@ -124,16 +134,20 @@ public class GameDirector {
      * @param level 도달한 단계 수
      */
     private static void noticeLevelUp(Player target, Material material, int level) {
-        if (level < 5) return;
+        if (level < ANNOUNCEMENT_CONFIG.getHighLevelMinimum()) return;
 
-        ChatColor color = LEVEL_UP_MSG_COLORS[Math.min(level - 5, LEVEL_UP_MSG_COLORS.length - 1)];
-        int amountInSet = 1 << (2 * level - 8);
+        ChatColor color = LEVEL_UP_MSG_COLORS[Math.min(level, LEVEL_UP_MSG_COLORS.length - 1)];
+        int amount = (int) Math.pow(ANNOUNCEMENT_CONFIG.getHighLevelMinimum(), level - 1);
 
         BaseComponent[] components = new BaseComponent[4];
         components[0] = new TextComponent("님의 ");
         components[1] = new TextComponent(" 컬렉션이 ");
         components[2] = new TextComponent(level + "단계");
-        components[3] = new TextComponent("에 도달했습니다! (%d셋)".formatted(amountInSet));
+        components[3] = new TextComponent(
+                (amount < 64)
+                ? "에 도달했습니다! (%d개)".formatted(amount)
+                : "에 도달했습니다! (%d셋)".formatted(amount / 64)
+        );
 
         components[2].setBold(true);
         for (BaseComponent component: components) {
@@ -145,20 +159,20 @@ public class GameDirector {
         BaseComponent itemNameComponent = new TranslatableComponent(material.getItemTranslationKey());
         itemNameComponent.setColor(ChatColor.YELLOW);
 
-        MessageUtil.broadcastRaw(
+        MessageUtil.sendRaw(ANNOUNCEMENT_CONFIG.getHighLevelReached(), target, List.of(
                 new TextComponent("§e%s".formatted(target.getName())),
                 components[0],
                 itemNameComponent,
                 components[1],
                 components[2],
                 components[3]
-        );
+        ));
         if (level <= 8) {
-            for (Player p: MineCollector.getInstance().getServer().getOnlinePlayers())
+            for (Player p: ANNOUNCEMENT_CONFIG.getCollection().resolve(target))
                 SoundUtil.playHighFirework(p);
         }
         else {
-            for (Player p: MineCollector.getInstance().getServer().getOnlinePlayers())
+            for (Player p: ANNOUNCEMENT_CONFIG.getCollection().resolve(target))
                 SoundUtil.playLegend(p);
         }
     }

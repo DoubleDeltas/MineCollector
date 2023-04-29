@@ -5,6 +5,7 @@ import com.doubledeltas.minecollector.config.AnnouncementTarget;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +43,17 @@ public class MessageUtil {
     }
 
     /**
+     * {@link AnnouncementTarget}에게 마인콜렉터 메시지를 보냅니다.
+     * @param target {@link AnnouncementTarget}
+     * @param subject 수신자
+     * @param msg 메시지
+     */
+    public static void send(AnnouncementTarget target, Player subject, String msg) {
+        for (Player player: target.resolve(subject))
+            send(player, msg);
+    }
+
+    /**
      * 마인콜렉터 서버 전체에 마인콜렉터 메시지를 보냅니다.
      * @param msg 메시지
      */
@@ -50,53 +62,32 @@ public class MessageUtil {
     }
 
     /**
-     * {@link AnnouncementTarget}에 따라 메시지를 보냅니다.
-     * @param target 타겟 설정
-     * @param subject 주체({@link AnnouncementTarget#SELF}일 때 수신자)
-     * @param msg 메시지
-     */
-    public static void announce(AnnouncementTarget target, CommandSender subject, String msg) {
-        switch (target) {
-            case ALL_PLAYERS -> broadcast(msg);
-            case SELF -> send(subject, msg);
-        }
-    }
-
-    /**
      * 플레이어 또는 콘솔에게 마인콜렉터 접두어와 함께 채팅 컴포넌트를 보냅니다.
      * @param subject 주체(수신자)
      * @param components 보낼 컴포넌트들
      */
-    public static void sendRaw(CommandSender subject, BaseComponent... components) {
+    public static void sendRaw(CommandSender subject, List<BaseComponent> components) {
         List<BaseComponent> list = new ArrayList<>();
         list.add(MSG_PREFIX_COMPONENT);
-        list.addAll(Arrays.asList(components));
+        list.addAll(components);
 
         subject.spigot().sendMessage(list.toArray(new BaseComponent[0]));
+    }
+
+    public static void sendRaw(AnnouncementTarget target, Player subject, List<BaseComponent> components) {
+        for (Player player: target.resolve(subject))
+            sendRaw(player, components);
     }
 
     /**
      * 마인콜렉터 서버 전체에 마인콜렉터 접두어와 함께 채팅 컴포넌트를 보냅니다.
      * @param components 보낼 컴포넌트들
      */
-    public static void broadcastRaw(BaseComponent... components) {
+    public static void broadcastRaw(List<BaseComponent> components) {
         List<BaseComponent> list = new ArrayList<>();
         list.add(MSG_PREFIX_COMPONENT);
-        list.addAll(Arrays.asList(components));
+        list.addAll(components);
 
         MineCollector.getInstance().getServer().spigot().broadcast(list.toArray(new BaseComponent[0]));
-    }
-
-    /**
-     * {@link AnnouncementTarget}에 따라 채팅 컴포넌트를 보냅니다.
-     * @param target 타겟 설정
-     * @param subject 주체({@link AnnouncementTarget#SELF}일 때 수신자)
-     * @param msg 메시지
-     */
-    public static void announceRaw(AnnouncementTarget target, CommandSender subject, BaseComponent... components) {
-        switch (target) {
-            case ALL_PLAYERS -> broadcastRaw(components);
-            case SELF -> sendRaw(subject, components);
-        }
     }
 }

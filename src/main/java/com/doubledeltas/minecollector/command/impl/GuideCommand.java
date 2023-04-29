@@ -11,6 +11,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 public final class GuideCommand extends CommandRoot {
     public static final String GUIDE_LINK = "https://github.com/DoubleDeltas/MineCollector/blob/main/README.md";
 
@@ -24,10 +26,10 @@ public final class GuideCommand extends CommandRoot {
         component.setUnderlined(true);
         component.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, GUIDE_LINK));
 
-        MessageUtil.sendRaw(sender,
+        MessageUtil.sendRaw(sender, List.of(
                 component,
                 new TextComponent("§a를 눌러 마인콜렉터에 대해 알아보세요!")
-        );
+        ));
 
         if (sender instanceof Player player)
             SoundUtil.playHighRing(player);

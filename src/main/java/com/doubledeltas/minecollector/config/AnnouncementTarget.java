@@ -1,22 +1,27 @@
 package com.doubledeltas.minecollector.config;
 
-import java.util.Locale;
+import com.doubledeltas.minecollector.MineCollector;
+import org.bukkit.entity.Player;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public enum AnnouncementTarget {
-    ALL_PLAYERS("all players"),
-    SELF("self"),
-    NONE("none"),
+    ALL_PLAYERS,
+    SELF,
+    NONE,
     ;
 
-    private String stirngRepr;
-    AnnouncementTarget(String stringRepr) {
-        this.stirngRepr = stringRepr;
+    public List<Player> resolve(Player subject) {
+        return switch (this) {
+            case ALL_PLAYERS ->
+                    MineCollector.getInstance().getServer().getOnlinePlayers()
+                    .stream()
+                    .map(player -> (Player) player)
+                    .collect(Collectors.toList());
+            case SELF -> List.of(subject);
+            case NONE -> List.of();
+        };
     }
 
-    public static AnnouncementTarget get(String stringRepr) {
-        return AnnouncementTarget.valueOf(stringRepr
-                .toLowerCase(Locale.ROOT)
-                .replace('_', ' ')
-        );
-    }
 }

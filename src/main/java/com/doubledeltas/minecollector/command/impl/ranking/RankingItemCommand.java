@@ -51,11 +51,11 @@ public class RankingItemCommand extends CommandNode {
         int top10Size = top10.size();
 
         MessageUtil.send(sender, "");
-        MessageUtil.sendRaw(sender,
+        MessageUtil.sendRaw(sender, List.of(
                 new TextComponent("§e\""),
                 new TranslatableComponent(material.getItemTranslationKey()),
                 new TextComponent("§e\" 수집 수 TOP 10 리스트:")
-        );
+        ));
 
         if (top10Size == 1) { // 아무도 수집하지 않음
             MessageUtil.send(sender, " §7- 아직 아무도 아이템을 수집하지 않았군요! :)");
