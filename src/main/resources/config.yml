@@ -18,7 +18,6 @@ scoring:
   collection enabled: true
   collection score: 1.0
 
-
   # 쌓기 점수
   # 아이템을 일정 배수만큼 더 수집했을 때 얻는 추가 점수입니다.
   #
@@ -33,7 +32,6 @@ scoring:
   stack enabled: true
   stack multiple: 4
   stack score: 0.1
-
 
   # 발전 점수
   # 발전과제를 달성하였을 때 얻는 추가 점수입니다.
@@ -55,7 +53,6 @@ announcement:
   #
   # 허용된 값(Allowed values): "ALL_PLAYERS", "SELF", "NONE"
   collection: ALL_PLAYERS
-
 
   # 아이템 컬렉션이 높은 단계에 도달했을 때 나오는 공지
   # The announcement displayed when a player's item collection reached high level
@@ -90,6 +87,11 @@ game:
 
 # ========= DB =========
 db:
-  # 분 단위, 양의 정수여야 함 / in minutes, must be positive integer
+
+  # 분 단위, 0 또는 양의 정수여야 함. 0일 경우 비활성화
+  # in minutes, must be 0 or an positive integer, disabled if 0.
   autosave period: 10
+
+  # 자동 저장할 때 콘솔에 메시지를 출력할 지 설정합니다.
+  # set "true" to log message to the console when auto-saved
   autosave logging: true
