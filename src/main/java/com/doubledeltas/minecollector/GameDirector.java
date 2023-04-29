@@ -143,7 +143,6 @@ public class GameDirector {
     private static void noticeLevelUp(Player target, Material material, int level) {
         McolConfig config = MineCollector.getInstance().getMcolConfig();
         AnnouncementChapter announcementConfig = config.getAnnouncement();
-        ScoringChapter scoringConfig = config.getScoring();
 
         if (level < announcementConfig.getHighLevelMinimum()) return;
 
@@ -184,11 +183,11 @@ public class GameDirector {
                 components[3]
         ));
         if (level <= 8) {
-            for (Player p: announcementConfig.getCollection().resolve(target))
+            for (Player p: announcementConfig.getHighLevelReached().resolve(target))
                 SoundUtil.playHighFirework(p);
         }
         else {
-            for (Player p: announcementConfig.getCollection().resolve(target))
+            for (Player p: announcementConfig.getHighLevelReached().resolve(target))
                 SoundUtil.playLegend(p);
         }
     }
