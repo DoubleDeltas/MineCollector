@@ -1,5 +1,8 @@
 package com.doubledeltas.minecollector.data;
 
+import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
+import com.doubledeltas.minecollector.util.CollectionLevelUtil;
 import org.bukkit.Material;
 import org.bukkit.advancement.AdvancementDisplayType;
 import org.bukkit.entity.Player;
@@ -164,15 +167,11 @@ public class GameData {
      * @return 컬렉션 단계
      */
     public int getLevel(String itemId) {
+        int multiple = MineCollector.getInstance().getMcolConfig().getScoring().getStackMultiple();
+
         if (!collection.containsKey(itemId))
             return 0;
-        int amount = collection.get(itemId);
-        int level = 0;
-        while (amount > 0) {
-            amount /= 4;
-            level++;
-        }
-        return level;
+        return CollectionLevelUtil.getLevel(collection.get(itemId));
     }
 
     /**

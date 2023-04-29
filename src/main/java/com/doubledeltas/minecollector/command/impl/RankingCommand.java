@@ -1,7 +1,9 @@
 package com.doubledeltas.minecollector.command.impl;
 
+import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.command.impl.ranking.RankingItemCommand;
+import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
@@ -25,27 +27,41 @@ public final class RankingCommand extends CommandRoot {
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
+        ScoringChapter scoringConfig = MineCollector.getInstance().getMcolConfig().getScoring();
+
         Function<GameData, Float> keyFunc;
         String categoryWord;
+        boolean enabled;
 
         if (args.length == 0 || List.of("total", "전체점수").contains(args[0])) {
             keyFunc = data -> new GameStatistics(data).getTotalScore();
             categoryWord = "전체 컬렉션";
+            enabled = true;
         }
         else if (List.of("collection", "수집점수").contains(args[0])) {
             keyFunc = data -> new GameStatistics(data).getCollectionScore();
             categoryWord = "수집";
+            enabled = scoringConfig.isCollectionEnabled();
         }
         else if (List.of("stack", "쌓기점수").contains(args[0])) {
             keyFunc = data -> new GameStatistics(data).getStackScore();
             categoryWord = "쌓기";
+            enabled = scoringConfig.isStackEnabled();
         }
         else if (List.of("advancement", "발전점수").contains(args[0])) {
             keyFunc = data -> new GameStatistics(data).getAdvScore();
             categoryWord = "발전";
+            enabled = scoringConfig.isAdvancementEnabled();
         }
         else {
             MessageUtil.send(sender, "§c랭킹 카테고리 입력이 잘못되었습니다!");
+            if (sender instanceof Player player)
+                SoundUtil.playFail(player);
+            return false;
+        }
+
+        if (!enabled) {
+            MessageUtil.send(sender, "§c" + categoryWord + " 기능이 비활성화되어 있습니다!");
             if (sender instanceof Player player)
                 SoundUtil.playFail(player);
             return false;

@@ -8,6 +8,7 @@ import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
+import com.doubledeltas.minecollector.util.CollectionLevelUtil;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -140,22 +141,29 @@ public class GameDirector {
      * @param level 도달한 단계 수
      */
     private static void noticeLevelUp(Player target, Material material, int level) {
-        AnnouncementChapter announcementConfig = MineCollector.getInstance().getMcolConfig().getAnnouncement();
+        McolConfig config = MineCollector.getInstance().getMcolConfig();
+        AnnouncementChapter announcementConfig = config.getAnnouncement();
+        ScoringChapter scoringConfig = config.getScoring();
 
         if (level < announcementConfig.getHighLevelMinimum()) return;
 
         ChatColor color = LEVEL_UP_MSG_COLORS[Math.min(level, LEVEL_UP_MSG_COLORS.length - 1)];
-        int amount = (int) Math.pow(announcementConfig.getHighLevelMinimum(), level - 1);
+        int amount = CollectionLevelUtil.getMinimumAmount(level);
+        int quo = amount / 64;
+        int rem = amount % 64;
+        String amountDisplay;
+        if (quo > 0 && rem > 0)
+            amountDisplay = "%d셋 %d개".formatted(quo, rem);
+        else if (quo > 0)
+            amountDisplay = "%d셋".formatted(quo);
+        else
+            amountDisplay = "%d개".formatted(rem);
 
         BaseComponent[] components = new BaseComponent[4];
         components[0] = new TextComponent("님의 ");
         components[1] = new TextComponent(" 컬렉션이 ");
         components[2] = new TextComponent(level + "단계");
-        components[3] = new TextComponent(
-                (amount < 64)
-                ? "에 도달했습니다! (%d개)".formatted(amount)
-                : "에 도달했습니다! (%d셋)".formatted(amount / 64)
-        );
+        components[3] = new TextComponent("에 도달했습니다! (%s)".formatted(amountDisplay));
 
         components[2].setBold(true);
         for (BaseComponent component: components) {
