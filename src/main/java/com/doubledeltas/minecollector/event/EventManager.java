@@ -15,7 +15,7 @@ public class EventManager {
 
     public static void loadEventHandlers() {
         for (Listener listener: listeners) {
-            MineCollector.getPlugin().getServer().getPluginManager().registerEvents(listener, MineCollector.getPlugin());
+            MineCollector.getInstance().getServer().getPluginManager().registerEvents(listener, MineCollector.getInstance());
         }
     }
 

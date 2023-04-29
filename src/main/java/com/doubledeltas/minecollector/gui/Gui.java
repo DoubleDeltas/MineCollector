@@ -15,7 +15,7 @@ public abstract class Gui implements Listener{
 
     public Gui(int row, String title) {
         inventory = Bukkit.createInventory(null, row * 9, title);
-        MineCollector.getPlugin().getServer().getPluginManager().registerEvents(this, MineCollector.getPlugin());
+        MineCollector.getInstance().getServer().getPluginManager().registerEvents(this, MineCollector.getInstance());
     }
 
     public Inventory getInventory() { return inventory; }

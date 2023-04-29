@@ -18,7 +18,7 @@ public final class BookCommand extends CommandRoot {
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        ItemStack collectionBook = MineCollector.getPlugin().getItemManager().getItem(StaticItem.COLLECTION_BOOK);
+        ItemStack collectionBook = MineCollector.getInstance().getItemManager().getItem(StaticItem.COLLECTION_BOOK);
 
         if (player.getInventory().contains(collectionBook) || player.getInventory().getItemInOffHand().equals(collectionBook)) {
             MessageUtil.send(player, "이미 도감을 가지고 있군요! 인벤토리를 다시 찾아보실래요?");

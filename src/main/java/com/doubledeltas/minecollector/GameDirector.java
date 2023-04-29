@@ -14,13 +14,11 @@ import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementDisplayType;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Function;
 
 public class GameDirector {
     public static ChatColor[] LEVEL_UP_MSG_COLORS = new ChatColor[] {
@@ -73,7 +71,7 @@ public class GameDirector {
      * @return 수집 가능 여부
      */
     public static boolean isCollectable(ItemStack item) {
-        ItemManager itemManager = MineCollector.getPlugin().getItemManager();
+        ItemManager itemManager = MineCollector.getInstance().getItemManager();
 
         if (itemManager.getItem(StaticItem.COLLECTION_BOOK).equals(item))
             return true;
@@ -115,7 +113,7 @@ public class GameDirector {
                 itemNameComponent,
                 new TextComponent(" §a아이템을 처음 수집했습니다!")
         );
-        for (Player p: MineCollector.getPlugin().getServer().getOnlinePlayers())
+        for (Player p: MineCollector.getInstance().getServer().getOnlinePlayers())
            SoundUtil.playHighRing(p);
     }
 
@@ -156,11 +154,11 @@ public class GameDirector {
                 components[3]
         );
         if (level <= 8) {
-            for (Player p: MineCollector.getPlugin().getServer().getOnlinePlayers())
+            for (Player p: MineCollector.getInstance().getServer().getOnlinePlayers())
                 SoundUtil.playHighFirework(p);
         }
         else {
-            for (Player p: MineCollector.getPlugin().getServer().getOnlinePlayers())
+            for (Player p: MineCollector.getInstance().getServer().getOnlinePlayers())
                 SoundUtil.playLegend(p);
         }
     }

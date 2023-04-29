@@ -25,7 +25,7 @@ public class CollectionGui extends Gui {
         super(6, "§8[ §2마인§0콜렉터 §8]§0 - 도감");
         this.page = page;
 
-        ItemManager itemManager = MineCollector.getPlugin().getItemManager();
+        ItemManager itemManager = MineCollector.getInstance().getItemManager();
 
         for (int i=0; i <= 44; i++) {
             int idx = (page - 1) * 45 + i;

@@ -20,7 +20,7 @@ public class MessageUtil {
      * @param msg 메시지
      */
     public static void log(Level level, String msg) {
-        MineCollector.getPlugin().getLogger().log(level, msg);
+        MineCollector.getInstance().getLogger().log(level, msg);
     }
 
     /**
@@ -45,7 +45,7 @@ public class MessageUtil {
      * @param msg 메시지
      */
     public static void broadcast(String msg) {
-        MineCollector.getPlugin().getServer().broadcastMessage(MSG_PREFIX + msg);
+        MineCollector.getInstance().getServer().broadcastMessage(MSG_PREFIX + msg);
     }
 
     /**
@@ -70,6 +70,6 @@ public class MessageUtil {
         list.add(MSG_PREFIX_COMPONENT);
         list.addAll(Arrays.asList(components));
 
-        MineCollector.getPlugin().getServer().spigot().broadcast(list.toArray(new BaseComponent[0]));
+        MineCollector.getInstance().getServer().spigot().broadcast(list.toArray(new BaseComponent[0]));
     }
 }

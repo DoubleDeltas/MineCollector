@@ -24,7 +24,7 @@ public class DumpGui extends Gui {
     public DumpGui() {
         super(6, "§8[ §2마인§0콜렉터 §8]§0 - 수집");
 
-        ItemManager itemManager = MineCollector.getPlugin().getItemManager();
+        ItemManager itemManager = MineCollector.getInstance().getItemManager();
 
         for (int i=45; i<=53; i++)
             inventory.setItem(i, itemManager.getItem(GuiItem.BLACK));
@@ -67,7 +67,7 @@ public class DumpGui extends Gui {
     }
 
     private void setState(ProcessState to) {
-        ItemManager itemManager = MineCollector.getPlugin().getItemManager();
+        ItemManager itemManager = MineCollector.getInstance().getItemManager();
 
         this.state = to;
         inventory.setItem(INDEX_COLLECT, switch (to) {

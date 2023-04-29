@@ -15,7 +15,7 @@ import org.bukkit.inventory.PlayerInventory;
 public class OpenBookEventListener implements Listener {
     @EventHandler
     public void handleEvent(PlayerInteractEvent e) {
-        ItemStack collectionBook = MineCollector.getPlugin().getItemManager().getItem(StaticItem.COLLECTION_BOOK);
+        ItemStack collectionBook = MineCollector.getInstance().getItemManager().getItem(StaticItem.COLLECTION_BOOK);
         Player player = e.getPlayer();
         PlayerInventory playerInventory = player.getInventory();
 

@@ -18,7 +18,7 @@ public class SoundUtil {
     public static void playPageAll(Player player) {
         BukkitScheduler scheduler = Bukkit.getScheduler();
         for (int i=0; i<6; i++) {
-            scheduler.runTaskLater(MineCollector.getPlugin(), () -> {
+            scheduler.runTaskLater(MineCollector.getInstance(), () -> {
                 for (int j=0; j<2; j++)
                     player.playSound(player, Sound.ITEM_BOOK_PAGE_TURN, 1F, 2F);
             }, 2 + i);

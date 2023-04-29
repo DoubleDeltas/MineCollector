@@ -22,7 +22,7 @@ public abstract class CommandRoot extends CommandNode implements TabExecutor {
                 new RankingCommand()
         );
         for (CommandRoot root: roots) {
-            PluginCommand pluginCommand = MineCollector.getPlugin().getCommand(root.getName());
+            PluginCommand pluginCommand = MineCollector.getInstance().getCommand(root.getName());
             pluginCommand.setExecutor(root);
             pluginCommand.setTabCompleter(root);
         }
@@ -33,7 +33,7 @@ public abstract class CommandRoot extends CommandNode implements TabExecutor {
 
     @Override
     public final List<String> getAliases() {
-        return MineCollector.getPlugin().getCommand(this.getName()).getAliases();
+        return MineCollector.getInstance().getCommand(this.getName()).getAliases();
     }
 
     @Override

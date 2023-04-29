@@ -18,7 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 @Data
-public class Config {
+public class McolConfig {
     private boolean             enabled;
     private ScoringChapter      scoring;
     private AnnouncementChapter announcement;
@@ -27,27 +27,27 @@ public class Config {
 
 
     public static Constructor YAML_CONSTRUCTOR;
-    public static File CONFIG_PATH = new File(MineCollector.getPlugin().getDataFolder(), "config.yml");
+    public static File CONFIG_PATH = new File(MineCollector.getInstance().getDataFolder(), "config.yml");
 
     static {
         LoaderOptions loaderOptions = new LoaderOptions();
         loaderOptions.setEnumCaseSensitive(false);
-        YAML_CONSTRUCTOR = new Constructor(Config.class, loaderOptions);
+        YAML_CONSTRUCTOR = new Constructor(McolConfig.class, loaderOptions);
         YAML_CONSTRUCTOR.setPropertyUtils(new SpaceToCamelPropertyUtils());
     }
 
-    public static Config load() {
+    public static McolConfig load() {
         // 파일이 없으면 기본 콘피그 파일 생성
         if (!CONFIG_PATH.isFile()) {
-            MineCollector.getPlugin().getConfig().options().copyDefaults(true);
-            MineCollector.getPlugin().saveDefaultConfig();
+            MineCollector.getInstance().getConfig().options().copyDefaults(true);
+            MineCollector.getInstance().saveDefaultConfig();
             MessageUtil.log("기본 콘피그 파일 생성됨!");
         }
 
         Yaml yaml = new Yaml(YAML_CONSTRUCTOR);
         yaml.setBeanAccess(BeanAccess.FIELD);
         try {
-            Config config = yaml.load(new FileReader(CONFIG_PATH));
+            McolConfig config = yaml.load(new FileReader(CONFIG_PATH));
             MessageUtil.log("콘피그 불러옴!");
             return config;
         } catch (FileNotFoundException e) {

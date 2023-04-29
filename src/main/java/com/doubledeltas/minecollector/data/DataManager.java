@@ -14,7 +14,7 @@ import java.util.logging.Level;
  * @author DoubleDeltas
  */
 public class DataManager {
-    public static MineCollector PLUGIN = MineCollector.getPlugin();
+    public static MineCollector PLUGIN = MineCollector.getInstance();
     public static File DATA_PATH = new File(PLUGIN.getDataFolder(), "data");
 
     private static Map<UUID, GameData> playerData = new HashMap<>();
@@ -26,7 +26,7 @@ public class DataManager {
             }
 
             // 접속중인 플레이어의 데이터 파일이 없으면 만듦
-            for (Player player: MineCollector.getPlugin().getServer().getOnlinePlayers()) {
+            for (Player player: MineCollector.getInstance().getServer().getOnlinePlayers()) {
                 UUID uuid = player.getUniqueId();
                 File dataFile = new File(DATA_PATH, uuid + ".yml");
 
