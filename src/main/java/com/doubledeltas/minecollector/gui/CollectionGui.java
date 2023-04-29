@@ -36,7 +36,13 @@ public class CollectionGui extends Gui {
             GameData data = DataManager.getData(player);
             Material material = Material.values()[idx];
             if (data.getCollection(material) == 0) {
-                inventory.setItem(i, itemManager.getItem(GuiItem.UNKNOWN));
+                if (MineCollector.getInstance().getMcolConfig().getGame().isHideUnknownCollection())
+                    inventory.setItem(i, itemManager.getItem(GuiItem.UNKNOWN));
+                else
+                    inventory.setItem(i, new ItemBuilder(material)
+                            .lore("§c아직 수집되지 않았습니다")
+                            .build()
+                    );
                 continue;
             }
             if (material == Material.AIR) {
@@ -47,8 +53,7 @@ public class CollectionGui extends Gui {
             int quo = amount / 64;
             int rem = amount % 64;
             int lv = data.getLevel(material);
-            ItemBuilder builder;
-            builder = new ItemBuilder(material, lv)
+            ItemBuilder builder = new ItemBuilder(material, lv)
                     .lore( (quo > 0) ?
                             "§7수집된 개수: %d셋 %d개".formatted(quo, rem) :
                             "§7수집된 개수: %d개".formatted(rem)
