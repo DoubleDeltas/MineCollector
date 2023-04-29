@@ -53,15 +53,15 @@ announcement:
   # 아이템을 처음 수집할 때 나오는 공지
   # The announcement displayed when a player collects an item first time
   #
-  # 허용된 값(Allowed values): "all players", "self", "none"
-  collection: all players
+  # 허용된 값(Allowed values): "ALL_PLAYERS", "SELF", "NONE"
+  collection: ALL_PLAYERS
 
 
   # 아이템 컬렉션이 높은 단계에 도달했을 때 나오는 공지
   # The announcement displayed when a player's item collection reached high level
   #
-  # 허용된 값(Allowed values): "all players", "self", "none"
-  high level reached: all players
+  # 허용된 값(Allowed values): "ALL_PLAYERS", "SELF", "NONE"
+  high level reached: ALL_PLAYERS
 
   # 몇 단계부터 공지를 띄울 지 설정합니다.
   # 2 이상 정수여야 합니다.
@@ -73,8 +73,8 @@ announcement:
   # 발전과제를 달성했을 때 나오는 공지
   # The announcement displayed when a player achieves an advancement
   #
-  # 허용된 값(Allowed values): "all players", "self", "none"
-  advancement: self
+  # 허용된 값(Allowed values): "ALL_PLAYERS", "SELF", "NONE"
+  advancement: SELF
 
 
 # ========= GAME =========
