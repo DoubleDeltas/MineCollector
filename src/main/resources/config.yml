@@ -90,6 +90,6 @@ game:
 
 # ========= DB =========
 db:
-  # 분 단위, 정수여야 함 / in minutes, must be integer
+  # 분 단위, 양의 정수여야 함 / in minutes, must be positive integer
   autosave period: 10
   autosave logging: true
