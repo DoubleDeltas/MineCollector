@@ -60,7 +60,7 @@ public class ConfigManager {
         if (config.getScoring().getStackMultiple() < 2)
             throw new InvalidConfigException("scoring-stack multiple은 2 이상의 정수여야 합니다!");
 
-        if (config.getDb().getAutosavePeriod() < 0)
+        if (config.getDb().getAutosavePeriod() <= 0)
             throw new InvalidConfigException("db-autosave period는 양의 정수여야 합니다!");
     }
 }

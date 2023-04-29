@@ -27,8 +27,8 @@ public class ReloadConfigCommand extends CommandNode {
         }
         catch (InvalidConfigException e) {
             MessageUtil.send(sender, "§c콘피그 로딩에 실패했습니다!");
-            MessageUtil.send(sender, "§8 - " + e.getMessage());
-            MessageUtil.send(sender, "§8    (자세한 내용은 버킷 창을 참고해주세요.)");
+            MessageUtil.send(sender, "§7 - " + e.getMessage());
+            MessageUtil.send(sender, "§7    (자세한 내용은 버킷 창을 참고해주세요.)");
             e.printStackTrace();
             if (sender instanceof Player player)
                 SoundUtil.playHighRing(player);
