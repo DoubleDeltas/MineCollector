@@ -8,9 +8,10 @@ import java.util.List;
 
 public class EventManager {
     private static List<Listener> listeners = Arrays.asList(
-            new OpenBookEventListener(),
-            new OnLoginEventListener(),
-            new OnAdvancementDoneEventListener()
+            new PlayerInteractEventListener(),
+            new PlayerLoginEventListener(),
+            new PlayerAdvancementDontEventListener(),
+            new EntityDeathEventListener()
     );
 
     public static void loadEventHandlers() {

@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class OpenBookEventListener implements Listener {
+public class PlayerInteractEventListener implements Listener {
     @EventHandler
     public void handleEvent(PlayerInteractEvent e) {
         ItemStack collectionBook = MineCollector.getInstance().getItemManager().getItem(StaticItem.COLLECTION_BOOK);

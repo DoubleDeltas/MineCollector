@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
-public class OnLoginEventListener implements Listener {
+public class PlayerLoginEventListener implements Listener {
     @EventHandler
     public void handleEvent(PlayerLoginEvent e) {
         Player player = e.getPlayer();
