@@ -4,6 +4,7 @@ import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.config.ConfigManager;
 import com.doubledeltas.minecollector.config.InvalidConfigException;
 import com.doubledeltas.minecollector.config.McolConfig;
+import com.doubledeltas.minecollector.data.DataAutoSaver;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.event.EventManager;
 import com.doubledeltas.minecollector.item.ItemManager;
@@ -31,10 +32,11 @@ public final class MineCollector extends JavaPlugin {
         EventManager.loadEventHandlers();
         CommandRoot.loadCommands();
         try {
-            this.reloadMcolConfig();
+            this.config = ConfigManager.load();
         } catch (InvalidConfigException e) {
             e.printStackTrace();
         }
+        DataAutoSaver.start();
         MessageUtil.log(Level.INFO, "마인콜렉터 플러그인이 켜졌습니다!");
     }
 
@@ -50,5 +52,6 @@ public final class MineCollector extends JavaPlugin {
 
     public void reloadMcolConfig() throws InvalidConfigException {
         this.config = ConfigManager.load();
+        DataAutoSaver.restart();
     }
 }

@@ -103,7 +103,6 @@ public class DataManager {
                 return false;
             }
         }
-        MessageUtil.log("게임데이터 저장됨!");
         return true;
     }
 
