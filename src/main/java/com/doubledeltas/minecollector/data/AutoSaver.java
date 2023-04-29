@@ -14,6 +14,6 @@ public class AutoSaver {
 
         task = SCHEDULER.runTaskTimer(MineCollector.getInstance(), () -> {
 
-        }, 0, dbConfig.getAutosavePeriod())
+        }, 0, dbConfig.getAutosavePeriod());
     }
 }
