@@ -10,30 +10,14 @@ import java.util.function.Function;
 import java.util.logging.Level;
 
 /**
- * 데이터 관련 클래스
- * static class
+ * 데이터 매니저 클래스
  * @author DoubleDeltas
  */
 public class DataManager {
-    public static MineCollector PLUGIN = MineCollector.getPlugin();
-    public static File CONFIG_PATH = new File(PLUGIN.getDataFolder(), "config.yml");
+    public static MineCollector PLUGIN = MineCollector.getInstance();
     public static File DATA_PATH = new File(PLUGIN.getDataFolder(), "data");
 
     private static Map<UUID, GameData> playerData = new HashMap<>();
-
-    public static void setup() {
-//        DataManager.loadConfig();
-        DataManager.loadData();
-    }
-
-    public static void loadConfig() {
-        if (!CONFIG_PATH.isFile()) {
-            PLUGIN.getConfig().options().copyDefaults(true);
-            PLUGIN.saveDefaultConfig();
-        }
-        MineCollector.getPlugin().reloadConfig();
-        MessageUtil.log("콘피그 불러옴!");
-    }
 
     public static void loadData() {
         try {
@@ -42,7 +26,7 @@ public class DataManager {
             }
 
             // 접속중인 플레이어의 데이터 파일이 없으면 만듦
-            for (Player player: MineCollector.getPlugin().getServer().getOnlinePlayers()) {
+            for (Player player: MineCollector.getInstance().getServer().getOnlinePlayers()) {
                 UUID uuid = player.getUniqueId();
                 File dataFile = new File(DATA_PATH, uuid + ".yml");
 
@@ -50,7 +34,7 @@ public class DataManager {
                     DataManager.save(new GameData(player));
             }
 
-            // load all player data
+            // convert all player data
             for (File file : DATA_PATH.listFiles()) {
                 GameData data = GameData.loadFromYaml(new FileReader(file));
                 UUID uuid = data.getUuid();
@@ -119,7 +103,6 @@ public class DataManager {
                 return false;
             }
         }
-        MessageUtil.log("게임데이터 저장됨!");
         return true;
     }
 

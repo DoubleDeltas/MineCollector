@@ -11,6 +11,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 public final class GuideCommand extends CommandRoot {
     public static final String GUIDE_LINK = "https://github.com/DoubleDeltas/MineCollector/blob/main/README.md";
 

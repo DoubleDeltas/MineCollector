@@ -8,12 +8,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
-public class OnLoginEventListener implements Listener {
+public class PlayerLoginEventListener implements Listener {
     @EventHandler
     public void handleEvent(PlayerLoginEvent e) {
         Player player = e.getPlayer();
         if (!DataManager.hasData(player)) {
-            player.getInventory().addItem(MineCollector.getPlugin().getItemManager().getItem(StaticItem.COLLECTION_BOOK));
+            player.getInventory().addItem(MineCollector.getInstance().getItemManager().getItem(StaticItem.COLLECTION_BOOK));
             DataManager.addNewPlayerData(player);
         }
 

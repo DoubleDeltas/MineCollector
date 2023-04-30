@@ -1,11 +1,15 @@
 package com.doubledeltas.minecollector.data;
 
+import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
+import com.doubledeltas.minecollector.util.CollectionLevelUtil;
 import org.bukkit.Material;
 import org.bukkit.advancement.AdvancementDisplayType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.error.YAMLException;
 
 import java.io.Reader;
 import java.io.Writer;
@@ -87,7 +91,9 @@ public class GameData {
      * @param reader 데이터를 불러올 {@code Reader}
      * @return 불러온 {@link GameData} 객체
      */
-    public static GameData loadFromYaml(Reader reader) {
+    public static GameData loadFromYaml(Reader reader)
+        throws YAMLException
+    {
         Yaml yaml = new Yaml();
         return new GameData(yaml.loadAs(reader, Map.class));
     }
@@ -161,15 +167,11 @@ public class GameData {
      * @return 컬렉션 단계
      */
     public int getLevel(String itemId) {
+        int multiple = MineCollector.getInstance().getMcolConfig().getScoring().getStackMultiple();
+
         if (!collection.containsKey(itemId))
             return 0;
-        int amount = collection.get(itemId);
-        int level = 0;
-        while (amount > 0) {
-            amount /= 4;
-            level++;
-        }
-        return level;
+        return CollectionLevelUtil.getLevel(collection.get(itemId));
     }
 
     /**

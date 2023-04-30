@@ -16,7 +16,7 @@ public class HubGui extends Gui {
     public HubGui() {
         super(6, "§8[ §2마인§0콜렉터 §8]§0");
 
-        ItemManager itemManager = MineCollector.getPlugin().getItemManager();
+        ItemManager itemManager = MineCollector.getInstance().getItemManager();
 
         for (int i=0; i<=44; i++)
             inventory.setItem(i, itemManager.getItem(GuiItem.GRAY));

@@ -8,14 +8,15 @@ import java.util.List;
 
 public class EventManager {
     private static List<Listener> listeners = Arrays.asList(
-            new OpenBookEventListener(),
-            new OnLoginEventListener(),
-            new OnAdvancementDoneEventListener()
+            new PlayerInteractEventListener(),
+            new PlayerLoginEventListener(),
+            new PlayerAdvancementDontEventListener(),
+            new EntityDeathEventListener()
     );
 
     public static void loadEventHandlers() {
         for (Listener listener: listeners) {
-            MineCollector.getPlugin().getServer().getPluginManager().registerEvents(listener, MineCollector.getPlugin());
+            MineCollector.getInstance().getServer().getPluginManager().registerEvents(listener, MineCollector.getInstance());
         }
     }
 
