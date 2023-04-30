@@ -13,7 +13,7 @@ import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;
@@ -107,8 +107,8 @@ public class GameDirector {
 
         GameStatistics stats = new GameStatistics(data);
         MessageUtil.send(announcementConfig.getAdvancement(), player,
-                "§f발전과제 점수 §b§l%s§f점을 얻었습니다. (현재 §e%s§f점)"
-                        .formatted(scoringConfig.getAdvancementScores().get(type), stats.getTotalScore())
+                "§e%s§f님이 발전과제 점수 §b§l%s§f점을 얻었습니다. (현재 §e%s§f점)"
+                        .formatted(player.getName(), scoringConfig.getAdvancementScores().get(type), stats.getTotalScore())
         );
         for (Player p: announcementConfig.getAdvancement().resolve(player))
             SoundUtil.playFirework(p);
@@ -122,14 +122,13 @@ public class GameDirector {
     private static void noticeFirstCollection(Player target, Material material) {
         AnnouncementChapter announcementConfig = MineCollector.getInstance().getMcolConfig().getAnnouncement();
 
-        BaseComponent itemNameComponent = new TranslatableComponent(material.getItemTranslationKey());
-        itemNameComponent.setColor(ChatColor.YELLOW);
-
-        MessageUtil.sendRaw(announcementConfig.getCollection(), target, List.of(
-                new TextComponent("§e%s§a님이 ".formatted(target.getName())),
-                itemNameComponent,
-                new TextComponent(" §a아이템을 처음 수집했습니다!")
-        ));
+        MessageUtil.sendRaw(announcementConfig.getCollection(), target, new ComponentBuilder()
+                        .append(target.getName()).color(ChatColor.YELLOW)
+                        .append("님이 ").color(ChatColor.GREEN)
+                        .append(new TranslatableComponent(material.getItemTranslationKey())).color(ChatColor.YELLOW)
+                        .append(" 아이템을 처음 수집했습니다!").color(ChatColor.GREEN)
+                        .create()
+        );
         for (Player p: announcementConfig.getCollection().resolve(target))
            SoundUtil.playHighRing(p);
     }
@@ -147,9 +146,12 @@ public class GameDirector {
         if (level < announcementConfig.getHighLevelMinimum()) return;
 
         ChatColor color = LEVEL_UP_MSG_COLORS[Math.min(level, LEVEL_UP_MSG_COLORS.length - 1)];
+        boolean isBold = (level >= 10);
+
         int amount = CollectionLevelUtil.getMinimumAmount(level);
         int quo = amount / 64;
         int rem = amount % 64;
+
         String amountDisplay;
         if (quo > 0 && rem > 0)
             amountDisplay = "%d셋 %d개".formatted(quo, rem);
@@ -158,30 +160,19 @@ public class GameDirector {
         else
             amountDisplay = "%d개".formatted(rem);
 
-        BaseComponent[] components = new BaseComponent[4];
-        components[0] = new TextComponent("님의 ");
-        components[1] = new TextComponent(" 컬렉션이 ");
-        components[2] = new TextComponent(level + "단계");
-        components[3] = new TextComponent("에 도달했습니다! (%s)".formatted(amountDisplay));
-
-        components[2].setBold(true);
-        for (BaseComponent component: components) {
-            component.setColor(color);
-            if (level >= 10)
-                component.setBold(true);
-        }
 
         BaseComponent itemNameComponent = new TranslatableComponent(material.getItemTranslationKey());
         itemNameComponent.setColor(ChatColor.YELLOW);
 
-        MessageUtil.sendRaw(announcementConfig.getHighLevelReached(), target, List.of(
-                new TextComponent("§e%s".formatted(target.getName())),
-                components[0],
-                itemNameComponent,
-                components[1],
-                components[2],
-                components[3]
-        ));
+        MessageUtil.sendRaw(announcementConfig.getHighLevelReached(), target, new ComponentBuilder()
+                .append(target.getName()).color(ChatColor.YELLOW)
+                .append("님의 ").color(color).bold(isBold)
+                .append(new TranslatableComponent(material.getItemTranslationKey())).color(ChatColor.YELLOW).bold(isBold)
+                .append(" 컬렉션이 ").color(color).bold(isBold)
+                .append(level + "단계").color(color).bold(true)
+                .append("에 도달했습니다! (" + amountDisplay + ")").color(color).bold(isBold)
+                .create()
+        );
         if (level <= 8) {
             for (Player p: announcementConfig.getHighLevelReached().resolve(target))
                 SoundUtil.playHighFirework(p);
