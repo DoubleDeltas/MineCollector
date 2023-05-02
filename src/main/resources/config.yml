@@ -77,7 +77,7 @@ announcement:
 # ========= GAME =========
 game:
 
-  # 아직 플레이어가 수집하지 않은 아이템을 도감에서 볼 수 있는지 설정합니다.
+  # 아직 플레이어가 수집하지 않은 아이템을 도감에서 숨길지 설정합니다.
   # set "true" to hide items that the player had not yet collected in collection
   hide unknown collection: true
 
