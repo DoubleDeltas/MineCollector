@@ -2,7 +2,10 @@ package com.doubledeltas.minecollector.item;
 
 import com.doubledeltas.minecollector.item.itemCode.ItemCode;
 import com.doubledeltas.minecollector.item.manager.EmbeddedItemManager;
+import org.bukkit.Material;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockDataMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
@@ -72,6 +75,15 @@ public abstract class ItemManager {
                         .collect(Collectors.toList());
                 meta.setLore(newLore);
             }
+
+            if (key.equals("missionCleared")) {
+                // set light block level
+                BlockDataMeta blockDataMeta = (BlockDataMeta) meta;
+                Levelled levelled = (Levelled) blockDataMeta.getBlockData(Material.LIGHT);
+                levelled.setLevel(Integer.parseInt(value));
+                blockDataMeta.setBlockData(levelled);
+            }
+
         }
 
         item.setItemMeta(meta);

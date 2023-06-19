@@ -29,6 +29,7 @@ public class InlineItemManager extends ItemManager {
                 case NEXT -> getGuiNext();
                 case BACK -> getGuiBack();
                 case COLLECTION -> getGuiCollection();
+                case MISSION -> getGuiMission();
                 case DUMP -> getGuiDump();
                 case RANKING -> getGuiRanking();
                 case UNKNOWN -> getGuiUnknown();
@@ -130,6 +131,17 @@ public class InlineItemManager extends ItemManager {
         return new ItemBuilder(Material.KNOWLEDGE_BOOK)
                 .displayName("§a§l[ §f도감 §a§l]")
                 .lore("§7수집한 아이템의 목록을 볼 수 있습니다.")
+                .build();
+    }
+
+    private ItemStack getGuiMission() {
+        return new ItemBuilder(Material.LIGHT)
+                .displayName("§6§l[ §f미션 §6§l]")
+                .lore(
+                        "§7수집가의 미션을 볼 수 있습니다.",
+                        "",
+                        "§f달성한 미션: [missionCleared] / [missionMax]"
+                )
                 .build();
     }
 

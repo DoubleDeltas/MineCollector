@@ -9,6 +9,7 @@ public enum GuiItem implements ItemCode {
     NEXT("next"),
     BACK("back"),
     COLLECTION("collection"),
+    MISSION("mission"),
     DUMP("dump"),
     RANKING("ranking"),
     UNKNOWN("unknown"),

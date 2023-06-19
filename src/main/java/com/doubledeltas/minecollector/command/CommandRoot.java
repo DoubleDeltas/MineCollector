@@ -19,7 +19,8 @@ public abstract class CommandRoot extends CommandNode implements TabExecutor {
                 new CollectCommand(),
                 new GuideCommand(),
                 new McolCommand(),
-                new RankingCommand()
+                new RankingCommand(),
+                new TestCommand()
         );
         for (CommandRoot root: roots) {
             PluginCommand pluginCommand = MineCollector.getInstance().getCommand(root.getName());
