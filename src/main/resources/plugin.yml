@@ -29,3 +29,4 @@ commands:
     aliases: [rkdlem, guide, 도움, ehdna, help, 도움말]
     description: 마인콜렉터 가이드를 봅니다.
 #    permission: minecollector.guide
+depend: [Locale-API]
