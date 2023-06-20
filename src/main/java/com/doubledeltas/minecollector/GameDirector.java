@@ -14,6 +14,7 @@ import com.doubledeltas.minecollector.util.SoundUtil;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;
@@ -114,6 +115,15 @@ public class GameDirector {
             SoundUtil.playFirework(p);
     }
 
+    private static BaseComponent getItemNameComponent(Material material) {
+        try {
+            return new TranslatableComponent(material.getItemTranslationKey());
+        }
+        catch (NoSuchMethodError e) {
+            return new TextComponent(material.name());
+        }
+    }
+
     /**
      * 첫 수집 공지를 띄웁니다.
      * @param target 수집한 플레이어
@@ -125,7 +135,7 @@ public class GameDirector {
         MessageUtil.sendRaw(announcementConfig.getCollection(), target, new ComponentBuilder()
                         .append(target.getName()).color(ChatColor.YELLOW)
                         .append("님이 ").color(ChatColor.GREEN)
-                        .append(new TranslatableComponent(material.getItemTranslationKey())).color(ChatColor.YELLOW)
+                        .append(GameDirector.getItemNameComponent(material)).color(ChatColor.YELLOW)
                         .append(" 아이템을 처음 수집했습니다!").color(ChatColor.GREEN)
                         .create()
         );
