@@ -34,22 +34,24 @@ public class HubGui extends Gui {
     public void onClick(Player player, InventoryClickEvent e) {
         e.setCancelled(true);
 
-        if (e.getRawSlot() == INDEX_COLLECTION) {
-            new CollectionGui(player, 1).openGui(player);
-            SoundUtil.playPage(player);
-        }
-        else if (e.getRawSlot() == INDEX_DUMP) {
-            new DumpGui().openGui(player);
-            SoundUtil.playPage(player);
-        }
-        else if (e.getRawSlot() == INDEX_RANKING) {
-            player.closeInventory();
-            player.performCommand("랭킹");
-            SoundUtil.playPage(player);
-        }
-        else if (e.getRawSlot() == INDEX_BACK) {
-            player.closeInventory();
-            SoundUtil.playPage(player);
+        switch (e.getRawSlot()) {
+            case INDEX_COLLECTION -> {
+                new CollectionGui(player, 1).openGui(player);
+                SoundUtil.playPage(player);
+            }
+            case INDEX_DUMP -> {
+                new DumpGui().openGui(player);
+                SoundUtil.playPage(player);
+            }
+            case INDEX_RANKING -> {
+                player.closeInventory();
+                player.performCommand("랭킹");
+                SoundUtil.playPage(player);
+            }
+            case INDEX_BACK -> {
+                player.closeInventory();
+                SoundUtil.playPage(player);
+            }
         }
     }
 }
