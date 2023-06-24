@@ -18,6 +18,7 @@ public class InlineItemManager extends ItemManager {
         if (itemCode instanceof StaticItem staticItem)
             return switch (staticItem) {
                 case COLLECTION_BOOK -> getCollectBook();
+                case OMINOUS_BANNER -> getOminousBanner();
             };
         else if (itemCode instanceof GuiItem guiItem)
             return switch (guiItem) {
@@ -50,6 +51,19 @@ public class InlineItemManager extends ItemManager {
                         "§7수집한 아이템을 보거나",
                         "§7대량의 아이템을 수집할 수 있습니다."
                 )
+                .build();
+    }
+
+    private ItemStack getOminousBanner() {
+        return new ItemBuilder(Material.WHITE_BANNER)
+                .addBannerPattern(DyeColor.CYAN, PatternType.RHOMBUS_MIDDLE)
+                .addBannerPattern(DyeColor.LIGHT_GRAY, PatternType.STRIPE_BOTTOM)
+                .addBannerPattern(DyeColor.GRAY, PatternType.STRIPE_CENTER)
+                .addBannerPattern(DyeColor.LIGHT_GRAY, PatternType.BORDER)
+                .addBannerPattern(DyeColor.BLACK, PatternType.STRIPE_MIDDLE)
+                .addBannerPattern(DyeColor.LIGHT_GRAY, PatternType.HALF_HORIZONTAL)
+                .addBannerPattern(DyeColor.LIGHT_GRAY, PatternType.CIRCLE_MIDDLE)
+                .addBannerPattern(DyeColor.BLACK, PatternType.BORDER)
                 .build();
     }
 

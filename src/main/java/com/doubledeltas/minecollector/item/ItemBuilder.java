@@ -63,6 +63,11 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder enchant(Enchantment enchantment, int level) {
+        item.addEnchantment(enchantment, level);
+        return this;
+    }
+
     public ItemStack build() {
         item.setItemMeta(meta);
         return item;
