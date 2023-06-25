@@ -56,6 +56,7 @@ public class InlineItemManager extends ItemManager {
 
     private ItemStack getOminousBanner() {
         return new ItemBuilder(Material.WHITE_BANNER)
+                .displayName("§6§o불길한 현수막")
                 .addBannerPattern(DyeColor.CYAN, PatternType.RHOMBUS_MIDDLE)
                 .addBannerPattern(DyeColor.LIGHT_GRAY, PatternType.STRIPE_BOTTOM)
                 .addBannerPattern(DyeColor.GRAY, PatternType.STRIPE_CENTER)
@@ -64,6 +65,7 @@ public class InlineItemManager extends ItemManager {
                 .addBannerPattern(DyeColor.LIGHT_GRAY, PatternType.HALF_HORIZONTAL)
                 .addBannerPattern(DyeColor.LIGHT_GRAY, PatternType.CIRCLE_MIDDLE)
                 .addBannerPattern(DyeColor.BLACK, PatternType.BORDER)
+                .itemFlags(ItemFlag.HIDE_POTION_EFFECTS)    // hide banner info
                 .build();
     }
 

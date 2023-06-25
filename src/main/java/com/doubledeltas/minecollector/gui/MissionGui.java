@@ -3,6 +3,8 @@ package com.doubledeltas.minecollector.gui;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.GuiItem;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class MissionGui extends Gui {
     private static final int INDEX_BACK = 52;
@@ -15,5 +17,10 @@ public class MissionGui extends Gui {
         for (int i=45; i<=53; i++)
             inventory.setItem(i, itemManager.getItem(GuiItem.BLACK));
         inventory.setItem(INDEX_BACK, itemManager.getItem(GuiItem.BACK));
+    }
+
+    @Override
+    public void onClick(Player player, InventoryClickEvent e) {
+        e.setCancelled(true);
     }
 }

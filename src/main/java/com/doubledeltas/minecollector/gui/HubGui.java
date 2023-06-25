@@ -39,6 +39,10 @@ public class HubGui extends Gui {
                 new CollectionGui(player, 1).openGui(player);
                 SoundUtil.playPage(player);
             }
+            case INDEX_MISSION -> {
+                new MissionGui().openGui(player);
+                SoundUtil.playPage(player);
+            }
             case INDEX_DUMP -> {
                 new DumpGui().openGui(player);
                 SoundUtil.playPage(player);
