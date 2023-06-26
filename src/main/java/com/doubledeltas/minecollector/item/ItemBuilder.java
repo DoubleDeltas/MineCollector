@@ -1,24 +1,20 @@
 package com.doubledeltas.minecollector.item;
 
-import org.bukkit.Bukkit;
+import lombok.AllArgsConstructor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Levelled;
-import org.bukkit.block.data.Lightable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BannerMeta;
-import org.bukkit.inventory.meta.BlockDataMeta;
-import org.bukkit.inventory.meta.BlockStateMeta;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.*;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.List;
 
+@AllArgsConstructor
 public class ItemBuilder {
     private final ItemStack item;
     private final ItemMeta meta;
@@ -27,6 +23,7 @@ public class ItemBuilder {
         item = new ItemStack(material, amount);
         meta = item.getItemMeta();
     }
+
     public ItemBuilder(Material material) {
         this(material, 1);
     }
@@ -53,8 +50,11 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addBannerPattern(DyeColor color, PatternType pattern) {
-        BannerMeta bannerMeta = (BannerMeta) meta;
-        bannerMeta.addPattern(new Pattern(color, pattern));
+        try {
+            BannerMeta bannerMeta = (BannerMeta) meta;
+            bannerMeta.addPattern(new Pattern(color, pattern));
+        }
+        catch (ClassCastException ex) {}
         return this;
     }
 
@@ -65,6 +65,24 @@ public class ItemBuilder {
 
     public ItemBuilder enchant(Enchantment enchantment, int level) {
         item.addEnchantment(enchantment, level);
+        return this;
+    }
+
+    public ItemBuilder storeEnchantment(Enchantment enchantment, int level) {
+        try {
+            EnchantmentStorageMeta eMeta = (EnchantmentStorageMeta) meta;
+            eMeta.addStoredEnchant(enchantment, level, true);
+        }
+        catch (ClassCastException ex) {}
+        return this;
+    }
+
+    public ItemBuilder potionData(PotionData potionData) {
+        try {
+            PotionMeta potionMeta = (PotionMeta) meta;
+            potionMeta.setBasePotionData(potionData);
+        }
+        catch (ClassCastException ex) {}
         return this;
     }
 

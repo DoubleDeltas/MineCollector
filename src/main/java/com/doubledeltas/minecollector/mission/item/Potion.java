@@ -1,12 +1,13 @@
-package com.doubledeltas.minecollector.data.mission.items;
+package com.doubledeltas.minecollector.mission.item;
 
-import com.doubledeltas.minecollector.data.mission.PotionLike;
+import com.doubledeltas.minecollector.mission.PotionLike;
 import lombok.Getter;
+import org.bukkit.Material;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
 @Getter
-public enum SplashPotion implements PotionLike {
+public enum Potion implements PotionLike {
     WATER(new PotionData(PotionType.WATER, false, false)),
     MUNDANE(new PotionData(PotionType.MUNDANE, false, false)),
     THICK(new PotionData(PotionType.THICK, false, false)),
@@ -20,7 +21,6 @@ public enum SplashPotion implements PotionLike {
     JUMP_STRONG(new PotionData(PotionType.JUMP, false, true)),
     FIRE_RESISTANCE(new PotionData(PotionType.FIRE_RESISTANCE, false, false)),
     FIRE_RESISTANCE_LONG(new PotionData(PotionType.FIRE_RESISTANCE, true, false)),
-    FIRE_RESISTANCE_STRONG(new PotionData(PotionType.FIRE_RESISTANCE, false, true)),
     SPEED(new PotionData(PotionType.SPEED, false, false)),
     SPEED_LONG(new PotionData(PotionType.SPEED, true, false)),
     SPEED_STRONG(new PotionData(PotionType.SPEED, false, true)),
@@ -44,23 +44,19 @@ public enum SplashPotion implements PotionLike {
     STRENGTH_STRONG(new PotionData(PotionType.STRENGTH, false, true)),
     WEAKNESS(new PotionData(PotionType.WEAKNESS, false, false)),
     WEAKNESS_LONG(new PotionData(PotionType.WEAKNESS, true, false)),
-    WEAKNESS_STRONG(new PotionData(PotionType.WEAKNESS, false, true)),
     LUCK(new PotionData(PotionType.LUCK, false, false)),
-    LUCK_LONG(new PotionData(PotionType.LUCK, true, false)),
-    LUCK_STRONG(new PotionData(PotionType.LUCK, false, true)),
     TURTLE_MASTER(new PotionData(PotionType.TURTLE_MASTER, false, false)),
     TURTLE_MASTER_LONG(new PotionData(PotionType.TURTLE_MASTER, true, false)),
     TURTLE_MASTER_STRONG(new PotionData(PotionType.TURTLE_MASTER, false, true)),
     SLOW_FALLING(new PotionData(PotionType.SLOW_FALLING, false, false)),
     SLOW_FALLING_LONG(new PotionData(PotionType.SLOW_FALLING, true, false)),
-    SLOW_FALLING_STRONG(new PotionData(PotionType.SLOW_FALLING, false, true)),
     ;
 
-    Type type;
+    Material material;
     PotionData potionData;
 
-    SplashPotion(PotionData potionData) {
-        this.type = Type.SPLASH;
+    Potion(PotionData potionData) {
+        this.material = Material.POTION;
         this.potionData = potionData;
     }
 }

@@ -1,4 +1,4 @@
-package com.doubledeltas.minecollector.data.mission;
+package com.doubledeltas.minecollector.mission;
 
 import org.bukkit.inventory.ItemStack;
 

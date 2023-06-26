@@ -1,7 +1,7 @@
-package com.doubledeltas.minecollector.data.mission.items;
+package com.doubledeltas.minecollector.mission.item;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.data.mission.MissionItem;
+import com.doubledeltas.minecollector.mission.MissionItem;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
 import lombok.AllArgsConstructor;
 import org.bukkit.block.banner.Pattern;

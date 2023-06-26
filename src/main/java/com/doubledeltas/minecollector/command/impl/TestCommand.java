@@ -14,8 +14,7 @@ public class TestCommand extends CommandRoot {
         if (!(sender instanceof Player player))
             return false;
 
-//        player.sendMessage(player.getInventory().getItemInMainHand().getItemMeta().getAsString());
-        player.getInventory().addItem(MineCollector.getInstance().getItemManager().getItem(StaticItem.OMINOUS_BANNER));
+        player.sendMessage(player.getInventory().getItemInMainHand().getItemMeta().getAsString());
         return true;
     }
 

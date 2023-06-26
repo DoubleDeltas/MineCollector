@@ -1,6 +1,6 @@
-package com.doubledeltas.minecollector.data.mission.items;
+package com.doubledeltas.minecollector.mission.item;
 
-import com.doubledeltas.minecollector.data.mission.MissionItem;
+import com.doubledeltas.minecollector.mission.MissionItem;
 import com.doubledeltas.minecollector.item.ItemBuilder;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
@@ -55,7 +55,7 @@ public enum EnchantedBook implements MissionItem {
     @Override
     public ItemStack getIcon() {
         return new ItemBuilder(Material.ENCHANTED_BOOK)
-                .enchant(enchantment, enchantment.getMaxLevel())
+                .storeEnchantment(enchantment, enchantment.getMaxLevel())
                 .build();
     }
 
