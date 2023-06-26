@@ -35,7 +35,7 @@ public class PlayerInteractEventListener implements Listener {
             return;
         }
 
-        new HubGui().openGui(player);
+        new HubGui(player).openGui(player);
         SoundUtil.playPageAll(player);
     }
 }

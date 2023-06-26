@@ -88,7 +88,7 @@ public class CollectionGui extends Gui {
             SoundUtil.playPage(player);
         }
         else if (e.getRawSlot() == INDEX_BACK) {
-            new HubGui().openGui(player);
+            new HubGui(player).openGui(player);
             SoundUtil.playPage(player);
         }
     }

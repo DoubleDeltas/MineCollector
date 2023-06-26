@@ -37,7 +37,7 @@ public class MissionGui extends Gui {
             SoundUtil.playPage(player);
         }
         else if (slot == INDEX_BACK) {
-            new HubGui().openGui(player);
+            new HubGui(player).openGui(player);
             SoundUtil.playPage(player);
         }
     }
