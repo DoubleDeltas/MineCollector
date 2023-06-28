@@ -25,7 +25,7 @@ public class GameStatistics {
         ScoringChapter scoringConfig = MineCollector.getInstance().getMcolConfig().getScoring();
         Map<AdvancementDisplayType, Float> advancementScores = scoringConfig.getAdvancementScores();
 
-        Map<String, Integer> collectionMap = data.getCollectionMap();
+        Map<String, Integer> collectionMap = data.getCollection();
 
         this.totalScore = 0.0F;
 

@@ -2,7 +2,10 @@ package com.doubledeltas.minecollector.data;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
+import com.doubledeltas.minecollector.mission.Mission;
+import com.doubledeltas.minecollector.mission.MissionItem;
 import com.doubledeltas.minecollector.util.CollectionLevelUtil;
+import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.advancement.AdvancementDisplayType;
 import org.bukkit.entity.Player;
@@ -13,10 +16,10 @@ import org.yaml.snakeyaml.error.YAMLException;
 
 import java.io.Reader;
 import java.io.Writer;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
+@Getter
 public class GameData {
     private static final DumperOptions DUMPER_OPTIONS = new DumperOptions();
 
@@ -24,6 +27,7 @@ public class GameData {
     private UUID uuid;
     private Map<String, Integer> collection;
     private Map<AdvancementDisplayType, Integer> advCleared;
+    private Map<Mission, Set<MissionItem>> missionProgress;
 
     static {
         DUMPER_OPTIONS.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
@@ -37,9 +41,10 @@ public class GameData {
         this.uuid = player.getUniqueId();
         this.collection = new LinkedHashMap<>();
         this.advCleared = new LinkedHashMap<>();
-        advCleared.put(AdvancementDisplayType.TASK, 0);
-        advCleared.put(AdvancementDisplayType.GOAL, 0);
-        advCleared.put(AdvancementDisplayType.CHALLENGE, 0);
+        for (AdvancementDisplayType type: AdvancementDisplayType.values()) {
+            this.advCleared.put(type, 0);
+        }
+        this.missionProgress = new LinkedHashMap<>();
     }
 
     /**
@@ -53,9 +58,20 @@ public class GameData {
         this.collection = (Map<String, Integer>) map.get("collection");
         this.advCleared = new LinkedHashMap<>();
         Map<String, Integer> advClearedStringKeyed = (Map<String, Integer>) map.get("advancement_cleared");
-        advCleared.put(AdvancementDisplayType.TASK, advClearedStringKeyed.get("task"));
-        advCleared.put(AdvancementDisplayType.GOAL, advClearedStringKeyed.get("goal"));
-        advCleared.put(AdvancementDisplayType.CHALLENGE, advClearedStringKeyed.get("challenge"));
+        for (AdvancementDisplayType type: AdvancementDisplayType.values()) {
+            this.advCleared.put(type, advClearedStringKeyed.get(type.name()));
+        }
+        this.missionProgress = new LinkedHashMap<>();
+        Map<String, List<String>> missionProgressStringified = (Map<String, List<String>>) map.get("mission");
+        for (Mission mission: Mission.values()) {
+            this.missionProgress.put(mission, new LinkedHashSet<>());
+            this.missionProgress.get(mission).addAll(
+                    missionProgressStringified.get(mission.name())
+                            .stream().map(missionName -> Mission.valueOf(missionName))
+                            .collect(Collectors.toList())
+            );
+        }
+
     }
 
     /**
@@ -98,27 +114,7 @@ public class GameData {
         return new GameData(yaml.loadAs(reader, Map.class));
     }
 
-    /**
-     * 데이터 주인의 이름(닉네임)을 가져옵니다.
-     * @return 이름
-     */
-    public String getName() { return name; }
-
-    /**
-     * 데이터 주인의 {@link UUID}를 가져옵니다.
-     * @return {@link UUID} 객체
-     */
-    public UUID getUuid() { return uuid; }
-
     public void setName(String name) { this.name = name; }
-
-    /**
-     * 도감 Map을 가져옵니다. 수집 개수를 가져올 떄는 {@link GameData#getCollection(Material)}를 이용하세요.
-     * @return 도감 Map
-     */
-    public Map<String, Integer> getCollectionMap() {
-        return this.collection;
-    }
 
     /**
      * 도감의 수집 개수를 가져옵니다.
