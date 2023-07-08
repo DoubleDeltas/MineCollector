@@ -38,4 +38,9 @@ public enum Banner implements MissionItem {
 
         return Objects.equals(thisPatterns, otherPatterns);
     }
+
+    @Override
+    public MissionItem getByName(String name) {
+        return Banner.valueOf(name);
+    }
 }

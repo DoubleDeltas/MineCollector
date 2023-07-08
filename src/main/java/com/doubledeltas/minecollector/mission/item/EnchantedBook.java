@@ -69,4 +69,9 @@ public enum EnchantedBook implements MissionItem {
 
         return item.getEnchantmentLevel(this.enchantment) == this.enchantment.getMaxLevel();
     }
+
+    @Override
+    public MissionItem getByName(String name) {
+        return EnchantedBook.valueOf(name);
+    }
 }

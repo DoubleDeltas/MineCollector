@@ -44,4 +44,9 @@ public enum SuspiciousStew implements MissionItem {
 
         return Objects.equals(effect, this.effect);
     }
+
+    @Override
+    public MissionItem getByName(String name) {
+        return SuspiciousStew.valueOf(name);
+    }
 }

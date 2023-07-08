@@ -45,10 +45,13 @@ public class GameData {
             this.advCleared.put(type, 0);
         }
         this.missionProgress = new LinkedHashMap<>();
+        for (Mission mission: Mission.values()) {
+            this.missionProgress.put(mission, new HashSet<>());
+        }
     }
 
     /**
-     * {@code Map}객체로부터 데이터를 불러옵니다.
+     * {@code Map}객체로부터 데이터를 불러옵니다. 이 생성자는 version backward compatibility를 보장해야 합니다.
      * @param map 불러올 {@code Map} 객체
      * @see GameData#toMap()
      */
@@ -59,19 +62,23 @@ public class GameData {
         this.advCleared = new LinkedHashMap<>();
         Map<String, Integer> advClearedStringKeyed = (Map<String, Integer>) map.get("advancement_cleared");
         for (AdvancementDisplayType type: AdvancementDisplayType.values()) {
-            this.advCleared.put(type, advClearedStringKeyed.get(type.name()));
+            this.advCleared.put(type, advClearedStringKeyed.get(type.name().toLowerCase(Locale.ROOT)));
         }
+        // below 1.1.x
         this.missionProgress = new LinkedHashMap<>();
         Map<String, List<String>> missionProgressStringified = (Map<String, List<String>>) map.get("mission");
         for (Mission mission: Mission.values()) {
             this.missionProgress.put(mission, new LinkedHashSet<>());
-            this.missionProgress.get(mission).addAll(
-                    missionProgressStringified.get(mission.name())
-                            .stream().map(missionName -> Mission.valueOf(missionName))
-                            .collect(Collectors.toList())
-            );
         }
-
+        if (missionProgressStringified != null) {
+            for (String missionName: missionProgressStringified.keySet()) {
+                Mission mission = Mission.valueOf(missionName);
+                for (String itemName: missionProgressStringified.get(missionName)) {
+                    MissionItem item = mission.getItemByName(name).get();
+                    this.missionProgress.get(mission).add(item);
+                }
+            }
+        }
     }
 
     /**
@@ -85,11 +92,21 @@ public class GameData {
         map.put("collection", collection);
 
         Map<String, Object> advClearedStringKeyed = new LinkedHashMap<>();
-        advClearedStringKeyed.put("task", advCleared.get(AdvancementDisplayType.TASK));
-        advClearedStringKeyed.put("goal", advCleared.get(AdvancementDisplayType.GOAL));
-        advClearedStringKeyed.put("challenge", advCleared.get(AdvancementDisplayType.CHALLENGE));
-
+        for (AdvancementDisplayType type: AdvancementDisplayType.values()) {
+            advClearedStringKeyed.put(type.name().toLowerCase(Locale.ROOT), advCleared.get(type));
+        }
         map.put("advancement_cleared", advClearedStringKeyed);
+
+        Map<String, Object> missionProgressStringified = new LinkedHashMap<>();
+        for (Mission mission: Mission.values()) {
+            List<String> itemNames = new ArrayList<>();
+            missionProgressStringified.put(mission.name(), itemNames);
+            for (MissionItem item: missionProgress.get(mission)) {
+                itemNames.add(item.name());
+            }
+        }
+        map.put("mission", missionProgressStringified);
+
         return map;
     }
 

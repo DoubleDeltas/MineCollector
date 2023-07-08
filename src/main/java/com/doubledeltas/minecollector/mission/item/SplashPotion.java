@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.mission.item;
 
+import com.doubledeltas.minecollector.mission.MissionItem;
 import com.doubledeltas.minecollector.mission.PotionLike;
 import lombok.Getter;
 import org.bukkit.Material;
@@ -58,5 +59,10 @@ public enum SplashPotion implements PotionLike {
     SplashPotion(PotionData potionData) {
         this.material = Material.SPLASH_POTION;
         this.potionData = potionData;
+    }
+
+    @Override
+    public MissionItem getByName(String name) {
+        return SplashPotion.valueOf(name);
     }
 }

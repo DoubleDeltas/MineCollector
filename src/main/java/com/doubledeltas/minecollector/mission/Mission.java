@@ -10,6 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 @Getter
 public enum Mission {
     POTION(Material.POTION, "물약", Potion.values()),
@@ -38,5 +41,11 @@ public enum Mission {
         this.icon = builder.build();
         this.name = name;
         this.items = items;
+    }
+
+    public Optional<MissionItem> getItemByName(String name) {
+        return Arrays.stream(items)
+                .filter(item -> item.name().equals(name))
+                .findAny();
     }
 }

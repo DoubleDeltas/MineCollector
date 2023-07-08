@@ -6,4 +6,8 @@ public interface MissionItem {
     ItemStack getIcon();
 
     boolean validate(ItemStack item);
+
+    MissionItem getByName(String name);
+
+    String name();
 }

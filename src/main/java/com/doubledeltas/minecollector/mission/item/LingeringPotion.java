@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.mission.item;
 
+import com.doubledeltas.minecollector.mission.MissionItem;
 import com.doubledeltas.minecollector.mission.PotionLike;
 import lombok.Getter;
 import org.bukkit.Material;
@@ -58,5 +59,10 @@ public enum LingeringPotion implements PotionLike {
     LingeringPotion(PotionData potionData) {
         this.material = Material.LINGERING_POTION;
         this.potionData = potionData;
+    }
+
+    @Override
+    public MissionItem getByName(String name) {
+        return LingeringPotion.valueOf(name);
     }
 }
