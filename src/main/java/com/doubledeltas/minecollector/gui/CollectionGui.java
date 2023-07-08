@@ -46,7 +46,10 @@ public class CollectionGui extends Gui {
                 continue;
             }
             if (material == Material.AIR) {
-                inventory.setItem(i, itemManager.getItem(GuiItem.AIR_PLACEHOLDER));
+                if (data.getCollection(Material.AIR) == 0)
+                    inventory.setItem(i, itemManager.getItem(GuiItem.UNKNOWN_AIR_PLACEHOLDER));
+                else
+                    inventory.setItem(i, itemManager.getItem(GuiItem.AIR_PLACEHOLDER));
                 continue;
             }
             int amount = data.getCollection(material);

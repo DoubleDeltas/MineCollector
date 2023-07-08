@@ -17,6 +17,7 @@ public enum GuiItem implements ItemCode {
     HMM("hmm"),
     NO("no"),
     AIR_PLACEHOLDER("air_placeholder"),
+    UNKNOWN_AIR_PLACEHOLDER("unknown_air_placeholder"),
     CORE("core")
     ;
 
