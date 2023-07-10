@@ -36,6 +36,7 @@ public class InlineItemManager extends ItemManager {
                 case HMM -> getGuiHmm();
                 case NO -> getGuiNo();
                 case AIR_PLACEHOLDER -> getGuiAirPlaceholder();
+                case UNKNOWN_AIR_PLACEHOLDER -> getGuiUnknownAirPlaceholder();
                 case CORE -> getGuiRawCore();
             };
         return null;
@@ -197,6 +198,14 @@ public class InlineItemManager extends ItemManager {
         return new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
                 .displayName("§f공기")
                 .lore("§7수집되었습니다!")
+                .build();
+    }
+
+
+    private ItemStack getGuiUnknownAirPlaceholder() {
+        return new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+                .displayName("§f공기")
+                .lore("§c아직 수집되지 않았습니다")
                 .build();
     }
 

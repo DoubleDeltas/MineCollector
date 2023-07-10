@@ -35,32 +35,35 @@ public class CollectionGui extends Gui {
             }
             GameData data = DataManager.getData(player);
             Material material = Material.values()[idx];
-            if (data.getCollection(material) == 0) {
-                if (MineCollector.getInstance().getMcolConfig().getGame().isHideUnknownCollection())
-                    inventory.setItem(i, itemManager.getItem(GuiItem.UNKNOWN));
-                else
-                    inventory.setItem(i, new ItemBuilder(material)
-                            .lore("§c아직 수집되지 않았습니다")
-                            .build()
-                    );
-                continue;
+
+            int flags = (data.getCollection(material) == 0 ? 0 : 0b001)
+                    | (MineCollector.getInstance().getMcolConfig().getGame().isHideUnknownCollection() ? 0b010 : 0)
+                    | (material == Material.AIR ? 0b100 : 0);
+            ItemStack item;
+            switch (flags) {
+                case 0b000          -> item = new ItemBuilder(material)
+                        .lore("§c아직 수집되지 않았습니다")
+                        .build();
+                case 0b001, 0b011   -> {
+                    int amount = data.getCollection(material);
+                    int quo = amount / 64;
+                    int rem = amount % 64;
+                    int lv = data.getLevel(material);
+                    ItemBuilder builder = new ItemBuilder(material, lv)
+                            .lore((quo > 0) ?
+                                    "§7수집된 개수: %d셋 %d개".formatted(quo, rem) :
+                                    "§7수집된 개수: %d개".formatted(rem)
+                            );
+                    if (lv >= 5)
+                        builder.glowing();
+                    item = builder.build();
+                }
+                case 0b010, 0b110   -> item = itemManager.getItem(GuiItem.UNKNOWN);
+                case 0b100          -> item = itemManager.getItem(GuiItem.UNKNOWN_AIR_PLACEHOLDER);
+                case 0b101, 0b111   -> item = itemManager.getItem(GuiItem.AIR_PLACEHOLDER);
+                default -> item = null;
             }
-            if (material == Material.AIR) {
-                inventory.setItem(i, itemManager.getItem(GuiItem.AIR_PLACEHOLDER));
-                continue;
-            }
-            int amount = data.getCollection(material);
-            int quo = amount / 64;
-            int rem = amount % 64;
-            int lv = data.getLevel(material);
-            ItemBuilder builder = new ItemBuilder(material, lv)
-                    .lore( (quo > 0) ?
-                            "§7수집된 개수: %d셋 %d개".formatted(quo, rem) :
-                            "§7수집된 개수: %d개".formatted(rem)
-                    );
-            if (lv >= 5)
-                builder = builder.glowing();
-            inventory.setItem(i, builder.build());
+            inventory.setItem(i, item);
         }
 
         for (int i=45; i<=53; i++)
