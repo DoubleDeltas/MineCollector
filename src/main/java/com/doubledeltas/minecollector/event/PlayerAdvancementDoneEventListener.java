@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 
-public class PlayerAdvancementDontEventListener implements Listener {
+public class PlayerAdvancementDoneEventListener implements Listener {
     @EventHandler
     public void handleEvent(PlayerAdvancementDoneEvent e) {
         Advancement advancement = e.getAdvancement();

@@ -32,7 +32,7 @@ public class MissionDetailGui extends Gui {
         e.setCancelled(true);
 
         if (e.getRawSlot() == INDEX_BACK) {
-            new MissionGui().openGui(player);
+            new MissionGui(player).openGui(player);
             SoundUtil.playPage(player);
         }
     }

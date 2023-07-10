@@ -23,10 +23,13 @@ public interface PotionLike extends MissionItem {
 
     @Override
     default boolean validate(ItemStack item) {
-        PotionMeta pMeta = (PotionMeta) item.getItemMeta();
-
-        if (pMeta == null)
+        PotionMeta pMeta;
+        try {
+            pMeta = (PotionMeta) item.getItemMeta();
+        }
+        catch (ClassCastException ex) {
             return false;
+        }
 
         return item.getType() == this.getMaterial()
                 && Objects.equals(pMeta.getBasePotionData(), this.getPotionData());

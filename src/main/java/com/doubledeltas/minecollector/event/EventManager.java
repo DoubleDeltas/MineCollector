@@ -10,7 +10,7 @@ public class EventManager {
     private static List<Listener> listeners = Arrays.asList(
             new PlayerInteractEventListener(),
             new PlayerLoginEventListener(),
-            new PlayerAdvancementDontEventListener(),
+            new PlayerAdvancementDoneEventListener(),
             new EntityDeathEventListener()
     );
 

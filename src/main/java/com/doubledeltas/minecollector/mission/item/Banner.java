@@ -28,10 +28,13 @@ public enum Banner implements MissionItem {
         if (this.item.getType() != item.getType())
             return false;
 
-        BannerMeta otherBMeta = (BannerMeta) item.getItemMeta();
-
-        if (otherBMeta == null)
+        BannerMeta otherBMeta;
+        try {
+            otherBMeta = (BannerMeta) item.getItemMeta();
+        }
+        catch (ClassCastException ex) {
             return false;
+        }
 
         List<Pattern> thisPatterns = ((BannerMeta) this.item.getItemMeta()).getPatterns();
         List<Pattern> otherPatterns = otherBMeta.getPatterns();
