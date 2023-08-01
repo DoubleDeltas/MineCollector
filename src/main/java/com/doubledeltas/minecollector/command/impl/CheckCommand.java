@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.command.impl;
 
+import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
@@ -84,6 +85,10 @@ public final class CheckCommand extends CommandRoot {
     public List<String> getTabRecommendation(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1)
             return Arrays.stream(Material.values())
+                    .filter(material -> sender.isOp()
+                            || !MineCollector.getInstance().getMcolConfig().getGame().isHideUnknownCollection()
+                            || DataManager.getData((Player) sender).getCollection(material) > 0
+                    )
                     .map(material -> material.getKey().toString())
                     .collect(Collectors.toList());
         return List.of();
