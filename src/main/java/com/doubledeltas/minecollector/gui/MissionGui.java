@@ -1,11 +1,10 @@
 package com.doubledeltas.minecollector.gui;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.config.ConfigManager;
 import com.doubledeltas.minecollector.data.DataManager;
-import com.doubledeltas.minecollector.mission.Mission;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.GuiItem;
+import com.doubledeltas.minecollector.mission.Mission;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -48,7 +47,7 @@ public class MissionGui extends Gui {
 
         int slot = e.getRawSlot();
         Mission[] missions = Mission.values();
-        if (slot < missions.length) {
+        if (0 <= slot && slot < missions.length) {
             boolean hiding = MineCollector.getInstance().getMcolConfig().getGame().isHideUnknownCollection();
             boolean unknown = DataManager.getData(player).getMissionProgress().get(missions[slot]).size() == 0;
             if (hiding && unknown)

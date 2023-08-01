@@ -2,7 +2,6 @@ package com.doubledeltas.minecollector.mission;
 
 import com.doubledeltas.minecollector.item.ItemBuilder;
 import com.doubledeltas.minecollector.mission.item.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;

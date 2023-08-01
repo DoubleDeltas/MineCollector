@@ -68,7 +68,8 @@ public class GameDirector {
                 noticeLevelUp(player, item.getType(), i);
             }
 
-            MISSION_LOOP: for (Mission mission: Mission.values()) {
+            MISSION_LOOP:
+            for (Mission mission: Mission.values()) {
                 for (MissionItem missionItem: mission.getItems()) {
                     if (missionItem.validate(item)) {
                         DataManager.getData(player).getMissionProgress().get(mission).add(missionItem);
