@@ -229,10 +229,6 @@ public class InlineItemManager extends ItemManager {
                 .build();
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> develop
     private ItemStack getGuiUnknownAirPlaceholder() {
         return new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
                 .displayName("§f공기")

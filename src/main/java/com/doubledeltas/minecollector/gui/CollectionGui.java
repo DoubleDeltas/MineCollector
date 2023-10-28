@@ -39,13 +39,8 @@ public class CollectionGui extends Gui {
             Material material = Material.values()[idx];
 
             int flags = (data.getCollection(material) == 0 ? 0 : 0b001)
-<<<<<<< HEAD
-                      | (MineCollector.getInstance().getMcolConfig().getGame().isHideUnknownCollection() ? 0b010 : 0)
-                      | (material == Material.AIR ? 0b100 : 0);
-=======
                     | (MineCollector.getInstance().getMcolConfig().getGame().isHideUnknownCollection() ? 0b010 : 0)
                     | (material == Material.AIR ? 0b100 : 0);
->>>>>>> develop
             ItemStack item;
             switch (flags) {
                 case 0b000          -> item = new ItemBuilder(material)
