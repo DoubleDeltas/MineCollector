@@ -2,7 +2,6 @@ package com.doubledeltas.minecollector.mission;
 
 import com.doubledeltas.minecollector.item.ItemBuilder;
 import com.doubledeltas.minecollector.mission.item.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
@@ -22,6 +21,7 @@ public enum Mission {
     SUSPICIOUS_STEW(Material.SUSPICIOUS_STEW, "수상한 스튜", SuspiciousStew.values()),
     ENCHANTED_BOOK(Material.ENCHANTED_BOOK, "마법이 부여된 책", EnchantedBook.values()),
     BANNER(Material.WHITE_BANNER, "현수막", Banner.values()),
+    GOAT_HORN(Material.GOAT_HORN, "염소 뿔", GoatHorn.values()),
     ;
 
     private ItemStack icon;

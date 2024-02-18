@@ -3,6 +3,7 @@ package com.doubledeltas.minecollector.item;
 import lombok.AllArgsConstructor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.MusicInstrument;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.enchantments.Enchantment;
@@ -83,6 +84,16 @@ public class ItemBuilder {
             potionMeta.setBasePotionData(potionData);
         }
         catch (ClassCastException ex) {}
+        return this;
+    }
+
+    public ItemBuilder musicInstrument(MusicInstrument musicInstrument) {
+        try {
+            MusicInstrumentMeta musicInstrumentMeta = (MusicInstrumentMeta) meta;
+            musicInstrumentMeta.setInstrument(musicInstrument);
+        } catch (ClassCastException ex) {
+
+        }
         return this;
     }
 

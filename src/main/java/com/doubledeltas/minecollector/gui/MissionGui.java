@@ -31,7 +31,7 @@ public class MissionGui extends Gui {
         e.setCancelled(true);
 
         int slot = e.getRawSlot();
-        if (slot < 45) {
+        if (slot < Mission.values().length) {
             Mission[] missions = Mission.values();
             new MissionDetailGui(missions[slot]).openGui(player);
             SoundUtil.playPage(player);

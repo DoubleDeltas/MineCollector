@@ -1,7 +1,6 @@
 package com.doubledeltas.minecollector.data;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
 import com.doubledeltas.minecollector.mission.Mission;
 import com.doubledeltas.minecollector.mission.MissionItem;
 import com.doubledeltas.minecollector.util.CollectionLevelUtil;
@@ -17,7 +16,6 @@ import org.yaml.snakeyaml.error.YAMLException;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Getter
 public class GameData {
@@ -128,7 +126,7 @@ public class GameData {
         throws YAMLException
     {
         Yaml yaml = new Yaml();
-        return new GameData(yaml.loadAs(reader, Map.class));
+        return new GameData((Map) yaml.loadAs(reader, Map.class));
     }
 
     public void setName(String name) { this.name = name; }
