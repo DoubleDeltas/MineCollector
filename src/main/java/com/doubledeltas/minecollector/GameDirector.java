@@ -8,6 +8,9 @@ import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
+import com.doubledeltas.minecollector.mission.Mission;
+import com.doubledeltas.minecollector.mission.MissionItem;
+import com.doubledeltas.minecollector.mission.item.Banner;
 import com.doubledeltas.minecollector.util.CollectionLevelUtil;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
@@ -64,6 +67,16 @@ public class GameDirector {
             for (int i = oldLevel + 1; i <= newLevel; i++) {
                 noticeLevelUp(player, item.getType(), i);
             }
+
+            MISSION_LOOP:
+            for (Mission mission: Mission.values()) {
+                for (MissionItem missionItem: mission.getItems()) {
+                    if (missionItem.validate(item)) {
+                        DataManager.getData(player).getMissionProgress().get(mission).add(missionItem);
+                        break MISSION_LOOP;
+                    }
+                }
+            }
         }
     }
 
@@ -87,6 +100,8 @@ public class GameDirector {
         if (itemManager.getItem(StaticItem.COLLECTION_BOOK).equals(item))
             return true;
         if (!item.hasItemMeta())
+            return true;
+        if (Banner.OMINOUS.validate(item))
             return true;
         return !item.getItemMeta().hasDisplayName();
     }

@@ -210,4 +210,10 @@ public class GameData {
     public void addAdvCleared(AdvancementDisplayType type) {
         advCleared.put(type, advCleared.get(type) + 1);
     }
+
+    public int getClearedMissionCount() {
+        return Math.toIntExact(this.missionProgress.entrySet().stream()
+                .filter(entry -> entry.getValue().size() == entry.getKey().getItems().length)
+                .count());
+    }
 }

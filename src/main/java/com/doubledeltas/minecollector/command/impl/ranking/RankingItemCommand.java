@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.command.impl.ranking;
 
+import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandNode;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
@@ -13,6 +14,7 @@ import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -87,6 +89,10 @@ public class RankingItemCommand extends CommandNode {
             return List.of();
 
         return Arrays.stream(Material.values())
+                .filter(material -> sender.isOp()
+                        || !MineCollector.getInstance().getMcolConfig().getGame().isHideUnknownCollection()
+                        || DataManager.getData((Player) sender).getCollection(material) > 0
+                )
                 .map(material -> material.getKey().toString())
                 .collect(Collectors.toList());
     }
