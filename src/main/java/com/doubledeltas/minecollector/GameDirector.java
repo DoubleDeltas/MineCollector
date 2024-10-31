@@ -58,7 +58,11 @@ public class GameDirector {
 
             int oldLevel = data.getLevel(item.getType());
 
-            data.addCollection(item);
+            // Spigot은 AIR를 1개, Paper는 0개로 처리해서 오류 발생
+            if (item.getType() == Material.AIR)
+                data.addCollection(Material.AIR, 1);
+            else
+                data.addCollection(item);
 
             int newLevel = data.getLevel(item.getType());
             for (int i = oldLevel + 1; i <= newLevel; i++) {
