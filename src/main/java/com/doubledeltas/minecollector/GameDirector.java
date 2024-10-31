@@ -58,7 +58,7 @@ public class GameDirector {
 
             int oldLevel = data.getLevel(item.getType());
 
-            // Spigot은 AIR를 1개, Paper는 0개로 처리해서 오류 발생
+            // Spigot은 AIR를 1개, Paper는 0개로 처리하므로 따로 처리
             if (item.getType() == Material.AIR)
                 data.addCollection(Material.AIR, 1);
             else
