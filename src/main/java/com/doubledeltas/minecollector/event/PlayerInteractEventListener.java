@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.event;
 
+import com.doubledeltas.minecollector.GameDirector;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.gui.HubGui;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
@@ -29,13 +30,6 @@ public class PlayerInteractEventListener implements Listener {
 
         e.setCancelled(true);
 
-        if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
-            MessageUtil.send(e.getPlayer(), "§c지금은 도감을 열 수 없습니다!");
-            SoundUtil.playFail(player);
-            return;
-        }
-
-        new HubGui().openGui(player);
-        SoundUtil.playPageAll(player);
+        GameDirector.tryOpenHubGui(player);
     }
 }

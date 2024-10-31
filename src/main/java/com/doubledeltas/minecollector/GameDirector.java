@@ -6,6 +6,7 @@ import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
+import com.doubledeltas.minecollector.gui.HubGui;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
 import com.doubledeltas.minecollector.util.CollectionLevelUtil;
@@ -117,6 +118,21 @@ public class GameDirector {
         );
         for (Player p: announcementConfig.getAdvancement().resolve(player))
             SoundUtil.playFirework(p);
+    }
+
+    /**
+     * Hub GUI를 열려고 시도한다.
+     * @param player
+     */
+    public static void tryOpenHubGui(Player player) {
+        if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
+            MessageUtil.send(player, "§c지금은 도감을 열 수 없습니다!");
+            SoundUtil.playFail(player);
+            return;
+        }
+
+        new HubGui().openGui(player);
+        SoundUtil.playPageAll(player);
     }
 
     private static BaseComponent getItemNameComponent(Material material) {
