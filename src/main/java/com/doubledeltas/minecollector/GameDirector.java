@@ -6,6 +6,7 @@ import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
+import com.doubledeltas.minecollector.gui.HubGui;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
 import com.doubledeltas.minecollector.util.CollectionLevelUtil;
@@ -58,7 +59,11 @@ public class GameDirector {
 
             int oldLevel = data.getLevel(item.getType());
 
-            data.addCollection(item);
+            // Spigot은 AIR를 1개, Paper는 0개로 처리하므로 따로 처리
+            if (item.getType() == Material.AIR)
+                data.addCollection(Material.AIR, 1);
+            else
+                data.addCollection(item);
 
             int newLevel = data.getLevel(item.getType());
             for (int i = oldLevel + 1; i <= newLevel; i++) {
@@ -113,6 +118,21 @@ public class GameDirector {
         );
         for (Player p: announcementConfig.getAdvancement().resolve(player))
             SoundUtil.playFirework(p);
+    }
+
+    /**
+     * Hub GUI를 열려고 시도한다.
+     * @param player
+     */
+    public static void tryOpenHubGui(Player player) {
+        if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
+            MessageUtil.send(player, "§c지금은 도감을 열 수 없습니다!");
+            SoundUtil.playFail(player);
+            return;
+        }
+
+        new HubGui().openGui(player);
+        SoundUtil.playPageAll(player);
     }
 
     private static BaseComponent getItemNameComponent(Material material) {
