@@ -52,8 +52,7 @@ public class ConfigManager {
         }
     }
 
-    public static void validate(McolConfig config) throws InvalidConfigException
-    {
+    public static void validate(McolConfig config) throws InvalidConfigException {
         if (config.getAnnouncement().getHighLevelMinimum() < 2)
             throw new InvalidConfigException("announcement-high level minimum은 2 이상의 정수여야 합니다!");
 
