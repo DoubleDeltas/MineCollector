@@ -3,6 +3,7 @@ package com.doubledeltas.minecollector.config;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SpaceToCamelPropertyUtils;
+import com.doubledeltas.minecollector.util.Yamls;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -15,15 +16,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class ConfigManager {
-    public static Constructor YAML_CONSTRUCTOR;
     public static File CONFIG_PATH = new File(MineCollector.getInstance().getDataFolder(), "config.yml");
-
-    static {
-        LoaderOptions loaderOptions = new LoaderOptions();
-        loaderOptions.setEnumCaseSensitive(false);
-        YAML_CONSTRUCTOR = new Constructor(McolConfig.class, loaderOptions);
-        YAML_CONSTRUCTOR.setPropertyUtils(new SpaceToCamelPropertyUtils());
-    }
 
     public static McolConfig load() throws InvalidConfigException {
         // 파일이 없으면 기본 콘피그 파일 생성
@@ -33,11 +26,9 @@ public class ConfigManager {
             MessageUtil.log("기본 콘피그 파일 생성됨!");
         }
 
-        Yaml yaml = new Yaml(YAML_CONSTRUCTOR);
-        yaml.setBeanAccess(BeanAccess.FIELD);
         try {
             FileReader reader = new FileReader(CONFIG_PATH);
-            McolConfig config = yaml.load(reader);
+            McolConfig config = Yamls.getConfigYaml().load(reader);
             validate(config);
             MessageUtil.log("콘피그 불러옴!");
             reader.close();
