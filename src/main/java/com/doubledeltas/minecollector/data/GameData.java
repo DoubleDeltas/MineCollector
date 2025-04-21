@@ -3,6 +3,7 @@ package com.doubledeltas.minecollector.data;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
 import com.doubledeltas.minecollector.util.CollectionLevelUtil;
+import com.doubledeltas.minecollector.util.Yamls;
 import org.bukkit.Material;
 import org.bukkit.advancement.AdvancementDisplayType;
 import org.bukkit.entity.Player;
@@ -18,19 +19,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class GameData {
-    private static final DumperOptions DUMPER_OPTIONS = new DumperOptions();
-
     private String name;
     private UUID uuid;
     private Map<String, Integer> collection;
     private Map<AdvancementDisplayType, Integer> advCleared;
-
-    static {
-        DUMPER_OPTIONS.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        DUMPER_OPTIONS.setCanonical(false);
-        DUMPER_OPTIONS.setExplicitStart(false);
-        DUMPER_OPTIONS.setExplicitEnd(false);
-    }
 
     public GameData(Player player) {
         this.name = player.getName();
@@ -82,8 +74,7 @@ public class GameData {
      * @param writer 데이터를 저장할 {@code Writer}
      */
     public void saveToYaml(Writer writer) {
-        Yaml yaml = new Yaml(DUMPER_OPTIONS);
-        yaml.dump(this.toMap(), writer);
+        Yamls.getDataYaml().dump(this.toMap(), writer);
     }
 
     /**
@@ -94,8 +85,7 @@ public class GameData {
     public static GameData loadFromYaml(Reader reader)
         throws YAMLException
     {
-        Yaml yaml = new Yaml();
-        return new GameData(yaml.loadAs(reader, Map.class));
+        return new GameData(Yamls.getDataYaml().loadAs(reader, Map.class));
     }
 
     /**

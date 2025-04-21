@@ -13,6 +13,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Function;
 
@@ -29,7 +30,7 @@ public final class RankingCommand extends CommandRoot {
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         ScoringChapter scoringConfig = MineCollector.getInstance().getMcolConfig().getScoring();
 
-        Function<GameData, Float> keyFunc;
+        Function<GameData, BigDecimal> keyFunc;
         String categoryWord;
         boolean enabled;
 
