@@ -5,57 +5,58 @@ import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
 import lombok.Getter;
 import org.bukkit.advancement.AdvancementDisplayType;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
 @Getter
 public class GameStatistics {
+    private BigDecimal totalScore;
 
-    private float totalScore;
-
-    private float collectionScore;
-    private float stackScore;
-    private float advScore;
+    private BigDecimal collectionScore;
+    private BigDecimal stackScore;
+    private BigDecimal advScore;
 
     /**
      * 게임 데이터로부터 통계를 구합니다.
      * @param data 게임 데이터
      */
     public GameStatistics(GameData data) {
+        final BigDecimal TENTH = BigDecimal.valueOf(1, 1);
+
         ScoringChapter scoringConfig = MineCollector.getInstance().getMcolConfig().getScoring();
-        Map<AdvancementDisplayType, Float> advancementScores = scoringConfig.getAdvancementScores();
+        Map<AdvancementDisplayType, BigDecimal> advancementScores = scoringConfig.getAdvancementScores();
 
         Map<String, Integer> collectionMap = data.getCollectionMap();
 
-        this.totalScore = 0.0F;
+        this.totalScore = BigDecimal.ZERO;
 
         if (scoringConfig.isCollectionEnabled()) {
-            this.collectionScore = collectionMap.size();
-            this.totalScore += collectionScore;
+            collectionScore = BigDecimal.valueOf(collectionMap.size());
+            totalScore = totalScore.add(collectionScore);
         }
         else {
-            this.collectionScore = Float.NaN;
+            collectionScore = null;
         }
 
         if (scoringConfig.isStackEnabled()) {
-            this.stackScore = 0.0F;
-            for (String key: collectionMap.keySet()) {
-                this.stackScore += (data.getLevel(key) - 1) * 0.1F;
-            }
-            this.totalScore += stackScore;
+            stackScore = collectionMap.keySet().stream()
+                    .map(key -> BigDecimal.valueOf(data.getLevel(key) - 1).multiply(TENTH))
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            totalScore = totalScore.add(stackScore);
         }
         else {
-            this.stackScore = Float.NaN;
+            stackScore = null;
         }
 
         if (scoringConfig.isAdvancementEnabled()) {
-            this.advScore = (float) Arrays.stream(AdvancementDisplayType.values())
-                    .mapToDouble(type -> data.getAdvCleared(type) * advancementScores.get(type))
-                    .sum();
-            this.totalScore += advScore;
+            advScore = Arrays.stream(AdvancementDisplayType.values())
+                    .map(type -> BigDecimal.valueOf(data.getAdvCleared(type)).multiply(advancementScores.get(type)))
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            totalScore = totalScore.add(advScore);
         }
         else {
-            this.advScore = Float.NaN;
+            advScore = null;
         }
     }
 
@@ -63,7 +64,7 @@ public class GameStatistics {
      * 게임 데이터 통계를 수정할 수 없는 Map으로 만듭니다.
      * @return Map
      */
-    public Map<String, Float> toMap() {
+    public Map<String, BigDecimal> toMap() {
         return Map.of(
                 "collectionScore", collectionScore,
                 "stackScore", stackScore,

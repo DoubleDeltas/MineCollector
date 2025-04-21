@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * 아이템 데이터를 다루는 객체입니다.
@@ -51,24 +50,15 @@ public abstract class ItemManager {
 
         for (Map.Entry<String, ?> entry: vars.entrySet()) {
             String key = entry.getKey();
-            Object valueObj = entry.getValue();
-            String value;
-            if (List.of(Double.NaN, Float.NaN).contains(valueObj))
-                value = "---";
-            else if (List.of(Double.POSITIVE_INFINITY, Float.POSITIVE_INFINITY).contains(valueObj))
-                value = "∞";
-            else if (List.of(Double.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY).contains(valueObj))
-                value = "-∞";
-            else
-                value = valueObj.toString();
+            String valueString = getValueString(entry.getValue());
 
             if (meta.hasDisplayName()) {
-                meta.setDisplayName(meta.getDisplayName().replace("[" + key + "]", value));
+                meta.setDisplayName(meta.getDisplayName().replace("[" + key + "]", valueString));
             }
 
             if (meta.hasLore()) {
                 List<String> newLore = meta.getLore().stream()
-                        .map(lore -> lore.replace("[" + key + "]", value))
+                        .map(lore -> lore.replace("[" + key + "]", valueString))
                         .collect(Collectors.toList());
                 meta.setLore(newLore);
             }
@@ -76,6 +66,16 @@ public abstract class ItemManager {
 
         item.setItemMeta(meta);
         return item;
+    }
+
+    private static String getValueString(Object valueObj) {
+        if (valueObj == null || List.of(Double.NaN, Float.NaN).contains(valueObj))
+            return "---";
+        else if (List.of(Double.POSITIVE_INFINITY, Float.POSITIVE_INFINITY).contains(valueObj))
+            return "∞";
+        else if (List.of(Double.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY).contains(valueObj))
+            return "-∞";
+        return valueObj.toString();
     }
 
     /**
