@@ -22,8 +22,6 @@ public class GameStatistics {
      * @param data 게임 데이터
      */
     public GameStatistics(GameData data) {
-        final BigDecimal TENTH = BigDecimal.valueOf(1, 1);
-
         ScoringChapter scoringConfig = MineCollector.getInstance().getMcolConfig().getScoring();
         Map<AdvancementDisplayType, BigDecimal> advancementScores = scoringConfig.getAdvancementScores();
 
@@ -40,8 +38,9 @@ public class GameStatistics {
         }
 
         if (scoringConfig.isStackEnabled()) {
+            BigDecimal stackScoreStep = MineCollector.getInstance().getMcolConfig().getScoring().getStackScore();
             stackScore = collectionMap.keySet().stream()
-                    .map(key -> BigDecimal.valueOf(data.getLevel(key) - 1).multiply(TENTH))
+                    .map(key -> BigDecimal.valueOf(data.getLevel(key) - 1).multiply(stackScoreStep))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
             totalScore = totalScore.add(stackScore);
         }

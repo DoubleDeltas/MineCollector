@@ -13,7 +13,7 @@ public class ScoringChapter {
 
     private boolean     stackEnabled;
     private int         stackMultiple;
-    private float       stackScore;
+    private BigDecimal  stackScore;
 
     private boolean     advancementEnabled;
     private Map<AdvancementDisplayType, BigDecimal> advancementScores;
