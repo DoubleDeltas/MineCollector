@@ -4,6 +4,7 @@ import com.doubledeltas.minecollector.config.chapter.AnnouncementChapter;
 import com.doubledeltas.minecollector.config.chapter.DBChapter;
 import com.doubledeltas.minecollector.config.chapter.GameChapter;
 import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
+import com.doubledeltas.minecollector.version.Version;
 import lombok.Data;
 
 @Data
@@ -13,4 +14,5 @@ public class McolConfig {
     private AnnouncementChapter announcement;
     private GameChapter game;
     private DBChapter db;
+    private Version<?> version;
 }
