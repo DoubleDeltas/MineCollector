@@ -1,6 +1,7 @@
 package com.doubledeltas.minecollector.version;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 import java.util.regex.Pattern;
 
@@ -12,6 +13,10 @@ public class SemanticVersion implements Version<SemanticVersion> {
 
     public static SemanticVersion parse(String str) {
         final Pattern PATTERN = Pattern.compile("^\\d*\\.\\d*\\.\\d*$");
+
+        if (str == null)
+            return null;
+
         if (!PATTERN.matcher(str).matches())
             throw new IllegalArgumentException("String to parse must be 3 digit-words separated with period ('a.b.c').");
 
@@ -24,10 +29,15 @@ public class SemanticVersion implements Version<SemanticVersion> {
     }
 
     @Override
-    public int compareTo(SemanticVersion other) {
+    public int compareTo(@NonNull SemanticVersion other) {
         if (this.major != other.major) return Integer.compare(this.major, other.major);
         if (this.minor != other.minor) return Integer.compare(this.minor, other.minor);
         if (this.patch != other.patch) return Integer.compare(this.patch, other.patch);
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return major + "." + minor + "." + patch;
     }
 }

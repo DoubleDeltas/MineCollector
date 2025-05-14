@@ -13,6 +13,8 @@ import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Represent;
+import org.yaml.snakeyaml.representer.Representer;
 
 public final class Yamls {
     private static Yaml dataYaml;
@@ -78,13 +80,28 @@ public final class Yamls {
             }
         }
 
+        class ConfigYamlRepresenter extends Representer {
+            private ConfigYamlRepresenter(DumperOptions dumperOptions) {
+                super(dumperOptions);
+                this.representers.put(SemanticVersion.class, new Represent() {
+                    @Override
+                    public Node representData(Object data) {
+                        SemanticVersion semanticVersion = (SemanticVersion) data;
+                        return representScalar(new Tag(SemanticVersion.class), semanticVersion.toString());
+                    }
+                });
+            }
+        }
+
         LoaderOptions loaderOptions = new LoaderOptions();
         loaderOptions.setEnumCaseSensitive(false);
 
         Constructor constructor = new ConfigYamlConstructor(McolConfig.class, loaderOptions);
         constructor.setPropertyUtils(new SpaceToCamelPropertyUtils());
 
-        Yaml yaml = new Yaml(constructor);
+        Representer representer = new ConfigYamlRepresenter(new DumperOptions());
+
+        Yaml yaml = new Yaml(constructor, representer);
         yaml.setBeanAccess(BeanAccess.FIELD);
 
         return yaml;
