@@ -2,13 +2,8 @@ package com.doubledeltas.minecollector.config;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.util.MessageUtil;
-import com.doubledeltas.minecollector.util.SpaceToCamelPropertyUtils;
 import com.doubledeltas.minecollector.util.Yamls;
-import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.introspector.BeanAccess;
 
 import java.io.File;
 import java.io.FileNotFoundException;

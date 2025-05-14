@@ -1,4 +1,4 @@
-# MineCollector v1.1.5
+# MineCollector v1.3
 #
 # 마인콜렉터 설정 파일입니다.
 # This is MineCollector configuration file.
@@ -95,3 +95,7 @@ db:
   # 자동 저장할 때 콘솔에 메시지를 출력할 지 설정합니다.
   # set "true" to log message to the console when auto-saved
   autosave logging: true
+
+# 수정하지 마세요. 플러그인이 콘피그 버전을 인식하는 부분입니다.
+# DO NOT EDIT THIS
+version: 1.3
