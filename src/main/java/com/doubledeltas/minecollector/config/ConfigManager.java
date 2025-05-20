@@ -2,7 +2,7 @@ package com.doubledeltas.minecollector.config;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.util.MessageUtil;
-import com.doubledeltas.minecollector.util.Yamls;
+import com.doubledeltas.minecollector.yaml.Yamls;
 import org.yaml.snakeyaml.error.YAMLException;
 
 import java.io.File;
@@ -26,6 +26,8 @@ public class ConfigManager {
             McolConfig config = Yamls.getConfigYaml().load(reader);
             validate(config);
             MessageUtil.log("콘피그 불러옴!");
+            // todo: test
+            MessageUtil.log(config.toString());
             reader.close();
             return config;
         } catch (FileNotFoundException e) {
