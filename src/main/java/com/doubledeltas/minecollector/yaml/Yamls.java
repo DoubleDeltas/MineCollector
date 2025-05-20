@@ -40,21 +40,13 @@ public final class Yamls {
     }
 
     private static Yaml createConfigYaml() {
-        Map<Class<?>, YamlSerializer<?>> serializerMap = Map.of(
-                Version.class,          new VersionSerializer(),
-                SemanticVersion.class,  new ParsingSerializer<>(SemanticVersion::parse),
-                UnlabeledVersion.class, new SingletonSerializer<>(UnlabeledVersion.INSTANCE, null)
-        );
-
         LoaderOptions loaderOptions = new LoaderOptions();
         loaderOptions.setEnumCaseSensitive(false);
 
-        Constructor constructor = new CustomConstructor(McolConfig.class, loaderOptions)
-                .registerSerializers(serializerMap);
+        Constructor constructor = new Constructor(McolConfig.class, loaderOptions);
         constructor.setPropertyUtils(new SpaceToCamelPropertyUtils());
 
-        Representer representer = new CustomRepresenter(new DumperOptions())
-                .registerSerializers(serializerMap);
+        Representer representer = new Representer(new DumperOptions());
 
         Yaml yaml = new Yaml(constructor, representer);
         yaml.setBeanAccess(BeanAccess.FIELD);
