@@ -1,18 +1,12 @@
 package com.doubledeltas.minecollector.version;
 
-import java.util.Comparator;
+import com.doubledeltas.minecollector.MineCollector;
 
 public interface Version<V extends Version<V>> extends Comparable<V> {
     VersionSystem getVersionSystem();
 
-    @SuppressWarnings("unchecked")
     static int compare(Version<?> v1, Version<?> v2) {
-        VersionSystem v1System = v1.getVersionSystem();
-        VersionSystem v2System = v2.getVersionSystem();
-        if (!v1System.equals(v2System))
-            return v1System.compareTo(v2System);
-
-        return ((Comparator<Version<?>>) v1System.getComparator()).compare(v1, v2);
+        return MineCollector.getInstance().getVersionSystemManager().compareVersions(v1, v2);
     }
 
     /**

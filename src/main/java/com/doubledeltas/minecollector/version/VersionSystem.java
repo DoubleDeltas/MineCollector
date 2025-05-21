@@ -1,27 +1,23 @@
 package com.doubledeltas.minecollector.version;
 
+import com.doubledeltas.minecollector.util.Parser;
 import lombok.Getter;
 
 import java.util.Comparator;
 
 @Getter
-public class VersionSystem implements Comparable<VersionSystem> {
-    public static final VersionSystem UNLABELED = new VersionSystem(0, UnlabeledVersion.class);
-    public static final VersionSystem SEMANTIC = new VersionSystem(1, SemanticVersion.class);
+public class VersionSystem {
+    public static final VersionSystem UNLABELED = new VersionSystem(0, new UnlabeledVersion.Parser());
+    public static final VersionSystem SEMANTIC = new VersionSystem(1, new SemanticVersion.Parser());
 
     private final int order;
-    private final Class<? extends Version<?>> implType;
     private final Comparator<? extends Version<?>> comparator;
+    private final Parser<? extends Version<?>> parser;
 
     @SuppressWarnings("unchecked")
-    public VersionSystem(int order, Class<? extends Version<?>> implType) {
+    public <V extends Version<V>> VersionSystem(int order, Parser<V> parser) {
         this.order = order;
-        this.implType = implType;
-        this.comparator = (Comparator<? extends Version<?>>) Comparator.naturalOrder();
-    }
-
-    @Override
-    public int compareTo(VersionSystem o) {
-        return Integer.compare(this.order, o.order);
+        this.comparator = (Comparator<V>) Comparator.naturalOrder();
+        this.parser = parser;
     }
 }

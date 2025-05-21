@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.version;
 
+import com.doubledeltas.minecollector.util.Parser;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 
@@ -22,21 +23,6 @@ public final class SemanticVersion implements Version<SemanticVersion> {
         this.patch = (byte) patch;
     }
 
-    public static SemanticVersion parse(String str) {
-        if (str == null)
-            return null;
-
-        if (!PATTERN.matcher(str).matches())
-            throw new IllegalArgumentException("Invalid semantic version string (" + str + "). Must be 'x', 'x.y' or 'x.y.z'");
-
-        String[] words = str.split("\\.");
-        byte major = Byte.parseByte(words[0]);
-        byte minor = words.length >= 2 ? Byte.parseByte(words[1]) : 0;
-        byte patch = words.length == 3 ? Byte.parseByte(words[2]) : 0;
-
-        return new SemanticVersion(major, minor, patch);
-    }
-
     @Override
     public String toString() {
         return major + "." + minor + "." + patch;
@@ -53,5 +39,23 @@ public final class SemanticVersion implements Version<SemanticVersion> {
     @Override
     public VersionSystem getVersionSystem() {
         return VersionSystem.SEMANTIC;
+    }
+
+    public static class Parser implements com.doubledeltas.minecollector.util.Parser<SemanticVersion> {
+
+        @Override
+        public boolean canParse(String string) {
+            return string != null && SemanticVersion.PATTERN.matcher(string).matches();
+        }
+
+        @Override
+        public SemanticVersion parse(String string) {
+            String[] words = string.split("\\.");
+            byte major = Byte.parseByte(words[0]);
+            byte minor = words.length >= 2 ? Byte.parseByte(words[1]) : 0;
+            byte patch = words.length == 3 ? Byte.parseByte(words[2]) : 0;
+
+            return new SemanticVersion(major, minor, patch);
+        }
     }
 }

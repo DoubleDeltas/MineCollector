@@ -13,7 +13,8 @@ import java.io.IOException;
 public class ConfigManager {
     public static File CONFIG_PATH = new File(MineCollector.getInstance().getDataFolder(), "config.yml");
 
-    public static McolConfig load() throws InvalidConfigException {
+    @SuppressWarnings("unchecked")
+    public McolConfig load() throws InvalidConfigException {
         // 파일이 없으면 기본 콘피그 파일 생성
         if (!CONFIG_PATH.isFile()) {
             MineCollector.getInstance().getConfig().options().copyDefaults(true);
@@ -23,8 +24,7 @@ public class ConfigManager {
 
         try {
             FileReader reader = new FileReader(CONFIG_PATH);
-            McolConfig config = Yamls.getConfigYaml().load(reader);
-            validate(config);
+            McolConfig config = ((McolConfigYaml) Yamls.getConfigYaml().load(reader)).convert();
             MessageUtil.log("콘피그 불러옴!");
             // todo: test
             MessageUtil.log(config.toString());
@@ -38,16 +38,5 @@ public class ConfigManager {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public static void validate(McolConfig config) throws InvalidConfigException {
-        if (config.getAnnouncement().getHighLevelMinimum() < 2)
-            throw new InvalidConfigException("announcement-high level minimum은 2 이상의 정수여야 합니다!");
-
-        if (config.getScoring().getStackMultiple() < 2)
-            throw new InvalidConfigException("scoring-stack multiple은 2 이상의 정수여야 합니다!");
-
-        if (config.getDb().getAutosavePeriod() < 0)
-            throw new InvalidConfigException("db-autosave period는 0 또는 양의 정수여야 합니다!");
     }
 }

@@ -10,31 +10,40 @@ import com.doubledeltas.minecollector.event.EventManager;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.manager.InlineItemManager;
 import com.doubledeltas.minecollector.util.MessageUtil;
+import com.doubledeltas.minecollector.version.VersionSystem;
+import com.doubledeltas.minecollector.version.VersionSystemManager;
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
 
 public final class MineCollector extends JavaPlugin {
+    @Getter
     private final ItemManager itemManager = new InlineItemManager();
+    @Getter
+    private final ConfigManager configManager = new ConfigManager();
+    @Getter
+    private final VersionSystemManager versionSystemManager = new VersionSystemManager();
+
     private McolConfig config;
 
     public static MineCollector getInstance() {
         return MineCollector.getPlugin(MineCollector.class);
     }
 
-    public ItemManager getItemManager() {
-        return itemManager;
-    }
 
     @Override
     public void onEnable() {
+        versionSystemManager.register(VersionSystem.UNLABELED);
+        versionSystemManager.register(VersionSystem.SEMANTIC);
+
         DataManager.loadData();
         EventManager.loadEventHandlers();
         CommandRoot.loadCommands();
         try {
-            this.config = ConfigManager.load();
+            configManager.load();
         } catch (InvalidConfigException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         DataAutoSaver.start();
         MessageUtil.log(Level.INFO, "마인콜렉터 플러그인이 켜졌습니다!");
@@ -51,7 +60,7 @@ public final class MineCollector extends JavaPlugin {
     }
 
     public void reloadMcolConfig() throws InvalidConfigException {
-        this.config = ConfigManager.load();
+        this.config = configManager.load();
         DataAutoSaver.restart();
     }
 }

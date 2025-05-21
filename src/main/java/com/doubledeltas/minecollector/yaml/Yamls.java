@@ -1,17 +1,12 @@
 package com.doubledeltas.minecollector.yaml;
 
 import com.doubledeltas.minecollector.config.McolConfig;
-import com.doubledeltas.minecollector.version.SemanticVersion;
-import com.doubledeltas.minecollector.version.UnlabeledVersion;
-import com.doubledeltas.minecollector.version.Version;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.representer.Representer;
-
-import java.util.Map;
 
 public final class Yamls {
     private static Yaml dataYaml;
