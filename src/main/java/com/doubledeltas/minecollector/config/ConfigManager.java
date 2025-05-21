@@ -29,8 +29,6 @@ public class ConfigManager {
             FileReader reader = new FileReader(configPath);
             McolConfig config = Yamls.getConfigYaml().loadAs(reader, McolConfigYaml.class).convert();
             MessageUtil.log("콘피그 불러옴!");
-            // todo: test
-            MessageUtil.log(config.toString());
             reader.close();
             return config;
         } catch (FileNotFoundException e) {
