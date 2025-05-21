@@ -1,7 +1,8 @@
 package com.doubledeltas.minecollector.event;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.config.chapter.GameChapter;
+import com.doubledeltas.minecollector.config.McolConfig;
+import com.doubledeltas.minecollector.util.TimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,8 +14,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.util.Vector;
 
+import java.time.Duration;
+
 public class EntityDeathEventListener implements Listener {
-    private static final int ENDER_DRAGON_DEATH_ANIMATION_PLAYTIME = 200;
+    private static final Duration ENDER_DRAGON_DEATH_ANIMATION_PLAYTIME = Duration.ofSeconds(10);
 
     @EventHandler
     public void handleEvent(EntityDeathEvent e) {
@@ -22,9 +25,9 @@ public class EntityDeathEventListener implements Listener {
             return;
         EnderDragon enderDragon = (EnderDragon) e.getEntity();
         DragonBattle battle = enderDragon.getDragonBattle();
-        if (!battle.hasBeenPreviouslyKilled())   // first kill
+        if (battle == null || !battle.hasBeenPreviouslyKilled())   // first kill
             return;
-        GameChapter gameConfig = MineCollector.getInstance().getMcolConfig().getGame();
+        McolConfig.Game gameConfig = MineCollector.getInstance().getMcolConfig().getGame();
         if (!gameConfig.isRespawnEnderegg())
             return;
 
@@ -32,6 +35,6 @@ public class EntityDeathEventListener implements Listener {
 
         Bukkit.getScheduler().runTaskLater(MineCollector.getInstance(), () -> {
             location.getBlock().setType(Material.DRAGON_EGG, true);
-        }, ENDER_DRAGON_DEATH_ANIMATION_PLAYTIME);
+        }, TimeUtil.toTicks(ENDER_DRAGON_DEATH_ANIMATION_PLAYTIME));
     }
 }

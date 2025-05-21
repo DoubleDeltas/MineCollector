@@ -1,7 +1,7 @@
 package com.doubledeltas.minecollector.data;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
+import com.doubledeltas.minecollector.config.McolConfig;
 import lombok.Getter;
 import org.bukkit.advancement.AdvancementDisplayType;
 
@@ -22,7 +22,7 @@ public class GameStatistics {
      * @param data 게임 데이터
      */
     public GameStatistics(GameData data) {
-        ScoringChapter scoringConfig = MineCollector.getInstance().getMcolConfig().getScoring();
+        McolConfig.Scoring scoringConfig = MineCollector.getInstance().getMcolConfig().getScoring();
         Map<AdvancementDisplayType, BigDecimal> advancementScores = scoringConfig.getAdvancementScores();
 
         Map<String, Integer> collectionMap = data.getCollectionMap();

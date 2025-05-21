@@ -3,7 +3,7 @@ package com.doubledeltas.minecollector.command.impl;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.command.impl.ranking.RankingItemCommand;
-import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
+import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
@@ -28,7 +28,7 @@ public final class RankingCommand extends CommandRoot {
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
-        ScoringChapter scoringConfig = MineCollector.getInstance().getMcolConfig().getScoring();
+        McolConfig.Scoring scoringConfig = MineCollector.getInstance().getMcolConfig().getScoring();
 
         Function<GameData, BigDecimal> keyFunc;
         String categoryWord;

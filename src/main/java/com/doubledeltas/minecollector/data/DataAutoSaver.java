@@ -1,8 +1,9 @@
 package com.doubledeltas.minecollector.data;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.config.chapter.DBChapter;
+import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.util.MessageUtil;
+import com.doubledeltas.minecollector.util.TimeUtil;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -15,8 +16,8 @@ public class DataAutoSaver {
     }
 
     public void start() {
-        DBChapter dbConfig = MineCollector.getInstance().getMcolConfig().getDb();
-        long period = (long) dbConfig.getAutosavePeriod() * 60 * 20;
+        McolConfig.DB dbConfig = MineCollector.getInstance().getMcolConfig().getDb();
+        long period = TimeUtil.toTicks(dbConfig.getAutosavePeriod());
         if (period == 0L) period = Long.MAX_VALUE;
 
         boolean isLogging = dbConfig.isAutosaveLogging();
