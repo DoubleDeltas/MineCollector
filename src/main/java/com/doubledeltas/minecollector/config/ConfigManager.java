@@ -11,20 +11,23 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class ConfigManager {
-    public static File CONFIG_PATH = new File(MineCollector.getInstance().getDataFolder(), "config.yml");
+    public File configPath;
 
-    @SuppressWarnings("unchecked")
+    public void init() {
+        configPath = new File(MineCollector.getInstance().getDataFolder(), "config.yml");
+    }
+
     public McolConfig load() throws InvalidConfigException {
         // 파일이 없으면 기본 콘피그 파일 생성
-        if (!CONFIG_PATH.isFile()) {
+        if (!configPath.isFile()) {
             MineCollector.getInstance().getConfig().options().copyDefaults(true);
             MineCollector.getInstance().saveDefaultConfig();
             MessageUtil.log("기본 콘피그 파일 생성됨!");
         }
 
         try {
-            FileReader reader = new FileReader(CONFIG_PATH);
-            McolConfig config = ((McolConfigYaml) Yamls.getConfigYaml().load(reader)).convert();
+            FileReader reader = new FileReader(configPath);
+            McolConfig config = Yamls.getConfigYaml().loadAs(reader, McolConfigYaml.class).convert();
             MessageUtil.log("콘피그 불러옴!");
             // todo: test
             MessageUtil.log(config.toString());

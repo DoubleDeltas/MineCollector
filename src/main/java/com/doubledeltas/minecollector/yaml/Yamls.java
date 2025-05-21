@@ -1,6 +1,7 @@
 package com.doubledeltas.minecollector.yaml;
 
 import com.doubledeltas.minecollector.config.McolConfig;
+import com.doubledeltas.minecollector.config.McolConfigYaml;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -38,7 +39,7 @@ public final class Yamls {
         LoaderOptions loaderOptions = new LoaderOptions();
         loaderOptions.setEnumCaseSensitive(false);
 
-        Constructor constructor = new Constructor(McolConfig.class, loaderOptions);
+        Constructor constructor = new Constructor(McolConfigYaml.class, loaderOptions);
         constructor.setPropertyUtils(new SpaceToCamelPropertyUtils());
 
         Representer representer = new Representer(new DumperOptions());

@@ -24,6 +24,8 @@ public final class MineCollector extends JavaPlugin {
     private final ConfigManager configManager = new ConfigManager();
     @Getter
     private final VersionSystemManager versionSystemManager = new VersionSystemManager();
+    @Getter
+    private final DataAutoSaver dataAutoSaver = new DataAutoSaver();
 
     private McolConfig config;
 
@@ -31,21 +33,23 @@ public final class MineCollector extends JavaPlugin {
         return MineCollector.getPlugin(MineCollector.class);
     }
 
-
     @Override
     public void onEnable() {
         versionSystemManager.register(VersionSystem.UNLABELED);
         versionSystemManager.register(VersionSystem.SEMANTIC);
 
+        configManager.init();
+        dataAutoSaver.init();
+
         DataManager.loadData();
         EventManager.loadEventHandlers();
         CommandRoot.loadCommands();
         try {
-            configManager.load();
+            this.config = configManager.load();
         } catch (InvalidConfigException e) {
             throw new RuntimeException(e);
         }
-        DataAutoSaver.start();
+        dataAutoSaver.start();
         MessageUtil.log(Level.INFO, "마인콜렉터 플러그인이 켜졌습니다!");
     }
 
@@ -61,6 +65,6 @@ public final class MineCollector extends JavaPlugin {
 
     public void reloadMcolConfig() throws InvalidConfigException {
         this.config = configManager.load();
-        DataAutoSaver.restart();
+        dataAutoSaver.restart();
     }
 }
