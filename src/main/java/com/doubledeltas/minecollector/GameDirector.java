@@ -1,8 +1,6 @@
 package com.doubledeltas.minecollector;
 
 import com.doubledeltas.minecollector.config.McolConfig;
-import com.doubledeltas.minecollector.config.chapter.AnnouncementChapter;
-import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
@@ -26,8 +24,10 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Collection;
 import java.util.List;
 
-public class GameDirector {
-    public static ChatColor[] LEVEL_UP_MSG_COLORS = new ChatColor[] {
+public class GameDirector implements McolInitializable {
+    private MineCollector plugin;
+
+    private static final ChatColor[] LEVEL_UP_MSG_COLORS = new ChatColor[] {
             null,
             null,
             ChatColor.YELLOW,
@@ -42,14 +42,19 @@ public class GameDirector {
             ChatColor.of("#ff4488")
     };
 
+    @Override
+    public void init(MineCollector plugin) {
+        this.plugin = MineCollector.getInstance();
+    }
+
     /**
      * 아이템을 수집합니다.
      * @param player 플레이어
      * @param items 수집할 아이템들
      */
-    public static void collect(Player player, Collection<ItemStack> items) {
+    public void collect(Player player, Collection<ItemStack> items) {
 
-        GameData data = DataManager.getData(player);
+        GameData data = plugin.getDataManager().getData(player);
         for (ItemStack item: items) {
             if (item.getType() == Material.AIR && data.getCollection(Material.AIR) > 0)
                 return;
@@ -77,7 +82,7 @@ public class GameDirector {
      * @param player 플레이어
      * @param item 수집할 아이템
      */
-    public static void collect(Player player, ItemStack item) {
+    public void collect(Player player, ItemStack item) {
         collect(player, List.of(item));
     }
 
@@ -86,7 +91,7 @@ public class GameDirector {
      * @param item 아이템
      * @return 수집 가능 여부
      */
-    public static boolean isCollectable(ItemStack item) {
+    public boolean isCollectable(ItemStack item) {
         ItemManager itemManager = MineCollector.getInstance().getItemManager();
 
         if (itemManager.getItem(StaticItem.COLLECTION_BOOK).equals(item))
@@ -101,14 +106,14 @@ public class GameDirector {
      * @param player 달성한 플레이어
      * @param advancement 달성한 발전과제
      */
-    public static void resolveAdvancement(Player player, Advancement advancement) {
+    public void resolveAdvancement(Player player, Advancement advancement) {
         McolConfig config = MineCollector.getInstance().getMcolConfig();
-        AnnouncementChapter announcementConfig = config.getAnnouncement();
-        ScoringChapter scoringConfig = config.getScoring();
+        McolConfig.Announcement announcementConfig = config.getAnnouncement();
+        McolConfig.Scoring scoringConfig = config.getScoring();
 
         AdvancementDisplayType type = advancement.getDisplay().getType();
 
-        GameData data = DataManager.getData(player);
+        GameData data = plugin.getDataManager().getData(player);
         data.addAdvCleared(type);
 
         GameStatistics stats = new GameStatistics(data);
@@ -124,7 +129,7 @@ public class GameDirector {
      * Hub GUI를 열려고 시도한다.
      * @param player
      */
-    public static void tryOpenHubGui(Player player) {
+    public void tryOpenHubGui(Player player) {
         if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
             MessageUtil.send(player, "§c지금은 도감을 열 수 없습니다!");
             SoundUtil.playFail(player);
@@ -150,7 +155,7 @@ public class GameDirector {
      * @param material 수집한 아이템 종류
      */
     private static void noticeFirstCollection(Player target, Material material) {
-        AnnouncementChapter announcementConfig = MineCollector.getInstance().getMcolConfig().getAnnouncement();
+        McolConfig.Announcement announcementConfig = MineCollector.getInstance().getMcolConfig().getAnnouncement();
 
         MessageUtil.sendRaw(announcementConfig.getCollection(), target, new ComponentBuilder()
                         .append(target.getName()).color(ChatColor.YELLOW)
@@ -171,7 +176,7 @@ public class GameDirector {
      */
     private static void noticeLevelUp(Player target, Material material, int level) {
         McolConfig config = MineCollector.getInstance().getMcolConfig();
-        AnnouncementChapter announcementConfig = config.getAnnouncement();
+        McolConfig.Announcement announcementConfig = config.getAnnouncement();
 
         if (level < announcementConfig.getHighLevelMinimum()) return;
 

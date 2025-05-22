@@ -53,13 +53,13 @@ public class DumpGui extends Gui {
             for (int i=0; i<=44; i++) {
                 ItemStack item = Objects.requireNonNullElse(inventory.getItem(i), AIR_ITEM);
 
-                if (!GameDirector.isCollectable(item)) {
+                if (!plugin.getGameDirector().isCollectable(item)) {
                     MessageUtil.send(player,
                             "§e수집할 수 없는 아이템(§7%s§e)은 수집되지 않았습니다.".formatted(item.getItemMeta().getDisplayName())
                     );
                     continue;
                 }
-                GameDirector.collect(player, item);
+                plugin.getGameDirector().collect(player, item);
                 inventory.setItem(i, AIR_ITEM);
             }
 

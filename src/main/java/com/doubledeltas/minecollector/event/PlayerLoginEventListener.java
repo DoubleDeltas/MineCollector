@@ -11,13 +11,15 @@ import org.bukkit.event.player.PlayerLoginEvent;
 public class PlayerLoginEventListener implements Listener {
     @EventHandler
     public void handleEvent(PlayerLoginEvent e) {
+        DataManager dataManager = MineCollector.getInstance().getDataManager();
+
         Player player = e.getPlayer();
-        if (!DataManager.hasData(player)) {
+        if (!dataManager.hasData(player)) {
             player.getInventory().addItem(MineCollector.getInstance().getItemManager().getItem(StaticItem.COLLECTION_BOOK));
-            DataManager.addNewPlayerData(player);
+            dataManager.addNewPlayerData(player);
         }
 
         // if player name is changed, the name in data is also changed.
-        DataManager.getData(player).setName(player.getName());
+        dataManager.getData(player).setName(player.getName());
     }
 }

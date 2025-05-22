@@ -33,7 +33,7 @@ public class CollectionGui extends Gui {
                 inventory.setItem(i, itemManager.getItem(GuiItem.GRAY));
                 continue;
             }
-            GameData data = DataManager.getData(player);
+            GameData data = plugin.getDataManager().getData(player);
             Material material = Material.values()[idx];
 
             int flags = (data.getCollection(material) == 0 ? 0 : 0b001)
@@ -70,7 +70,10 @@ public class CollectionGui extends Gui {
             inventory.setItem(i, itemManager.getItem(GuiItem.BLACK));
         inventory.setItem(INDEX_PREV, itemManager.getItem((page == 1) ? GuiItem.NO_PREV : GuiItem.PREV));
 
-        ItemStack coreItem = itemManager.createItem(GuiItem.CORE, new GameStatistics(DataManager.getData(player)).toMap());
+        ItemStack coreItem = itemManager.createItem(
+                GuiItem.CORE,
+                new GameStatistics(plugin.getDataManager().getData(player)).toMap()
+        );
         coreItem.setAmount(page);
         inventory.setItem(INDEX_CORE, coreItem);
 

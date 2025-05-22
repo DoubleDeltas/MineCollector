@@ -22,7 +22,7 @@ public class BookOpenCommand extends CommandNode {
             return false;
         }
 
-        GameDirector.tryOpenHubGui(player);
+        plugin.getGameDirector().tryOpenHubGui(player);
         return false;
     }
 

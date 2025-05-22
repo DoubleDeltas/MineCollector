@@ -1,35 +1,36 @@
 package com.doubledeltas.minecollector.config;
 
+import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.util.MessageUtil;
-import com.doubledeltas.minecollector.util.SpaceToCamelPropertyUtils;
-import com.doubledeltas.minecollector.util.Yamls;
-import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
+import com.doubledeltas.minecollector.yaml.Yamls;
 import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.introspector.BeanAccess;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ConfigManager {
-    public static File CONFIG_PATH = new File(MineCollector.getInstance().getDataFolder(), "config.yml");
+public class ConfigManager implements McolInitializable {
+    private MineCollector plugin;
+    private File configPath;
 
-    public static McolConfig load() throws InvalidConfigException {
+    public void init(MineCollector plugin) {
+        this.plugin = plugin;
+        this.configPath = new File(plugin.getDataFolder(), "config.yml");
+    }
+
+    public McolConfig load() throws InvalidConfigException {
         // 파일이 없으면 기본 콘피그 파일 생성
-        if (!CONFIG_PATH.isFile()) {
-            MineCollector.getInstance().getConfig().options().copyDefaults(true);
-            MineCollector.getInstance().saveDefaultConfig();
+        if (!configPath.isFile()) {
+            plugin.getConfig().options().copyDefaults(true);
+            plugin.saveDefaultConfig();
             MessageUtil.log("기본 콘피그 파일 생성됨!");
         }
 
         try {
-            FileReader reader = new FileReader(CONFIG_PATH);
-            McolConfig config = Yamls.getConfigYaml().load(reader);
-            validate(config);
+            FileReader reader = new FileReader(configPath);
+            McolConfig config = Yamls.getConfigYaml().loadAs(reader, McolConfigYaml.class).convert();
             MessageUtil.log("콘피그 불러옴!");
             reader.close();
             return config;
@@ -41,16 +42,5 @@ public class ConfigManager {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public static void validate(McolConfig config) throws InvalidConfigException {
-        if (config.getAnnouncement().getHighLevelMinimum() < 2)
-            throw new InvalidConfigException("announcement-high level minimum은 2 이상의 정수여야 합니다!");
-
-        if (config.getScoring().getStackMultiple() < 2)
-            throw new InvalidConfigException("scoring-stack multiple은 2 이상의 정수여야 합니다!");
-
-        if (config.getDb().getAutosavePeriod() < 0)
-            throw new InvalidConfigException("db-autosave period는 0 또는 양의 정수여야 합니다!");
     }
 }

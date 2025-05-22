@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.data;
 
+import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import org.bukkit.entity.Player;
@@ -13,42 +14,47 @@ import java.util.logging.Level;
  * 데이터 매니저 클래스
  * @author DoubleDeltas
  */
-public class DataManager {
-    public static MineCollector PLUGIN = MineCollector.getInstance();
-    public static File DATA_PATH = new File(PLUGIN.getDataFolder(), "data");
+public class DataManager implements McolInitializable {
+    public MineCollector plugin;
+    public File dataPath;
 
-    private static Map<UUID, GameData> playerData = new HashMap<>();
+    private final Map<UUID, GameData> playerData = new HashMap<>();
 
-    public static void loadData() {
+    public void init(MineCollector plugin) {
+        this.plugin = plugin;
+        this.dataPath = new File(plugin.getDataFolder(), "data");
+    }
+
+    public void loadData() {
         try {
-            if (!DATA_PATH.isDirectory()) {
-                DATA_PATH.mkdirs();
+            if (!dataPath.isDirectory()) {
+                dataPath.mkdirs();
             }
 
             // 접속중인 플레이어의 데이터 파일이 없으면 만듦
             for (Player player: MineCollector.getInstance().getServer().getOnlinePlayers()) {
                 UUID uuid = player.getUniqueId();
-                File dataFile = new File(DATA_PATH, uuid + ".yml");
+                File dataFile = new File(dataPath, uuid + ".yml");
 
                 if (!dataFile.exists())
-                    DataManager.save(new GameData(player));
+                    save(new GameData(player));
             }
 
             // convert all player data
-            for (File file : DATA_PATH.listFiles()) {
+            for (File file : dataPath.listFiles()) {
                 GameData data = GameData.loadFromYaml(new FileReader(file));
                 UUID uuid = data.getUuid();
                 playerData.put(uuid, data);
             }
 
-            MessageUtil.log(DATA_PATH.listFiles().length + "개 게임 데이터 불러옴!");
+            MessageUtil.log(dataPath.listFiles().length + "개 게임 데이터 불러옴!");
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public static void addNewPlayerData(Player player) {
+    public void addNewPlayerData(Player player) {
         playerData.put(player.getUniqueId(), new GameData(player));
     }
 
@@ -57,9 +63,9 @@ public class DataManager {
      * @param player 불러올 플레이어
      * @return 성공 여부, 파일이 없거나 오류 시 false.
      */
-    public static boolean loadPlayerData(Player player) {
+    public boolean loadPlayerData(Player player) {
         UUID uuid = player.getUniqueId();
-        File dataFile = new File(PLUGIN.getDataFolder(), uuid + ".yml");
+        File dataFile = new File(plugin.getDataFolder(), uuid + ".yml");
         if (!dataFile.isFile())
             return false;
 
@@ -79,9 +85,9 @@ public class DataManager {
      * @param data 저장할 게임 데이터
      * @return 저장 성공 여부
      */
-    public static boolean save(GameData data) {
+    public boolean save(GameData data) {
         try {
-            File dataFile = new File(DATA_PATH, data.getUuid() + ".yml");
+            File dataFile = new File(dataPath, data.getUuid() + ".yml");
             FileWriter writer = new FileWriter(dataFile);
             data.saveToYaml(writer);
             return true;
@@ -95,9 +101,9 @@ public class DataManager {
      * 모든 게임 데이터를 저장합니다.
      * @return 모든 데이터 저장 성공 여부
      */
-    public static boolean saveAll() {
+    public boolean saveAll() {
         for (GameData data: playerData.values()) {
-            boolean result = DataManager.save(data);
+            boolean result = save(data);
             if (!result) {
                 MessageUtil.log(Level.SEVERE, "게임데이터 저장 실패!");
                 return false;
@@ -111,7 +117,7 @@ public class DataManager {
      * @param player 플레이어
      * @return 플레이어 데이터 있는 지 여부
      */
-    public static boolean hasData(Player player) {
+    public boolean hasData(Player player) {
         return playerData.containsKey(player.getUniqueId());
     }
 
@@ -120,7 +126,7 @@ public class DataManager {
      * @param player 플레이어
      * @return 플레이어의 데이터
      */
-    public static GameData getData(Player player) {
+    public GameData getData(Player player) {
         return playerData.get(player.getUniqueId());
     }
 
@@ -131,7 +137,7 @@ public class DataManager {
      * @param <K> 키 함수 반환 타입
      * @return Top 10 리스트
      */
-    public static <K extends Comparable<K>> List<GameData> getTop10(Function<GameData, K> keyFunc) {
+    public <K extends Comparable<K>> List<GameData> getTop10(Function<GameData, K> keyFunc) {
         List<GameData> top10 = new ArrayList<>();
         top10.add(null);
         top10.addAll(

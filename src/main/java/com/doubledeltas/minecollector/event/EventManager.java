@@ -1,22 +1,23 @@
 package com.doubledeltas.minecollector.event;
 
+import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
 import org.bukkit.event.Listener;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class EventManager {
-    private static List<Listener> listeners = Arrays.asList(
+public class EventManager implements McolInitializable {
+    private final List<Listener> listeners = Arrays.asList(
             new PlayerInteractEventListener(),
             new PlayerLoginEventListener(),
             new PlayerAdvancementDontEventListener(),
             new EntityDeathEventListener()
     );
 
-    public static void loadEventHandlers() {
+    public void init(MineCollector plugin) {
         for (Listener listener: listeners) {
-            MineCollector.getInstance().getServer().getPluginManager().registerEvents(listener, MineCollector.getInstance());
+            plugin.getServer().getPluginManager().registerEvents(listener, MineCollector.getInstance());
         }
     }
 

@@ -56,7 +56,7 @@ public final class CollectCommand extends CommandRoot {
             }
         }
 
-        if (!GameDirector.isCollectable(handItem)) {
+        if (!plugin.getGameDirector().isCollectable(handItem)) {
             MessageUtil.send(player, "§c이 아이템은 수집할 수 없습니다!");
             SoundUtil.playFail(player);
             return false;
@@ -78,7 +78,7 @@ public final class CollectCommand extends CommandRoot {
             return false;
         }
 
-        GameDirector.collect(player, new ItemStack(handItem.getType(), amount));
+        plugin.getGameDirector().collect(player, new ItemStack(handItem.getType(), amount));
         handItem.setAmount(handAmount - amount);
         player.getInventory().setItemInMainHand(handItem);
 

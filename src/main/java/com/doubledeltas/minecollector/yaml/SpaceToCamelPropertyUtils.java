@@ -1,14 +1,10 @@
-package com.doubledeltas.minecollector.util;
+package com.doubledeltas.minecollector.yaml;
 
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
 
-/**
- * YAML 문서의 공백을 포함한 key를 카멜 케이스로 변환하여 필드명을 찾도록 합니다.
- */
-public class SpaceToCamelPropertyUtils extends PropertyUtils {
-
+class SpaceToCamelPropertyUtils extends PropertyUtils {
     /**
      * @link PropertyUtils#getProperty(Class, String)}를 하이재킹하여 카멜 케이스를 인식시키도록 합니다.
      */

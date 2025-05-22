@@ -44,7 +44,7 @@ public final class CheckCommand extends CommandRoot {
             return false;
         }
 
-        GameData data = DataManager.getData(player);
+        GameData data = plugin.getDataManager().getData(player);
         int level = data.getLevel(material);
         int amount = data.getCollection(material);
         int quo = amount / 64;
@@ -87,7 +87,7 @@ public final class CheckCommand extends CommandRoot {
             return Arrays.stream(Material.values())
                     .filter(material -> sender.isOp()
                             || !MineCollector.getInstance().getMcolConfig().getGame().isHideUnknownCollection()
-                            || DataManager.getData((Player) sender).getCollection(material) > 0
+                            || plugin.getDataManager().getData((Player) sender).getCollection(material) > 0
                     )
                     .map(material -> material.getKey().toString())
                     .collect(Collectors.toList());

@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.command;
 
+import com.doubledeltas.minecollector.MineCollector;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -9,7 +10,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class CommandNode {
+    protected MineCollector plugin;
     protected List<CommandNode> subcommands = List.of();
+
+    public final void registerThis(MineCollector plugin) {
+        this.plugin = plugin;
+        for (CommandNode subcommand : subcommands)
+            subcommand.registerThis(plugin);
+    }
 
     protected final boolean resolveCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length > 0)
