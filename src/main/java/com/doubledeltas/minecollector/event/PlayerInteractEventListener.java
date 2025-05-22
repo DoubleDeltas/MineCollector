@@ -30,6 +30,6 @@ public class PlayerInteractEventListener implements Listener {
 
         e.setCancelled(true);
 
-        GameDirector.tryOpenHubGui(player);
+        MineCollector.getInstance().getGameDirector().tryOpenHubGui(player);
     }
 }

@@ -49,7 +49,7 @@ public class RankingItemCommand extends CommandNode {
 
         keyFunc = data -> data.getCollection(material);
 
-        List<GameData> top10 = DataManager.getTop10(keyFunc);
+        List<GameData> top10 = plugin.getDataManager().getTop10(keyFunc);
         int top10Size = top10.size();
 
         MessageUtil.send(sender, "");
@@ -91,7 +91,7 @@ public class RankingItemCommand extends CommandNode {
         return Arrays.stream(Material.values())
                 .filter(material -> sender.isOp()
                         || !MineCollector.getInstance().getMcolConfig().getGame().isHideUnknownCollection()
-                        || DataManager.getData((Player) sender).getCollection(material) > 0
+                        || plugin.getDataManager().getData((Player) sender).getCollection(material) > 0
                 )
                 .map(material -> material.getKey().toString())
                 .collect(Collectors.toList());

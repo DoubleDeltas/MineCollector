@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.config;
 
+import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.yaml.Yamls;
@@ -10,18 +11,20 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ConfigManager {
-    public File configPath;
+public class ConfigManager implements McolInitializable {
+    private MineCollector plugin;
+    private File configPath;
 
-    public void init() {
-        configPath = new File(MineCollector.getInstance().getDataFolder(), "config.yml");
+    public void init(MineCollector plugin) {
+        this.plugin = plugin;
+        this.configPath = new File(plugin.getDataFolder(), "config.yml");
     }
 
     public McolConfig load() throws InvalidConfigException {
         // 파일이 없으면 기본 콘피그 파일 생성
         if (!configPath.isFile()) {
-            MineCollector.getInstance().getConfig().options().copyDefaults(true);
-            MineCollector.getInstance().saveDefaultConfig();
+            plugin.getConfig().options().copyDefaults(true);
+            plugin.saveDefaultConfig();
             MessageUtil.log("기본 콘피그 파일 생성됨!");
         }
 

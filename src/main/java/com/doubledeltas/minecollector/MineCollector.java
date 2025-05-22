@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector;
 
+import com.doubledeltas.minecollector.command.CommandManager;
 import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.config.ConfigManager;
 import com.doubledeltas.minecollector.config.InvalidConfigException;
@@ -19,11 +20,19 @@ import java.util.logging.Level;
 
 public final class MineCollector extends JavaPlugin {
     @Getter
+    private final GameDirector gameDirector = new GameDirector();
+    @Getter
     private final ItemManager itemManager = new InlineItemManager();
+    @Getter
+    private final CommandManager commandManager = new CommandManager();
     @Getter
     private final ConfigManager configManager = new ConfigManager();
     @Getter
+    private final DataManager dataManager = new DataManager();
+    @Getter
     private final VersionSystemManager versionSystemManager = new VersionSystemManager();
+    @Getter
+    private final EventManager eventManager = new EventManager();
     @Getter
     private final DataAutoSaver dataAutoSaver = new DataAutoSaver();
 
@@ -38,24 +47,26 @@ public final class MineCollector extends JavaPlugin {
         versionSystemManager.register(VersionSystem.UNLABELED);
         versionSystemManager.register(VersionSystem.SEMANTIC);
 
-        configManager.init();
-        dataAutoSaver.init();
+        configManager.init(this);
+        dataManager.init(this);
+        commandManager.init(this);
+        eventManager.init(this);
+        dataAutoSaver.init(this);
 
-        DataManager.loadData();
-        EventManager.loadEventHandlers();
-        CommandRoot.loadCommands();
+        commandManager.loadCommands();
         try {
             this.config = configManager.load();
         } catch (InvalidConfigException e) {
             throw new RuntimeException(e);
         }
+        dataManager.loadData();
         dataAutoSaver.start();
         MessageUtil.log(Level.INFO, "마인콜렉터 플러그인이 켜졌습니다!");
     }
 
     @Override
     public void onDisable() {
-        DataManager.saveAll();
+        dataManager.saveAll();
         MessageUtil.log(Level.INFO, "마인콜렉터 플러그인이 꺼졌습니다.");
     }
 

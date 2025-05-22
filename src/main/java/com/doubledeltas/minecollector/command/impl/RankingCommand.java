@@ -68,7 +68,7 @@ public final class RankingCommand extends CommandRoot {
             return false;
         }
 
-        List<GameData> top10 = DataManager.getTop10(keyFunc);
+        List<GameData> top10 = plugin.getDataManager().getTop10(keyFunc);
         int top10Size = top10.size();
 
         MessageUtil.send(sender, "");

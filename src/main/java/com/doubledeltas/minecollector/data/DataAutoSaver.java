@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.data;
 
+import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.util.MessageUtil;
@@ -7,12 +8,14 @@ import com.doubledeltas.minecollector.util.TimeUtil;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
-public class DataAutoSaver {
-    public BukkitScheduler scheduler;
-    public BukkitTask task = null;
+public class DataAutoSaver implements McolInitializable {
+    private MineCollector plugin;
+    private BukkitScheduler scheduler;
+    private BukkitTask task = null;
 
-    public void init() {
-        scheduler = MineCollector.getInstance().getServer().getScheduler();
+    public void init(MineCollector plugin) {
+        this.plugin = plugin;
+        this.scheduler = plugin.getServer().getScheduler();
     }
 
     public void start() {
@@ -22,8 +25,8 @@ public class DataAutoSaver {
 
         boolean isLogging = dbConfig.isAutosaveLogging();
         task = scheduler.runTaskTimer(
-                MineCollector.getInstance(), () -> {
-                    DataManager.saveAll();
+                plugin, () -> {
+                    plugin.getDataManager().saveAll();
                     if (isLogging) {
                         MessageUtil.log("데이터 자동 저장됨!");
                     }
