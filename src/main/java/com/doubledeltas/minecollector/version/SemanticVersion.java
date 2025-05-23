@@ -41,8 +41,9 @@ public final class SemanticVersion implements Version<SemanticVersion> {
         return VersionSystem.SEMANTIC;
     }
 
-    public static class Parser implements com.doubledeltas.minecollector.util.Parser<SemanticVersion> {
-
+    public enum Parser implements com.doubledeltas.minecollector.util.Parser<SemanticVersion> {
+        INSTANCE;
+        
         @Override
         public boolean canParse(String string) {
             return string != null && SemanticVersion.PATTERN.matcher(string).matches();

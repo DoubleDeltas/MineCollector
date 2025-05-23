@@ -93,7 +93,7 @@ public class McolConfigYaml implements ConfigSchema<McolConfig> {
     public McolConfig convert() throws InvalidConfigException {
         Version<?> version;
         try {
-            version = MineCollector.getInstance().getVersionSystemManager().parse(this.version);
+            version = MineCollector.getInstance().getVersionManager().parse(this.version);
         } catch (IllegalArgumentException ex) {
             throw new InvalidConfigException("version이 잘못되었습니다!", ex);
         }

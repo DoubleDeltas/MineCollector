@@ -6,7 +6,7 @@ public interface Version<V extends Version<V>> extends Comparable<V> {
     VersionSystem getVersionSystem();
 
     static int compare(Version<?> v1, Version<?> v2) {
-        return MineCollector.getInstance().getVersionSystemManager().compareVersions(v1, v2);
+        return MineCollector.getInstance().getVersionManager().compareVersions(v1, v2);
     }
 
     /**
@@ -17,4 +17,13 @@ public interface Version<V extends Version<V>> extends Comparable<V> {
      * @see Version#compare(Version, Version)
      */
     int compareTo(V other);
+
+    enum Parser implements com.doubledeltas.minecollector.util.Parser<Version<?>> {
+        INSTANCE;
+
+        @Override
+        public Version<?> parse(String string) {
+            return MineCollector.getInstance().getVersionManager().parse(string);
+        }
+    }
 }

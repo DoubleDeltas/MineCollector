@@ -20,7 +20,8 @@ public enum UnlabeledVersion implements Version<UnlabeledVersion> {
         return VersionSystem.UNLABELED;
     }
 
-    public static class Parser implements com.doubledeltas.minecollector.util.Parser<UnlabeledVersion> {
+    public enum Parser implements com.doubledeltas.minecollector.util.Parser<UnlabeledVersion> {
+        INSTANCE;
 
         @Override
         public boolean canParse(String string) {
