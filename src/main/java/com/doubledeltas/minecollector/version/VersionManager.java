@@ -24,15 +24,10 @@ public class VersionManager {
     public Version<?> parse(String string) {
         for (Iterator<VersionSystem> it = vsRegistry.descendingIterator(); it.hasNext(); ) {
             VersionSystem vs = it.next();
-            System.out.println("try parsing \"" + string + "\" with system of " + vs.getVersionClass());
             Parser<? extends Version<?>> parser = vs.getParser();
             if (parser.canParse(string))
                 return parser.parse(string);
         }
         return null;
-    }
-
-    public Collection<VersionSystem> getVersionSystemRegistry() {
-        return vsRegistry;
     }
 }

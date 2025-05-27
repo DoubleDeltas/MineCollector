@@ -44,7 +44,6 @@ public class MultiVersionYaml extends Yaml {
         metaConstructor.setComposer(rootNodeComposer);
         T metadata = (T) metaConstructor.getSingleData(table.getMetadataType());
 
-        System.out.println(metadata);
         Version<?> docVer = table.getVersion(metadata);
         Version<?> targetVer = table.getNearestOlderVersion(docVer);
 
