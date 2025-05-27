@@ -6,12 +6,8 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 
 public class MessageUtil {

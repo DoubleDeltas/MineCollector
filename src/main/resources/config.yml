@@ -98,4 +98,4 @@ db:
 
 # 수정하지 마세요. 플러그인이 콘피그 버전을 인식하는 부분입니다.
 # DO NOT EDIT THIS
-version: 1.3
+config version: 1.3

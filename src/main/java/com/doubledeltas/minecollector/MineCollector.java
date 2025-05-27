@@ -10,8 +10,8 @@ import com.doubledeltas.minecollector.event.EventManager;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.manager.InlineItemManager;
 import com.doubledeltas.minecollector.util.MessageUtil;
-import com.doubledeltas.minecollector.version.VersionSystem;
 import com.doubledeltas.minecollector.version.VersionManager;
+import com.doubledeltas.minecollector.version.VersionSystem;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 

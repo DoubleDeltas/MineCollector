@@ -9,6 +9,10 @@ public interface Version<V extends Version<V>> extends Comparable<V> {
         return MineCollector.getInstance().getVersionManager().compareVersions(v1, v2);
     }
 
+    static Version<?> parse(String str) {
+        return Parser.INSTANCE.parse(str);
+    }
+
     /**
      * <p>Compare versions complying with the same version system.</p>
      * <p>c.f. To compare versions using different systems, Use {@link Version#compare Version.compare()} instead.</p>

@@ -4,7 +4,7 @@ import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.command.impl.ranking.RankingItemCommand;
 import com.doubledeltas.minecollector.config.McolConfig;
-import com.doubledeltas.minecollector.data.DataManager;
+import com.doubledeltas.minecollector.config.schema.McolConfigSchema;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
 import com.doubledeltas.minecollector.util.MessageUtil;

@@ -15,15 +15,16 @@ public class VersionManager {
         VersionSystem v1System = v1.getVersionSystem();
         VersionSystem v2System = v2.getVersionSystem();
         if (!vsRegistry.contains(v1System))
-            throw new IllegalArgumentException("The system of version" + v1 + "is not registered in the manager.");
+            throw new IllegalArgumentException("The system of version \"" + v1 + "\" is not registered in the manager.");
         if (!vsRegistry.contains(v2System))
-            throw new IllegalArgumentException("The system of version" + v2 + "is not registered in the manager.");
+            throw new IllegalArgumentException("The system of version \"" + v2 + "\" is not registered in the manager.");
         return Integer.compare(v1System.getOrder(), v2System.getOrder());
     }
 
     public Version<?> parse(String string) {
         for (Iterator<VersionSystem> it = vsRegistry.descendingIterator(); it.hasNext(); ) {
             VersionSystem vs = it.next();
+            System.out.println("try parsing \"" + string + "\" with system of " + vs.getVersionClass());
             Parser<? extends Version<?>> parser = vs.getParser();
             if (parser.canParse(string))
                 return parser.parse(string);
