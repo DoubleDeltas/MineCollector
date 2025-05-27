@@ -1,7 +1,6 @@
 package com.doubledeltas.minecollector.yaml;
 
 import com.doubledeltas.minecollector.config.McolConfig;
-import com.doubledeltas.minecollector.config.McolConfigYaml;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -11,7 +10,7 @@ import org.yaml.snakeyaml.representer.Representer;
 
 public final class Yamls {
     private static Yaml dataYaml;
-    private static Yaml configYaml;
+    private static MultiVersionYaml configYaml;
 
     private Yamls() {}
 
@@ -20,7 +19,7 @@ public final class Yamls {
         return dataYaml = createDataYaml();
     }
 
-    public static Yaml getConfigYaml() {
+    public static MultiVersionYaml getConfigYaml() {
         if (configYaml != null) return configYaml;
         return configYaml = createConfigYaml();
     }
@@ -35,16 +34,16 @@ public final class Yamls {
         return new Yaml(dumperOptions);
     }
 
-    private static Yaml createConfigYaml() {
+    private static MultiVersionYaml createConfigYaml() {
         LoaderOptions loaderOptions = new LoaderOptions();
         loaderOptions.setEnumCaseSensitive(false);
 
-        Constructor constructor = new Constructor(McolConfigYaml.class, loaderOptions);
+        Constructor constructor = new Constructor(McolConfig.class, loaderOptions);
         constructor.setPropertyUtils(new SpaceToCamelPropertyUtils());
 
         Representer representer = new Representer(new DumperOptions());
 
-        Yaml yaml = new Yaml(constructor, representer);
+        MultiVersionYaml yaml = new MultiVersionYaml(constructor, representer);
         yaml.setBeanAccess(BeanAccess.FIELD);
 
         return yaml;

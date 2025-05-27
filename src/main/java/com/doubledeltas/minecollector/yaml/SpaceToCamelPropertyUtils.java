@@ -5,6 +5,7 @@ import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
 
 class SpaceToCamelPropertyUtils extends PropertyUtils {
+
     /**
      * @link PropertyUtils#getProperty(Class, String)}를 하이재킹하여 카멜 케이스를 인식시키도록 합니다.
      */

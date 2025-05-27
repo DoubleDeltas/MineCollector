@@ -17,9 +17,9 @@ import java.util.UUID;
 
 public class GameData {
     private String name;
-    private UUID uuid;
-    private Map<String, Integer> collection;
-    private Map<AdvancementDisplayType, Integer> advCleared;
+    private final UUID uuid;
+    private final Map<String, Integer> collection;
+    private final Map<AdvancementDisplayType, Integer> advCleared;
 
     public GameData(Player player) {
         this.name = player.getName();
@@ -36,7 +36,8 @@ public class GameData {
      * @param map 불러올 {@code Map} 객체
      * @see GameData#toMap()
      */
-    public GameData(Map map) {
+    @SuppressWarnings("unchecked")
+    public GameData(Map<?,?> map) {
         this.name = (String) map.get("name");
         this.uuid = UUID.fromString((String) map.get("uuid"));
         this.collection = (Map<String, Integer>) map.get("collection");

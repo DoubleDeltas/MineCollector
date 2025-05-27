@@ -1,7 +1,6 @@
 package com.doubledeltas.minecollector;
 
 import com.doubledeltas.minecollector.command.CommandManager;
-import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.config.ConfigManager;
 import com.doubledeltas.minecollector.config.InvalidConfigException;
 import com.doubledeltas.minecollector.config.McolConfig;
@@ -11,8 +10,8 @@ import com.doubledeltas.minecollector.event.EventManager;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.manager.InlineItemManager;
 import com.doubledeltas.minecollector.util.MessageUtil;
+import com.doubledeltas.minecollector.version.VersionManager;
 import com.doubledeltas.minecollector.version.VersionSystem;
-import com.doubledeltas.minecollector.version.VersionSystemManager;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -30,7 +29,7 @@ public final class MineCollector extends JavaPlugin {
     @Getter
     private final DataManager dataManager = new DataManager();
     @Getter
-    private final VersionSystemManager versionSystemManager = new VersionSystemManager();
+    private final VersionManager versionManager = new VersionManager();
     @Getter
     private final EventManager eventManager = new EventManager();
     @Getter
@@ -44,8 +43,8 @@ public final class MineCollector extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        versionSystemManager.register(VersionSystem.UNLABELED);
-        versionSystemManager.register(VersionSystem.SEMANTIC);
+        versionManager.register(VersionSystem.UNLABELED);
+        versionManager.register(VersionSystem.SEMANTIC);
 
         configManager.init(this);
         dataManager.init(this);
