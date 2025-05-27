@@ -14,6 +14,14 @@ public final class SemanticVersion implements Version<SemanticVersion> {
     private byte minor;
     private byte patch;
 
+    public SemanticVersion(int major) {
+        this(major, 0);
+    }
+
+    public SemanticVersion(int major, int minor) {
+        this(major, minor, 0);
+    }
+
     public SemanticVersion(int major, int minor, int patch) {
         if (major < 0 || major > Byte.MAX_VALUE || minor < 0 || minor > Byte.MAX_VALUE || patch < 0 || patch > Byte.MAX_VALUE)
             throw new IllegalArgumentException("major, minor, patch must between 0~127");

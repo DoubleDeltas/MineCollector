@@ -7,6 +7,7 @@ import com.doubledeltas.minecollector.config.schema.McolConfigSchema;
 import com.doubledeltas.minecollector.config.schema.McolConfigSchema1_3;
 import com.doubledeltas.minecollector.config.schema.McolConfigSchemaUnlabeled;
 import com.doubledeltas.minecollector.util.MessageUtil;
+import com.doubledeltas.minecollector.version.Version;
 import com.doubledeltas.minecollector.version.VersionSchemaTable;
 import com.doubledeltas.minecollector.yaml.Yamls;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.Level;
 
 public class ConfigManager implements McolInitializable {
     private MineCollector plugin;
@@ -29,7 +31,7 @@ public class ConfigManager implements McolInitializable {
         this.schemaTable = new VersionSchemaTable<>(
                 plugin.getVersionManager(),
                 McolConfigMeta.class,
-                (self, schema) -> self.getVersionManager().parse(schema.getConfigVersion())
+                (table, schema) -> table.getVersionManager().parse(schema.getConfigVersion())
         );
         schemaTable.registerSchema("unlabeled", McolConfigSchemaUnlabeled.class);
         schemaTable.registerSchema("1.3",       McolConfigSchema1_3.class);
@@ -46,6 +48,14 @@ public class ConfigManager implements McolInitializable {
         try {
             FileReader fileReader = new FileReader(configPath);
             McolConfig config = Yamls.getConfigYaml().load(fileReader, schemaTable).convert();
+            Version<?> configVersion = config.getConfigVersion();
+            int versionComparison = Version.compare(configVersion, schemaTable.getLatestVersion());
+            if (versionComparison < 0) {
+                MessageUtil.log("오래된 버전(%s)의 콘피그를 현재 버전에 맞게 업데이트했습니다!".formatted(configVersion));
+            }
+            else if (versionComparison > 0) {
+                MessageUtil.log(Level.WARNING, "콘피그 버전이 현재 최신 버전보다 높습니다! 더 높은 버전의 플러그인을 쓴 적이 있거나 config version을 변경하셨나요?");
+            }
             MessageUtil.log("콘피그 불러옴!");
             fileReader.close();
             return config;

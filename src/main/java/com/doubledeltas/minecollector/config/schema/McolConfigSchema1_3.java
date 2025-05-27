@@ -30,6 +30,6 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled {
     @Override
     protected McolConfig.McolConfigBuilder getConfigBuilder() {
         return super.getConfigBuilder()
-                .configVersion(SCHEMA_VERSION);
+                .configVersion(Version.parse(configVersion));
     }
 }
