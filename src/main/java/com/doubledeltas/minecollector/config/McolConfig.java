@@ -1,6 +1,5 @@
 package com.doubledeltas.minecollector.config;
 
-import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.config.schema.McolConfigSchema;
 import com.doubledeltas.minecollector.config.schema.McolConfigSchema1_3;
 import com.doubledeltas.minecollector.config.schema.McolConfigSchemaUnlabeled;

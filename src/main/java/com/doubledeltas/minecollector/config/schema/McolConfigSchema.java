@@ -13,4 +13,8 @@ public interface McolConfigSchema {
 
     void validate() throws InvalidConfigException;
     McolConfig convert() throws InvalidConfigException;
+
+    static McolConfigSchema getLatestDefault() {
+        return new McolConfigSchema1_3();
+    }
 }
