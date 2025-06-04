@@ -1,11 +1,11 @@
-# MineCollector v1.3
+# MineCollector v${plugin.description.version}
 #
 # 마인콜렉터 설정 파일입니다.
 # This is MineCollector configuration file.
 
 # 도감 및 수집 기능을 활성화합니다.
 # enable opening collection book and collecting
-enabled: true
+enabled: ${schema.enabled}
 
 # ========= SCORING =========
 scoring:
@@ -15,8 +15,8 @@ scoring:
   #
   # Collection Score:
   # It's the score players gain when he collects an item first time
-  collection enabled: true
-  collection score: 1.0
+  collection enabled: ${schema.scoring.collectionEnabled}
+  collection score: ${schema.scoring.collectionScore}
 
   # 쌓기 점수
   # 아이템을 일정 배수만큼 더 수집했을 때 얻는 추가 점수입니다.
@@ -29,20 +29,20 @@ scoring:
   #
   # For example, if multiplier is 4, he gains scores when the number of collection is 4, 16(4²), 64(4³), ....
   # multiple must be an integer greater than or equal to 2.
-  stack enabled: true
-  stack multiple: 4
-  stack score: 0.1
+  stack enabled: ${schema.scoring.stackEnabled}
+  stack multiple: ${schema.scoring.stackMultiple}
+  stack score: ${schema.scoring.stackScore}
 
   # 발전 점수
   # 발전과제를 달성하였을 때 얻는 추가 점수입니다.
   #
   # Advancement score:
   # the score players gain when the player achieves an advancement
-  advancement enabled: true
+  advancement enabled: ${schema.scoring.advancementEnabled}
   advancement scores:
-    task: 1.0
-    goal: 2.0
-    challenge: 3.0
+    task: ${schema.scoring.advancementScores.task}
+    goal: ${schema.scoring.advancementScores.goal}
+    challenge: ${schema.scoring.advancementScores.challenge}
 
 
 # ========= ANNOUNCEMENT =========
@@ -52,26 +52,26 @@ announcement:
   # The announcement displayed when a player collects an item first time
   #
   # 허용된 값(Allowed values): "ALL_PLAYERS", "SELF", "NONE"
-  collection: ALL_PLAYERS
+  collection: ${schema.announcement.collection}
 
   # 아이템 컬렉션이 높은 단계에 도달했을 때 나오는 공지
   # The announcement displayed when a player's item collection reached high level
   #
   # 허용된 값(Allowed values): "ALL_PLAYERS", "SELF", "NONE"
-  high level reached: ALL_PLAYERS
+  high level reached: ${schema.announcement.highLevelReached}
 
   # 몇 단계부터 공지를 띄울 지 설정합니다.
   # 2 이상 정수여야 합니다.
   #
   # sets the level from which the announcement should be displayed.
   # must be greater than or equal to 2
-  high level minimum: 5
+  high level minimum: ${schema.announcement.highLevelMinimum}
 
   # 발전과제를 달성했을 때 나오는 공지
   # The announcement displayed when a player achieves an advancement
   #
   # 허용된 값(Allowed values): "ALL_PLAYERS", "SELF", "NONE"
-  advancement: SELF
+  advancement: ${schema.announcement.advancement}
 
 
 # ========= GAME =========
@@ -79,23 +79,23 @@ game:
 
   # 아직 플레이어가 수집하지 않은 아이템을 도감에서 숨길지 설정합니다.
   # set "true" to hide items that the player had not yet collected in collection
-  hide unknown collection: true
+  hide unknown collection: ${schema.game.hideUnknownCollection}
 
   # 부활시킨 엔더드래곤이 죽을 때 엔더 알이 다시 만들어질지 설정합니다.
   # set "true" to make respawned ender dragons leave her egg when they killed.
-  respawn enderegg: true
+  respawn enderegg: ${schema.game.respawnEnderegg}
 
 # ========= DB =========
 db:
 
   # 분 단위, 0 또는 양의 정수여야 함. 0일 경우 비활성화
   # in minutes, must be 0 or an positive integer, disabled if 0.
-  autosave period: 10
+  autosave period: ${schema.db.autosavePeriod}
 
   # 자동 저장할 때 콘솔에 메시지를 출력할 지 설정합니다.
   # set "true" to log message to the console when auto-saved
-  autosave logging: true
+  autosave logging: ${schema.db.autosaveLogging}
 
 # 수정하지 마세요. 플러그인이 콘피그 버전을 인식하는 부분입니다.
 # DO NOT EDIT THIS
-config version: 1.3
+config version: ${schema.configVersion}

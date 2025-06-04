@@ -7,14 +7,15 @@ import com.doubledeltas.minecollector.config.schema.McolConfigSchema;
 import com.doubledeltas.minecollector.config.schema.McolConfigSchema1_3;
 import com.doubledeltas.minecollector.config.schema.McolConfigSchemaUnlabeled;
 import com.doubledeltas.minecollector.util.MessageUtil;
+import com.doubledeltas.minecollector.util.ReflectionUtil;
 import com.doubledeltas.minecollector.version.VersionSchemaTable;
 import com.doubledeltas.minecollector.yaml.Yamls;
+import lombok.SneakyThrows;
 import org.yaml.snakeyaml.error.YAMLException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ConfigManager implements McolInitializable {
     private MineCollector plugin;
@@ -58,4 +59,46 @@ public class ConfigManager implements McolInitializable {
             return null;
         }
     }
+
+    private static final Pattern PLACEHOLDER_PATTERN
+            = Pattern.compile("(\\$\\{[a-zA-Z_$][a-zA-Z0-9_$]*(\\.[a-zA-Z_$][a-zA-Z0-9_$]*)*})");
+
+    private String replacePlaceholders(Reader rd, McolConfigSchema.PlaceholderContext context) {
+        return replacePlaceholders(new BufferedReader(rd), context);
+    }
+
+    private String replacePlaceholders(BufferedReader br, McolConfigSchema.PlaceholderContext context) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            while (true) {
+                String line = br.readLine();
+                if (line == null)
+                    break;
+                String replacedLine = replacePlaceholders(line, context);
+                sb.append(replacedLine);
+            }
+            return sb.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @SneakyThrows({NoSuchMethodException.class, IllegalAccessException.class})
+    private String replacePlaceholders(String str, McolConfigSchema.PlaceholderContext context)
+    {
+        Matcher matcher = PLACEHOLDER_PATTERN.matcher(str);
+        StringBuilder result = new StringBuilder();
+
+        while (matcher.find()) {
+            String pholder = matcher.group(1); // e.g., "${foo.bar}"
+            String graph = pholder.substring(2, pholder.length() - 1); // extract "foo.bar"
+            Object value = ReflectionUtil.traverseGetters(context, graph);
+            String replacement = value != null ? value.toString() : "null";
+            matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
+        }
+
+        matcher.appendTail(result);
+        return result.toString();
+    }
+
 }
