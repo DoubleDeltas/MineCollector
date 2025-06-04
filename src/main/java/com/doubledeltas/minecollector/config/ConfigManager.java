@@ -12,9 +12,11 @@ import com.doubledeltas.minecollector.version.VersionSchemaTable;
 import com.doubledeltas.minecollector.yaml.Yamls;
 import org.yaml.snakeyaml.error.YAMLException;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.logging.Level;
-import java.util.regex.Pattern;
 
 public class ConfigManager implements McolInitializable {
     private MineCollector plugin;
@@ -43,7 +45,8 @@ public class ConfigManager implements McolInitializable {
             MessageUtil.log("기본 콘피그 파일 생성됨!");
         }
 
-        try (FileReader fileReader = new FileReader(configPath)) {
+        try {
+            FileReader fileReader = new FileReader(configPath);
             McolConfig config = Yamls.getConfigYaml().load(fileReader, schemaTable).convert();
             Version<?> configVersion = config.getConfigVersion();
             int versionComparison = Version.compare(configVersion, schemaTable.getLatestVersion());
@@ -54,6 +57,7 @@ public class ConfigManager implements McolInitializable {
                 MessageUtil.log(Level.WARNING, "콘피그 버전이 현재 최신 버전보다 높습니다! 더 높은 버전의 플러그인을 쓴 적이 있거나 config version을 변경하셨나요?");
             }
             MessageUtil.log("콘피그 불러옴!");
+            fileReader.close();
             return config;
         } catch (FileNotFoundException e) {
             throw new InvalidConfigException("config.yml 파일을 찾을 수 없습니다!", e);
@@ -64,28 +68,4 @@ public class ConfigManager implements McolInitializable {
             return null;
         }
     }
-
-    public void save() throws InvalidConfigException {
-        try (BufferedReader resReader = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("config.yml")));
-             FileWriter configWriter = new FileWriter(configPath)
-        ) {
-        } catch (FileNotFoundException e) {
-            throw new InvalidConfigException("config.yml 파일을 찾을 수 없습니다!", e);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-//    private static class Lazy {
-//        private static Pattern PLACEHOLDER_PATTERN = Pattern.compile("(\\$\\{[^{}]+})");
-//    }
-//
-//    private String loadReplaced(BufferedReader rd) throws IOException {
-//        while (true) {
-//            String line = rd.readLine();
-//            if (line == null)
-//                break;
-//            String placeHolder = Lazy.PLACEHOLDER_PATTERN.matcher(line).group();
-//        }
-//    }
 }

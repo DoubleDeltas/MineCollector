@@ -12,7 +12,6 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 @Data @NoArgsConstructor @AllArgsConstructor @SuperBuilder
 public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled {
-    @Builder.Default
     private String configVersion = "1.3";
 
     @Override
