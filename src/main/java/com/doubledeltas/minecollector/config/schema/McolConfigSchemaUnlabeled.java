@@ -18,43 +18,67 @@ import java.util.Map;
 
 @Data @NoArgsConstructor @AllArgsConstructor @SuperBuilder
 public class McolConfigSchemaUnlabeled implements McolConfigSchema {
-    private boolean         enabled;
-    private Scoring         scoring;
-    private Announcement    announcement;
-    private Game            game;
-    private DB              db;
+    @Builder.Default
+    private boolean         enabled         = true;
+    @Builder.Default
+    private Scoring         scoring         = new Scoring();
+    @Builder.Default
+    private Announcement    announcement    = new Announcement();
+    @Builder.Default
+    private Game            game            = new Game();
+    @Builder.Default
+    private DB              db              = new DB();
 
     @Data @NoArgsConstructor @AllArgsConstructor @Builder
     public static class Scoring implements McolConfigSchema.Scoring {
-        private boolean     collectionEnabled;
-        private BigDecimal  collectionScore;
+        @Builder.Default
+        private boolean     collectionEnabled   = true;
+        @Builder.Default
+        private BigDecimal  collectionScore     = new BigDecimal("1");
 
-        private boolean     stackEnabled;
-        private int         stackMultiple;
-        private BigDecimal  stackScore;
+        @Builder.Default
+        private boolean     stackEnabled        = true;
+        @Builder.Default
+        private int         stackMultiple       = 4;
+        @Builder.Default
+        private BigDecimal  stackScore          = new BigDecimal("0.1");
 
-        private boolean     advancementEnabled;
-        private Map<AdvancementDisplayType, BigDecimal> advancementScores;
+        @Builder.Default
+        private boolean     advancementEnabled  = true;
+        @Builder.Default
+        private Map<AdvancementDisplayType, BigDecimal> advancementScores = Map.of(
+                AdvancementDisplayType.TASK,        new BigDecimal("1"),
+                AdvancementDisplayType.GOAL,        new BigDecimal("2"),
+                AdvancementDisplayType.CHALLENGE,   new BigDecimal("3")
+        );
     }
 
     @Data @NoArgsConstructor @AllArgsConstructor @Builder
     public static class Announcement implements McolConfigSchema.Announcement {
-        private AnnouncementTarget collection;
-        private AnnouncementTarget  highLevelReached;
-        private int                 highLevelMinimum;
-        private AnnouncementTarget  advancement;
+        @Builder.Default
+        private AnnouncementTarget  collection          = AnnouncementTarget.ALL_PLAYERS;
+        @Builder.Default
+        private AnnouncementTarget  highLevelReached    = AnnouncementTarget.ALL_PLAYERS;
+        @Builder.Default
+        private int                 highLevelMinimum    = 5;
+        @Builder.Default
+        private AnnouncementTarget  advancement         = AnnouncementTarget.SELF;
     }
 
     @Data @NoArgsConstructor @AllArgsConstructor @Builder
     public static class Game implements McolConfigSchema.Game {
-        private boolean hideUnknownCollection;
-        private boolean respawnEnderegg;
+        @Builder.Default
+        private boolean hideUnknownCollection           = true;
+        @Builder.Default
+        private boolean respawnEnderegg                 = true;
     }
 
     @Data @NoArgsConstructor @AllArgsConstructor @Builder
     public static class DB implements McolConfigSchema.DB {
-        private int     autosavePeriod;
-        private boolean autosaveLogging;
+        @Builder.Default
+        private int     autosavePeriod  = 10;
+        @Builder.Default
+        private boolean autosaveLogging = true;
     }
 
     @Override

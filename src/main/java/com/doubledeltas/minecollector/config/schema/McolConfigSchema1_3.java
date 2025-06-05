@@ -10,11 +10,17 @@ import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@Data @NoArgsConstructor @AllArgsConstructor @SuperBuilder
+@Data @AllArgsConstructor @SuperBuilder
 public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled {
     private static final Version<?> SCHEMA_VERSION = new SemanticVersion(1, 3, 0);
 
     private String configVersion;
+
+    public McolConfigSchema1_3() {
+        super();
+        this.configVersion = MineCollector.getInstance().getDescription().getVersion();
+    }
+
 
     @Override
     public void validate() throws InvalidConfigException {

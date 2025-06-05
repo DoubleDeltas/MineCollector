@@ -40,9 +40,9 @@ scoring:
   # the score players gain when the player achieves an advancement
   advancement enabled: ${schema.scoring.advancementEnabled}
   advancement scores:
-    task: ${schema.scoring.advancementScores.task}
-    goal: ${schema.scoring.advancementScores.goal}
-    challenge: ${schema.scoring.advancementScores.challenge}
+    task: ${schema.scoring.advancementScores.TASK}
+    goal: ${schema.scoring.advancementScores.GOAL}
+    challenge: ${schema.scoring.advancementScores.CHALLENGE}
 
 
 # ========= ANNOUNCEMENT =========

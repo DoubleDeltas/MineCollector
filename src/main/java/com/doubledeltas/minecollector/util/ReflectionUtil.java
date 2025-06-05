@@ -4,6 +4,7 @@ import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 @UtilityClass
 public final class ReflectionUtil {
@@ -34,23 +35,38 @@ public final class ReflectionUtil {
      * @param root 탐색을 시작할 객체
      * @param graph '.'으로 연쇄되는 프로퍼티 이름들의 연결
      * @return 탐색의 종점에 존재하는 객체
-     * @throws NoSuchMethodException    get&lt;필드&gt;() 또는 is&lt;필드&gt;() 메소드가 존재하지 않음
+     * @throws IllegalStateException    메소드가 존재하지 않음
      * @throws IllegalAccessException   메소드가 public으로 공개되지 않음
      */
     public static Object traverseGetters(Object root, String graph)
-            throws NoSuchMethodException, IllegalAccessException
+            throws IllegalStateException, IllegalAccessException
     {
         String[] fieldNames = graph.split("\\.");
         Object curObj = root;
         for (String fieldName : fieldNames) {
-            Method getter = GetterFinder.find(curObj.getClass(), fieldName);
-            try {
-                curObj = getter.invoke(curObj);
-            } catch (InvocationTargetException ex) {
-                // do nothing
+            Class<?> curType = curObj.getClass();
+            if (Map.class.isAssignableFrom(curType)) {
+                curObj = findMapValue((Map<?, ?>) curObj, fieldName);
+            }
+            else {
+                Method getter = GetterFinder.find(curType, fieldName);
+                try {
+                    curObj = getter.invoke(curObj);
+                } catch (InvocationTargetException ex) {
+                    // do nothing
+                }
             }
         }
         return curObj;
+    }
+
+    private static Object findMapValue(Map<?, ?> map, String keyName) {
+        for (Map.Entry<?, ?> entry: map.entrySet()) {
+            Object key = entry.getKey();
+            if (keyName.equals(key.toString()))
+                return entry.getValue();
+        }
+        return null;
     }
 
     private static final class GetterFinder {

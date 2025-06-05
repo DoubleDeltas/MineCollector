@@ -23,4 +23,8 @@ public interface McolConfigSchema {
         private MineCollector plugin;
         private McolConfigSchema schema;
     }
+
+    static McolConfigSchema getLatestDefault() {
+        return new McolConfigSchema1_3();
+    }
 }

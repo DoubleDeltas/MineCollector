@@ -14,6 +14,8 @@ import lombok.SneakyThrows;
 import org.yaml.snakeyaml.error.YAMLException;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +42,7 @@ public class ConfigManager implements McolInitializable {
         // 파일이 없으면 기본 콘피그 파일 생성
         if (!configPath.isFile()) {
             plugin.getConfig().options().copyDefaults(true);
-            plugin.saveDefaultConfig();
+            saveDefaultConfig();
             MessageUtil.log("기본 콘피그 파일 생성됨!");
         }
 
@@ -63,11 +65,11 @@ public class ConfigManager implements McolInitializable {
     private static final Pattern PLACEHOLDER_PATTERN
             = Pattern.compile("(\\$\\{[a-zA-Z_$][a-zA-Z0-9_$]*(\\.[a-zA-Z_$][a-zA-Z0-9_$]*)*})");
 
-    private String replacePlaceholders(Reader rd, McolConfigSchema.PlaceholderContext context) {
+    public String replacePlaceholders(Reader rd, McolConfigSchema.PlaceholderContext context) {
         return replacePlaceholders(new BufferedReader(rd), context);
     }
 
-    private String replacePlaceholders(BufferedReader br, McolConfigSchema.PlaceholderContext context) {
+    public String replacePlaceholders(BufferedReader br, McolConfigSchema.PlaceholderContext context) {
         StringBuilder sb = new StringBuilder();
         try {
             while (true) {
@@ -76,6 +78,7 @@ public class ConfigManager implements McolInitializable {
                     break;
                 String replacedLine = replacePlaceholders(line, context);
                 sb.append(replacedLine);
+                sb.append('\n');
             }
             return sb.toString();
         } catch (IOException e) {
@@ -83,8 +86,8 @@ public class ConfigManager implements McolInitializable {
         }
     }
 
-    @SneakyThrows({NoSuchMethodException.class, IllegalAccessException.class})
-    private String replacePlaceholders(String str, McolConfigSchema.PlaceholderContext context)
+    @SneakyThrows({IllegalStateException.class, IllegalAccessException.class})
+    public String replacePlaceholders(String str, McolConfigSchema.PlaceholderContext context)
     {
         Matcher matcher = PLACEHOLDER_PATTERN.matcher(str);
         StringBuilder result = new StringBuilder();
@@ -101,4 +104,27 @@ public class ConfigManager implements McolInitializable {
         return result.toString();
     }
 
+    public void saveDefaultConfig() {
+        File configFile = new File(plugin.getDataFolder(), "config.yml");
+        if (configFile.exists()) {
+            plugin.getLogger().log(Level.WARNING, "Could not save config.yml because config.yml already exists.");
+            return;
+        }
+
+        InputStream is = plugin.getResource("config.yml");
+        if (is == null) {
+            throw new IllegalArgumentException("The embedded resource 'config.yml' cannot be found");
+        }
+
+        InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+        McolConfigSchema.PlaceholderContext ctx
+                = new McolConfigSchema.PlaceholderContext(plugin, McolConfigSchema.getLatestDefault());
+        String replacedConfig = replacePlaceholders(isr, ctx);
+
+        try (Writer fw = new FileWriter(configFile)) {
+            fw.write(replacedConfig);
+        } catch (IOException ex) {
+            plugin.getLogger().log(Level.SEVERE, "Could not save replaced config.yml", ex);
+        }
+    }
 }
