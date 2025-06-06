@@ -77,4 +77,13 @@ public final class MineCollector extends JavaPlugin {
         this.config = configManager.load();
         dataAutoSaver.restart();
     }
+
+    /**
+     * use {@link ConfigManager#saveConfig() configManager.saveDefaultConfig} instead.
+     */
+    @Override
+    @Deprecated
+    public void saveDefaultConfig() {
+        configManager.saveConfig();
+    }
 }
