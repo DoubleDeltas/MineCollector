@@ -11,6 +11,14 @@ public class VersionManager {
         vsRegistry.add(versionSystem);
     }
 
+    public boolean isRegistered(VersionSystem versionSystem) {
+        return vsRegistry.contains(versionSystem);
+    }
+
+    public boolean isRecognizable(Version<?> version) {
+        return isRegistered(version.getVersionSystem());
+    }
+
     @SuppressWarnings("unchecked")
     public int compareVersions(Version<?> v1, Version<?> v2) {
         VersionSystem v1System = v1.getVersionSystem();

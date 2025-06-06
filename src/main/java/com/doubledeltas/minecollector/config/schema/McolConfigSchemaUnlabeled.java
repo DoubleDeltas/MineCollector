@@ -97,37 +97,4 @@ public class McolConfigSchemaUnlabeled implements McolConfigSchema {
     public String getConfigVersion() {
         return UnlabeledVersion.INSTANCE.toString();
     }
-
-    @Override
-    public McolConfig convert() throws InvalidConfigException {
-        validate();
-        return getConfigBuilder().build();
-    }
-
-    protected McolConfig.McolConfigBuilder getConfigBuilder() {
-        return McolConfig.builder()
-                .enabled(isEnabled())
-                .scoring(McolConfig.Scoring.builder()
-                        .collectionEnabled(getScoring().isCollectionEnabled())
-                        .collectionScore(getScoring().getCollectionScore())
-                        .stackEnabled(getScoring().isStackEnabled())
-                        .stackMultiple(getScoring().getStackMultiple())
-                        .stackScore(getScoring().getStackScore())
-                        .build())
-                .announcement(McolConfig.Announcement.builder()
-                        .collection(getAnnouncement().getCollection())
-                        .highLevelReached(getAnnouncement().getHighLevelReached())
-                        .highLevelMinimum(getAnnouncement().getHighLevelMinimum())
-                        .advancement(getAnnouncement().getAdvancement())
-                        .build())
-                .game(McolConfig.Game.builder()
-                        .hideUnknownCollection(getGame().isHideUnknownCollection())
-                        .respawnEnderegg(getGame().isRespawnEnderegg())
-                        .build())
-                .db(McolConfig.DB.builder()
-                        .autosavePeriod(Duration.ofMinutes(getDb().getAutosavePeriod()))
-                        .autosaveLogging(getDb().isAutosaveLogging())
-                        .build())
-                .configVersion(Version.parse(null));
-    }
 }

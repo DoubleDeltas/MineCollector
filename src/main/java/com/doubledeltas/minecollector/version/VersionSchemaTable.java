@@ -7,7 +7,6 @@ import java.util.NavigableMap;
 import java.util.NoSuchElementException;
 import java.util.TreeMap;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class VersionSchemaTable<T> {
     @Getter
@@ -18,14 +17,6 @@ public class VersionSchemaTable<T> {
     protected final BiFunction<VersionSchemaTable<T>, T, Version<?>> versionMapper;
 
     protected final NavigableMap<Version<?>, Class<? extends T>> versionMap;
-
-    public VersionSchemaTable(
-            VersionManager versionManager,
-            Class<? extends T> metadataType,
-            Function<T, Version<?>> versionMapper
-    ) {
-        this(versionManager, metadataType, (self, type) -> versionMapper.apply(type));
-    }
 
     public VersionSchemaTable(
             VersionManager versionManager,

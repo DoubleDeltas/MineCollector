@@ -5,13 +5,16 @@ import com.doubledeltas.minecollector.config.InvalidConfigException;
 import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.version.SemanticVersion;
 import com.doubledeltas.minecollector.version.Version;
+import com.doubledeltas.minecollector.version.VersionUpdater;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.time.Duration;
 
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Data @AllArgsConstructor @SuperBuilder
-public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled {
+public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled implements CurrentMcolConfigSchema {
     @Builder.Default
     private String configVersion = "1.3";
 
@@ -19,7 +22,6 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled {
         super();
         this.configVersion = MineCollector.getInstance().getDescription().getVersion();
     }
-
 
     @Override
     public void validate() throws InvalidConfigException {
@@ -33,8 +35,45 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled {
     }
 
     @Override
-    protected McolConfig.McolConfigBuilder getConfigBuilder() {
-        return super.getConfigBuilder()
-                .configVersion(Version.parse(configVersion));
+    public McolConfig convert() throws InvalidConfigException {
+        validate();
+        return McolConfig.builder()
+                .enabled(isEnabled())
+                .scoring(McolConfig.Scoring.builder()
+                        .collectionEnabled(getScoring().isCollectionEnabled())
+                        .collectionScore(getScoring().getCollectionScore())
+                        .stackEnabled(getScoring().isStackEnabled())
+                        .stackMultiple(getScoring().getStackMultiple())
+                        .stackScore(getScoring().getStackScore())
+                        .build())
+                .announcement(McolConfig.Announcement.builder()
+                        .collection(getAnnouncement().getCollection())
+                        .highLevelReached(getAnnouncement().getHighLevelReached())
+                        .highLevelMinimum(getAnnouncement().getHighLevelMinimum())
+                        .advancement(getAnnouncement().getAdvancement())
+                        .build())
+                .game(McolConfig.Game.builder()
+                        .hideUnknownCollection(getGame().isHideUnknownCollection())
+                        .respawnEnderegg(getGame().isRespawnEnderegg())
+                        .build())
+                .db(McolConfig.DB.builder()
+                        .autosavePeriod(Duration.ofMinutes(getDb().getAutosavePeriod()))
+                        .autosaveLogging(getDb().isAutosaveLogging())
+                        .build())
+                .configVersion(Version.parse(getConfigVersion()))
+                .build();
+    }
+
+    public static final class Updater implements VersionUpdater<McolConfigSchemaUnlabeled, McolConfigSchema1_3> {
+        @Override
+        public McolConfigSchema1_3 update(McolConfigSchemaUnlabeled source) {
+            return McolConfigSchema1_3.builder()
+                    .enabled(source.isEnabled())
+                    .scoring(source.getScoring())
+                    .announcement(source.getAnnouncement())
+                    .game(source.getGame())
+                    .db(source.getDb())
+                    .build();
+        }
     }
 }

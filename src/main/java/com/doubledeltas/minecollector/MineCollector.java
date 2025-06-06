@@ -79,11 +79,11 @@ public final class MineCollector extends JavaPlugin {
     }
 
     /**
-     * use {@link ConfigManager#saveDefaultConfig() configManager.saveDefaultConfig} instead.
+     * use {@link ConfigManager#saveConfig() configManager.saveDefaultConfig} instead.
      */
     @Override
     @Deprecated
     public void saveDefaultConfig() {
-        configManager.saveDefaultConfig();
+        configManager.saveConfig();
     }
 }

@@ -16,7 +16,6 @@ public interface McolConfigSchema {
     String getConfigVersion();
 
     void validate() throws InvalidConfigException;
-    McolConfig convert() throws InvalidConfigException;
 
     @Data @NoArgsConstructor @AllArgsConstructor
     class PlaceholderContext {
