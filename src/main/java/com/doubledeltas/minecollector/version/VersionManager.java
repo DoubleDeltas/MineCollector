@@ -11,6 +11,7 @@ public class VersionManager {
         vsRegistry.add(versionSystem);
     }
 
+    @SuppressWarnings("unchecked")
     public int compareVersions(Version<?> v1, Version<?> v2) {
         VersionSystem v1System = v1.getVersionSystem();
         VersionSystem v2System = v2.getVersionSystem();
@@ -18,7 +19,12 @@ public class VersionManager {
             throw new IllegalArgumentException("The system of version \"" + v1 + "\" is not registered in the manager.");
         if (!vsRegistry.contains(v2System))
             throw new IllegalArgumentException("The system of version \"" + v2 + "\" is not registered in the manager.");
-        return Integer.compare(v1System.getOrder(), v2System.getOrder());
+        int vsComparison = Integer.compare(v1System.getOrder(), v2System.getOrder());
+        if (vsComparison != 0)
+            return vsComparison;
+        else {
+            return ((Comparable<Object>) v1).compareTo(v2);
+        }
     }
 
     public Version<?> parse(String string) {

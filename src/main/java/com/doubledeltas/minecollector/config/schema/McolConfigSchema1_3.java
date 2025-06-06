@@ -12,9 +12,8 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 @Data @AllArgsConstructor @SuperBuilder
 public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled {
-    private static final Version<?> SCHEMA_VERSION = new SemanticVersion(1, 3, 0);
-
-    private String configVersion;
+    @Builder.Default
+    private String configVersion = "1.3";
 
     public McolConfigSchema1_3() {
         super();
@@ -36,6 +35,6 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled {
     @Override
     protected McolConfig.McolConfigBuilder getConfigBuilder() {
         return super.getConfigBuilder()
-                .configVersion(SCHEMA_VERSION);
+                .configVersion(Version.parse(configVersion));
     }
 }

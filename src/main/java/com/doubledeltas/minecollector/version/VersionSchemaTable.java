@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.lang.reflect.Modifier;
 import java.util.NavigableMap;
+import java.util.NoSuchElementException;
 import java.util.TreeMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -57,12 +58,14 @@ public class VersionSchemaTable<T> {
     }
 
     public Version<?> getNearestOlderVersion(Version<?> ver) {
-        Version<?> prevVer = null;
-        for (Version<?> curVer : versionMap.keySet()) {
-            if (versionManager.compareVersions(curVer, ver) > 0)
-                return prevVer;
-            prevVer = curVer;
+        try {
+            return versionMap.floorKey(ver);
+        } catch (NoSuchElementException ex) {
+            return null;
         }
-        return prevVer; // latest
+    }
+
+    public Version<?> getLatestVersion() {
+        return versionMap.lastKey();
     }
 }
