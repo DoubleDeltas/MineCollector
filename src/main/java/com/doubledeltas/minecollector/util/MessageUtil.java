@@ -2,12 +2,14 @@ package com.doubledeltas.minecollector.util;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.config.AnnouncementTarget;
+import com.doubledeltas.minecollector.lang.MessageKey;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.logging.Level;
 
 public class MessageUtil {
@@ -31,6 +33,22 @@ public class MessageUtil {
         log(Level.INFO, msg);
     }
 
+    public static void log(Level level, MessageKey msgKey, Map<String, Object> vars) {
+        log(level, translate(msgKey, vars));
+    }
+
+    public static void log(Level level, MessageKey msgKey) {
+        log(level, translate(msgKey));
+    }
+
+    public static void log(MessageKey msgKey, Map<String, Object> vars) {
+        log(Level.INFO, msgKey, vars);
+    }
+
+    public static void log(MessageKey msgKey) {
+        log(Level.INFO, msgKey);
+    }
+
     /**
      * 플레이어 또는 콘솔에게 마인콜렉터 메시지를 보냅니다.
      * @param subject 수신자
@@ -38,6 +56,14 @@ public class MessageUtil {
      */
     public static void send(CommandSender subject, String msg) {
         subject.sendMessage(MSG_PREFIX + msg);
+    }
+
+    public static void send(CommandSender subject, MessageKey msgKey, Map<String, Object> vars) {
+        send(subject, translate(msgKey, vars));
+    }
+
+    public static void send(CommandSender subject, MessageKey msgKey) {
+        send(subject, translate(msgKey));
     }
 
     /**
@@ -55,12 +81,29 @@ public class MessageUtil {
             send(player, msg);
     }
 
+
+    public static void send(AnnouncementTarget target, Player subject, MessageKey msgKey, Map<String, Object> vars) {
+        send(target, subject, translate(msgKey, vars));
+    }
+
+    public static void send(AnnouncementTarget target, Player subject, MessageKey msgKey) {
+        send(target, subject, translate(msgKey));
+    }
+
     /**
      * 마인콜렉터 서버 전체에 마인콜렉터 메시지를 보냅니다.
      * @param msg 메시지
      */
     public static void broadcast(String msg) {
         MineCollector.getInstance().getServer().broadcastMessage(MSG_PREFIX + msg);
+    }
+
+    public static void broadcast(MessageKey messageKey, Map<String, Object> vars) {
+        broadcast(translate(messageKey, vars));
+    }
+
+    public static void broadcast(MessageKey messageKey) {
+        broadcast(translate(messageKey));
     }
 
     /**
@@ -107,5 +150,13 @@ public class MessageUtil {
         prefixedComponents[0] = MSG_PREFIX_COMPONENT;
         System.arraycopy(components, 0, prefixedComponents, 1, components.length);
         return prefixedComponents;
+    }
+
+    private static String translate(MessageKey msgKey, Map<String, Object> vars) {
+        return MineCollector.getInstance().getLangManager().translate(msgKey, vars);
+    }
+
+    private static String translate(MessageKey msgKey) {
+        return MineCollector.getInstance().getLangManager().translate(msgKey);
     }
 }
