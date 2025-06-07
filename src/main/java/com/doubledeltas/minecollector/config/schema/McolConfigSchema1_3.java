@@ -17,6 +17,8 @@ import java.time.Duration;
 public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled implements CurrentMcolConfigSchema {
     @Builder.Default
     private String configVersion = "1.3";
+    @Builder.Default
+    private String lang = "lang_ko";
 
     public McolConfigSchema1_3() {
         super();
@@ -39,6 +41,7 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled implements Cu
         validate();
         return McolConfig.builder()
                 .enabled(isEnabled())
+                .lang(getLang())
                 .scoring(McolConfig.Scoring.builder()
                         .collectionEnabled(getScoring().isCollectionEnabled())
                         .collectionScore(getScoring().getCollectionScore())
