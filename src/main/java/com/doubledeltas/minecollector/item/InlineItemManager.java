@@ -1,7 +1,5 @@
-package com.doubledeltas.minecollector.item.manager;
+package com.doubledeltas.minecollector.item;
 
-import com.doubledeltas.minecollector.item.ItemBuilder;
-import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.GuiItem;
 import com.doubledeltas.minecollector.item.itemCode.ItemCode;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
