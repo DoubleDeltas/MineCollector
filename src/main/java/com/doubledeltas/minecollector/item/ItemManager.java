@@ -1,7 +1,6 @@
 package com.doubledeltas.minecollector.item;
 
 import com.doubledeltas.minecollector.item.itemCode.ItemCode;
-import com.doubledeltas.minecollector.item.manager.EmbeddedItemManager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -25,7 +24,7 @@ public abstract class ItemManager {
      *
      * 경고: 이 아이템을 수정하면 안됩니다!
      * @param itemCode 아이템 경로
-     * @see EmbeddedItemManager#createItem(ItemCode, Map) 아이템을 수정하려면 이 메소드를 사용하세요.
+     * @see ItemManager#createItem(ItemCode, Map) 수정할 수 있는 아이템을 만드려면 이 메소드를 사용하세요.
      * @return 아이템
      */
     public ItemStack getItem(ItemCode itemCode) {
