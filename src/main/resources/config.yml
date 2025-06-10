@@ -7,7 +7,7 @@
 # enable opening collection book and collecting
 enabled: ${schema.enabled}
 
-# 언어 파일 이름입니다. "lang" 파일 안에 <이름>.lang 파일이 있어야 합니다.
+# 언어 파일 이름입니다. "lang" 폴더 안에 <이름>.lang 파일이 있어야 합니다.
 # lang file name, <lang_name>.lang file must be in "lang" directory.
 lang: ${schema.lang}
 
