@@ -2,13 +2,16 @@ package com.doubledeltas.minecollector.lang;
 
 import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.util.ReflectionUtil;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.io.*;
+import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.JarInputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +19,7 @@ public class LangManager implements McolInitializable {
     private static final String DEFAULT_LANG = "ko_KR";
 
     private MineCollector plugin;
+    private File langFolder;
     @Getter
     private String currentLang;
     private Properties langProperties;
@@ -29,14 +33,19 @@ public class LangManager implements McolInitializable {
     @SneakyThrows(IOException.class)
     public void init(MineCollector plugin) {
         this.plugin = plugin;
+        this.langFolder = new File(plugin.getDataFolder(), "lang");
         defaultProperties.load(plugin.getResource("lang/" + DEFAULT_LANG + ".lang"));
+    }
+
+    public void loadLang(String lang) {
+         setLang(lang);
     }
 
     public void setLang(String lang) {
         currentLang = lang;
         langProperties = new Properties(defaultProperties);
 
-        File langFile = new File(plugin.getDataFolder() + File.pathSeparator + "lang", lang + ".lang");
+        File langFile = new File(langFolder, lang + ".lang");
         try (Reader rd = new FileReader(langFile)) {
             langProperties.load(rd);
         } catch (FileNotFoundException ex) {
