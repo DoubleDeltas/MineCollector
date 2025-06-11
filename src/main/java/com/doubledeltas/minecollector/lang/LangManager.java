@@ -2,16 +2,13 @@ package com.doubledeltas.minecollector.lang;
 
 import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.util.MessageUtil;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.io.*;
-import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.jar.JarInputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,7 +35,10 @@ public class LangManager implements McolInitializable {
     }
 
     public void loadLang(String lang) {
-        plugin.getResourceManager().copyDirectory("lang", langFolder);
+        if (!langFolder.exists() || !langFolder.isDirectory()) {
+            plugin.getResourceManager().copyDirectory("lang", langFolder);
+            MessageUtil.log("lang 폴더를 생성했습니다!");
+        }
         setLang(lang);
     }
 
