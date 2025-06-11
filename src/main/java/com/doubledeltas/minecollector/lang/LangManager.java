@@ -9,6 +9,7 @@ import lombok.SneakyThrows;
 import java.io.*;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,8 +18,8 @@ public class LangManager implements McolInitializable {
 
     private MineCollector plugin;
     private File langFolder;
+    private File defaultLangFile;
     @Getter
-    private String currentLang;
     private Properties langProperties;
     private final Properties defaultProperties;
 
@@ -31,6 +32,7 @@ public class LangManager implements McolInitializable {
     public void init(MineCollector plugin) {
         this.plugin = plugin;
         this.langFolder = new File(plugin.getDataFolder(), "lang");
+        this.defaultLangFile = new File(langFolder, DEFAULT_LANG);
         defaultProperties.load(plugin.getResource("lang/" + DEFAULT_LANG + ".lang"));
     }
 
@@ -39,14 +41,18 @@ public class LangManager implements McolInitializable {
             plugin.getResourceManager().copyDirectory("lang", langFolder);
             MessageUtil.log("lang 폴더를 생성했습니다!");
         }
-        setLang(lang);
+        File langFile = new File(langFolder, lang + ".lang");
+        if (!langFile.exists() || !langFile.isFile()) {
+            setLang(defaultLangFile);
+            MessageUtil.log(Level.WARNING, "lang 파일(%s)을 찾을 수 없어 기본 언어를 사용합니다.".formatted(langFile));
+            return;
+        }
+        setLang(langFile);
     }
 
-    public void setLang(String lang) {
-        currentLang = lang;
+    public void setLang(File langFile) {
         langProperties = new Properties(defaultProperties);
 
-        File langFile = new File(langFolder, lang + ".lang");
         try (Reader rd = new FileReader(langFile)) {
             langProperties.load(rd);
         } catch (FileNotFoundException ex) {
