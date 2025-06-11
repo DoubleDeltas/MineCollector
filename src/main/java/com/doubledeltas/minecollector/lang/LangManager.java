@@ -38,7 +38,8 @@ public class LangManager implements McolInitializable {
     }
 
     public void loadLang(String lang) {
-         setLang(lang);
+        plugin.getResourceManager().copyDirectory("lang", langFolder);
+        setLang(lang);
     }
 
     public void setLang(String lang) {
