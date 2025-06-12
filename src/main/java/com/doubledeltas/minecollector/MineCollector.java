@@ -65,13 +65,13 @@ public final class MineCollector extends JavaPlugin {
         commandManager.loadCommands();
         dataManager.loadData();
         dataAutoSaver.start();
-        MessageUtil.logRaw(Level.INFO, "마인콜렉터 플러그인이 켜졌습니다!");
+        MessageUtil.log(Level.INFO, "server.enabled");
     }
 
     @Override
     public void onDisable() {
         dataManager.saveAll();
-        MessageUtil.logRaw(Level.INFO, "마인콜렉터 플러그인이 꺼졌습니다.");
+        MessageUtil.log(Level.INFO, "server.disabled");
     }
 
     public McolConfig getMcolConfig() {

@@ -1,1 +1,2 @@
-sans=wa
+server.enabled=MineCollector plugin is enabled!
+server.disabled=MineCollector plugin is disabled!

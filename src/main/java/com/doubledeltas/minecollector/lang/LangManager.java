@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LangManager implements McolInitializable {
-    private static final String DEFAULT_LANG = "ko_KR";
+    private static final String DEFAULT_LANG = "en_US";
 
     private MineCollector plugin;
     private File langFolder;
@@ -71,6 +71,8 @@ public class LangManager implements McolInitializable {
         }
 
         String raw = (String) langProperties.get(key.getFullKey());
+        if (raw == null)
+            raw = (String) defaultProperties.get(key.getFullKey());
 
         Matcher matcher = PLACEHOLDER_PATTERN.matcher(raw);
         StringBuilder result = new StringBuilder();
