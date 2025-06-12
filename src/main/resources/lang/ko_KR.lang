@@ -2,3 +2,9 @@ server.enabled=마인콜렉터 플러그인이 켜졌습니다!
 server.disabled=마인콜렉터 플러그인이 꺼졌습니다.
 
 command.loaded={0}개 커맨드 불러옴!
+
+config.default_created=기본 콘피그 파일 생성됨!
+config.updated=오래된 버전({0})의 콘피그를 현재 버전에 맞게 업데이트했습니다!
+config.higher_version_warning=콘피그 버전이 현재 최신 버전보다 높습니다! 더 높은 버전의 플러그인을 쓴 적이 있거나 config version을 변경하셨나요?
+config.loaded=콘피그 불러옴!
+config.already_exist_warning=config.yml이 이미 존재해 config.yml을 저장할 수 없었습니다.

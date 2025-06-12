@@ -46,7 +46,7 @@ public class ConfigManager implements McolInitializable {
         if (!configPath.isFile()) {
             plugin.getConfig().options().copyDefaults(true);
             saveConfig();
-            MessageUtil.logRaw("기본 콘피그 파일 생성됨!");
+            MessageUtil.log("config.default_created");
         }
 
         try (FileReader fileReader = new FileReader(configPath)) {
@@ -57,17 +57,17 @@ public class ConfigManager implements McolInitializable {
             if (versionComparison < 0) {
                 schema = updaterChain.updateToLatest(schema, schemaVersion);
                 saveConfig(schema, true);
-                MessageUtil.logRaw("오래된 버전(%s)의 콘피그를 현재 버전에 맞게 업데이트했습니다!".formatted(schemaVersionName));
+                MessageUtil.log("config.updated", schemaVersionName);
             }
             else if (versionComparison > 0) {
-                MessageUtil.logRaw(Level.WARNING, "콘피그 버전이 현재 최신 버전보다 높습니다! 더 높은 버전의 플러그인을 쓴 적이 있거나 config version을 변경하셨나요?");
+                MessageUtil.log(Level.WARNING, "config.higher_version_warning");
             }
-            MessageUtil.logRaw("콘피그 불러옴!");
+            MessageUtil.log("config.loaded");
             return ((CurrentMcolConfigSchema) schema).convert();
         } catch (FileNotFoundException e) {
-            throw new InvalidConfigException("config.yml 파일을 찾을 수 없습니다!", e);
+            throw new InvalidConfigException("Could not found config.yml file", e);
         } catch (YAMLException e) {
-            throw new InvalidConfigException("config.yml 파일을 읽어들이던 중 오류가 발생했습니다!", e);
+            throw new InvalidConfigException("An error occurred while loading config.yml file", e);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -131,7 +131,7 @@ public class ConfigManager implements McolInitializable {
     public void saveConfig(McolConfigSchema schema, boolean override) {
         File configFile = new File(plugin.getDataFolder(), "config.yml");
         if (configFile.exists() && !override) {
-            plugin.getLogger().log(Level.WARNING, "Could not save config.yml because config.yml already exists.");
+            MessageUtil.log(Level.WARNING, "config.already_exist_warning");
             return;
         }
 
@@ -148,7 +148,7 @@ public class ConfigManager implements McolInitializable {
         try (Writer fw = new FileWriter(configFile)) {
             fw.write(replacedConfig);
         } catch (IOException ex) {
-            plugin.getLogger().log(Level.SEVERE, "Could not save replaced config.yml", ex);
+            throw new RuntimeException(ex);
         }
     }
 }

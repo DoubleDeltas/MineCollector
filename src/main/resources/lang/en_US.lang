@@ -2,3 +2,9 @@ server.enabled=MineCollector plugin is enabled!
 server.disabled=MineCollector plugin is disabled!
 
 command.loaded={0} commands loaded!
+
+config.default_created=Default config file created!
+config.updated=The config of older version({0}) has been updated to current version!
+config.higher_version_warning=The version of config is higer than current version! Have you ever used the plugin of higher version or modified config version?
+config.loaded=Config loaded!
+config.already_exist_warning=Could not save config.yml because config.yml already exists.
