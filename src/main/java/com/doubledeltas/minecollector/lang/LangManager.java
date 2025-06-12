@@ -21,6 +21,7 @@ public class LangManager implements McolInitializable {
     @Getter
     private Properties langProperties;
     private final Properties defaultProperties;
+    private String currentLang;
 
     public LangManager() {
         this.defaultProperties = new Properties();
@@ -47,9 +48,14 @@ public class LangManager implements McolInitializable {
             return;
         }
         setLang(langFile);
+        currentLang = lang;
     }
 
-    public void setLang(File langFile) {
+    public void reloadLang() {
+        loadLang(currentLang);
+    }
+
+    protected void setLang(File langFile) {
         langProperties = new Properties(defaultProperties);
 
         try (Reader rd = new FileReader(langFile)) {
