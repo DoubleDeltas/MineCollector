@@ -1,11 +1,14 @@
 server.enabled=MineCollector plugin is enabled!
 server.disabled=MineCollector plugin is disabled!
 
+game.got_advancement_score=§e{0}§f has received §b§l{1} §f Advancement points. (cur. §e{2}§f pts)
+game.cant_open_book_now=§cYou can't open the collection book now!
+
 command.loaded={0} commands loaded!
 
 config.default_created=Default config file created!
 config.updated=The config of older version({0}) has been updated to current version!
-config.higher_version_warning=The version of config is higer than current version! Have you ever used the plugin of higher version or modified config version?
+config.higher_version_warning=The version of config is higher than current version! Have you ever used the plugin of higher version or modified config version?
 config.loaded=Config loaded!
 config.already_exist_warning=Could not save config.yml because config.yml already exists.
 

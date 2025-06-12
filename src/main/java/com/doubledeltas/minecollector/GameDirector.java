@@ -116,9 +116,9 @@ public class GameDirector implements McolInitializable {
         data.addAdvCleared(type);
 
         GameStatistics stats = new GameStatistics(data);
-        MessageUtil.sendRaw(announcementConfig.getAdvancement(), player,
-                "§e%s§f님이 발전과제 점수 §b§l%s§f점을 얻었습니다. (현재 §e%s§f점)"
-                        .formatted(player.getName(), scoringConfig.getAdvancementScores().get(type), stats.getTotalScore())
+        MessageUtil.send(
+                announcementConfig.getAdvancement(), player, "game.got_advancement_score",
+                player.getName(), scoringConfig.getAdvancementScores().get(type), stats.getTotalScore()
         );
         for (Player p: announcementConfig.getAdvancement().resolve(player))
             SoundUtil.playFirework(p);
@@ -130,7 +130,7 @@ public class GameDirector implements McolInitializable {
      */
     public void tryOpenHubGui(Player player) {
         if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
-            MessageUtil.sendRaw(player, "§c지금은 도감을 열 수 없습니다!");
+            MessageUtil.send(player, "game.cant_open_book_now");
             SoundUtil.playFail(player);
             return;
         }
