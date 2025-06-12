@@ -9,7 +9,9 @@ config.higher_version_warning=콘피그 버전이 현재 최신 버전보다 높
 config.loaded=콘피그 불러옴!
 config.already_exist_warning=config.yml이 이미 존재해 config.yml을 저장할 수 없었습니다.
 
+data.loaded={0}개 데이터 불러옴!
 data.save_failed=게임데이터 저장 실패!
+data.auto_saved=데이터 자동 저장됨!
 
 lang.default_created=lang 폴더를 생성했습니다!
 lang.using_default=lang 파일({0})을 찾을 수 없어 기본 언어를 사용합니다.

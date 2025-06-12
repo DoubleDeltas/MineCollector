@@ -9,7 +9,9 @@ config.higher_version_warning=The version of config is higer than current versio
 config.loaded=Config loaded!
 config.already_exist_warning=Could not save config.yml because config.yml already exists.
 
+data.loaded={0} data loaded!
 data.save_failed=Failed to save game data!
+data.auto_saved=Data auto-saved!
 
 lang.default_created=lang folder created!
 lang.using_default=The language file ({0}) could not be found, so the default language will be used.

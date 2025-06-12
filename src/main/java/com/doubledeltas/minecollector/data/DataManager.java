@@ -41,13 +41,14 @@ public class DataManager implements McolInitializable {
             }
 
             // convert all player data
-            for (File file : dataPath.listFiles()) {
+            File[] dataFiles = dataPath.listFiles();
+            for (File file : dataFiles) {
                 GameData data = GameData.loadFromYaml(new FileReader(file));
                 UUID uuid = data.getUuid();
                 playerData.put(uuid, data);
             }
 
-            MessageUtil.logRaw(dataPath.listFiles().length + "개 게임 데이터 불러옴!");
+            MessageUtil.log("data.loaded", dataFiles.length);
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
