@@ -33,7 +33,7 @@ public class MessageUtil {
     }
 
     public static void log(Level level, String msgKey, Object... vars) {
-        logRaw(level, translate(MessageKey.of(msgKey), vars));
+        logRaw(level, translate(MessageKey.of(msgKey, vars.length), vars));
     }
 
     public static void log(String msgKey, Object... vars) {
@@ -50,7 +50,7 @@ public class MessageUtil {
     }
 
     public static void send(CommandSender subject, String msgKey, Object... vars) {
-        sendRaw(subject, translate(MessageKey.of(msgKey), vars));
+        sendRaw(subject, translate(MessageKey.of(msgKey, vars.length), vars));
     }
 
     /**
@@ -69,7 +69,7 @@ public class MessageUtil {
     }
 
     public static void send(AnnouncementTarget target, Player subject, String msgKey, Object... vars) {
-        sendRaw(target, subject, translate(MessageKey.of(msgKey), vars));
+        sendRaw(target, subject, translate(MessageKey.of(msgKey, vars.length), vars));
     }
 
     /**
@@ -81,7 +81,7 @@ public class MessageUtil {
     }
 
     public static void broadcast(String messageKey, Object... vars) {
-        broadcastRaw(translate(MessageKey.of(messageKey), vars));
+        broadcastRaw(translate(MessageKey.of(messageKey, vars.length), vars));
     }
 
     /**

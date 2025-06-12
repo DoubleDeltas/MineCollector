@@ -1,2 +1,4 @@
 server.enabled=MineCollector plugin is enabled!
 server.disabled=MineCollector plugin is disabled!
+
+command.loaded={0} commands loaded!
