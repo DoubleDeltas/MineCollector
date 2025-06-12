@@ -1,6 +1,5 @@
 package com.doubledeltas.minecollector.command.impl.book;
 
-import com.doubledeltas.minecollector.GameDirector;
 import com.doubledeltas.minecollector.command.CommandNode;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import org.bukkit.command.Command;
@@ -18,7 +17,7 @@ public class BookOpenCommand extends CommandNode {
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            MessageUtil.send(sender, "이 명령어는 플레이어만 사용할 수 있습니다!");
+            MessageUtil.sendRaw(sender, "이 명령어는 플레이어만 사용할 수 있습니다!");
             return false;
         }
 

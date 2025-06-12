@@ -33,6 +33,6 @@ public class CommandManager implements McolInitializable {
 
             root.registerThis(plugin);
         }
-        MessageUtil.log(CMD_ROOTS.size() + "개 커맨드 불러옴!");
+        MessageUtil.logRaw(CMD_ROOTS.size() + "개 커맨드 불러옴!");
     }
 }

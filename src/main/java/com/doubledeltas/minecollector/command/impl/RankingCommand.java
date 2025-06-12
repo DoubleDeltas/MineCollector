@@ -4,7 +4,6 @@ import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.command.impl.ranking.RankingItemCommand;
 import com.doubledeltas.minecollector.config.McolConfig;
-import com.doubledeltas.minecollector.config.schema.McolConfigSchema;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
 import com.doubledeltas.minecollector.util.MessageUtil;
@@ -55,14 +54,14 @@ public final class RankingCommand extends CommandRoot {
             enabled = scoringConfig.isAdvancementEnabled();
         }
         else {
-            MessageUtil.send(sender, "§c랭킹 카테고리 입력이 잘못되었습니다!");
+            MessageUtil.sendRaw(sender, "§c랭킹 카테고리 입력이 잘못되었습니다!");
             if (sender instanceof Player player)
                 SoundUtil.playFail(player);
             return false;
         }
 
         if (!enabled) {
-            MessageUtil.send(sender, "§c" + categoryWord + " 기능이 비활성화되어 있습니다!");
+            MessageUtil.sendRaw(sender, "§c" + categoryWord + " 기능이 비활성화되어 있습니다!");
             if (sender instanceof Player player)
                 SoundUtil.playFail(player);
             return false;
@@ -71,16 +70,16 @@ public final class RankingCommand extends CommandRoot {
         List<GameData> top10 = plugin.getDataManager().getTop10(keyFunc);
         int top10Size = top10.size();
 
-        MessageUtil.send(sender, "");
-        MessageUtil.send(sender,"§e%s 점수 TOP 10 리스트:".formatted(categoryWord));
+        MessageUtil.sendRaw(sender, "");
+        MessageUtil.sendRaw(sender,"§e%s 점수 TOP 10 리스트:".formatted(categoryWord));
 
         if (top10Size == 1) { // 아무도 수집하지 않음
-            MessageUtil.send(sender, " §7- 아직 아무도 아이템을 수집하지 않았군요! :)");
+            MessageUtil.sendRaw(sender, " §7- 아직 아무도 아이템을 수집하지 않았군요! :)");
         }
         else {
             for (int i=1; i < top10Size; i++) {
                 GameData data = top10.get(i);
-                MessageUtil.send(sender,
+                MessageUtil.sendRaw(sender,
                         " §7- "
                         + ((i < 10) ? "§70" : "")
                         + "§e%s. §f%s§7: §e§l%.1f".formatted(i, data.getName(), keyFunc.apply(data))

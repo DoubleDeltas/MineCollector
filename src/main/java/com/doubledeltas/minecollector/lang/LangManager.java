@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.io.*;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
@@ -39,12 +38,12 @@ public class LangManager implements McolInitializable {
     public void loadLang(String lang) {
         if (!langFolder.exists() || !langFolder.isDirectory()) {
             plugin.getResourceManager().copyDirectory("lang", langFolder);
-            MessageUtil.log("lang 폴더를 생성했습니다!");
+            MessageUtil.logRaw("lang 폴더를 생성했습니다!");
         }
         File langFile = new File(langFolder, lang + ".lang");
         if (!langFile.exists() || !langFile.isFile()) {
             setLang(defaultLangFile);
-            MessageUtil.log(Level.WARNING, "lang 파일(%s)을 찾을 수 없어 기본 언어를 사용합니다.".formatted(langFile));
+            MessageUtil.logRaw(Level.WARNING, "lang 파일(%s)을 찾을 수 없어 기본 언어를 사용합니다.".formatted(langFile));
             return;
         }
         setLang(langFile);
@@ -64,10 +63,11 @@ public class LangManager implements McolInitializable {
 
     private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("(\\$\\{.+})");
 
-    public String translate(MessageKey key, Map<String, Object> vars) {
-        for (String placeholder : key.getPlaceholders()) {
-            if (!vars.containsKey(placeholder))
-                throw new IllegalArgumentException("The variable for placeholder %s was needed, but no variable was given.");
+    public String translate(MessageKey key, Object... vars) {
+        int givenVarsCnt = vars.length;
+        int neededVarsCnt = key.getVariableCount();
+        if (givenVarsCnt != neededVarsCnt) {
+            throw new IllegalArgumentException("The %d variable(s) was needed, but %d variable(s) was given.".formatted(neededVarsCnt, givenVarsCnt));
         }
 
         String raw = (String) langProperties.get(key.getFullKey());
@@ -75,17 +75,13 @@ public class LangManager implements McolInitializable {
         Matcher matcher = PLACEHOLDER_PATTERN.matcher(raw);
         StringBuilder result = new StringBuilder();
         while (matcher.find()) {
-            String pholder = matcher.group(1);  // e.g. "${foo}"
-            String varName = pholder.substring(2, pholder.length() - 1); // e.g. "foo"
-            String replacement = vars.get(varName).toString();
+            String pholder = matcher.group(1);  // e.g. "${1}"
+            int varIdx = Integer.parseInt(pholder.substring(2, pholder.length() - 1)); // e.g. 1
+            String replacement = vars[varIdx].toString();
             matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
         }
 
         matcher.appendTail(result);
         return result.toString();
-    }
-
-    public String translate(MessageKey key) {
-        return translate(key, Map.of());
     }
 }

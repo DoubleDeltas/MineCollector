@@ -46,7 +46,7 @@ public class ConfigManager implements McolInitializable {
         if (!configPath.isFile()) {
             plugin.getConfig().options().copyDefaults(true);
             saveConfig();
-            MessageUtil.log("기본 콘피그 파일 생성됨!");
+            MessageUtil.logRaw("기본 콘피그 파일 생성됨!");
         }
 
         try (FileReader fileReader = new FileReader(configPath)) {
@@ -57,12 +57,12 @@ public class ConfigManager implements McolInitializable {
             if (versionComparison < 0) {
                 schema = updaterChain.updateToLatest(schema, schemaVersion);
                 saveConfig(schema, true);
-                MessageUtil.log("오래된 버전(%s)의 콘피그를 현재 버전에 맞게 업데이트했습니다!".formatted(schemaVersionName));
+                MessageUtil.logRaw("오래된 버전(%s)의 콘피그를 현재 버전에 맞게 업데이트했습니다!".formatted(schemaVersionName));
             }
             else if (versionComparison > 0) {
-                MessageUtil.log(Level.WARNING, "콘피그 버전이 현재 최신 버전보다 높습니다! 더 높은 버전의 플러그인을 쓴 적이 있거나 config version을 변경하셨나요?");
+                MessageUtil.logRaw(Level.WARNING, "콘피그 버전이 현재 최신 버전보다 높습니다! 더 높은 버전의 플러그인을 쓴 적이 있거나 config version을 변경하셨나요?");
             }
-            MessageUtil.log("콘피그 불러옴!");
+            MessageUtil.logRaw("콘피그 불러옴!");
             return ((CurrentMcolConfigSchema) schema).convert();
         } catch (FileNotFoundException e) {
             throw new InvalidConfigException("config.yml 파일을 찾을 수 없습니다!", e);

@@ -19,7 +19,7 @@ public class ReloadDataCommand extends CommandNode {
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         MineCollector.getInstance().getDataManager().loadData();
-        MessageUtil.send(sender, "데이터를 리로드하였습니다!");
+        MessageUtil.sendRaw(sender, "데이터를 리로드하였습니다!");
         if (sender instanceof Player player)
             SoundUtil.playHighRing(player);
         

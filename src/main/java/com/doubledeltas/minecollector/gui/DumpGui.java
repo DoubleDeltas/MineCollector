@@ -1,6 +1,5 @@
 package com.doubledeltas.minecollector.gui;
 
-import com.doubledeltas.minecollector.GameDirector;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.GuiItem;
@@ -42,7 +41,7 @@ public class DumpGui extends Gui {
 
         if (e.getRawSlot() == INDEX_COLLECT && state == ProcessState.OK) {
             if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
-                MessageUtil.send(player, "§c지금은 수집할 수 없습니다!");
+                MessageUtil.sendRaw(player, "§c지금은 수집할 수 없습니다!");
                 player.closeInventory();
                 SoundUtil.playFail(player);
                 return;
@@ -54,7 +53,7 @@ public class DumpGui extends Gui {
                 ItemStack item = Objects.requireNonNullElse(inventory.getItem(i), AIR_ITEM);
 
                 if (!plugin.getGameDirector().isCollectable(item)) {
-                    MessageUtil.send(player,
+                    MessageUtil.sendRaw(player,
                             "§e수집할 수 없는 아이템(§7%s§e)은 수집되지 않았습니다.".formatted(item.getItemMeta().getDisplayName())
                     );
                     continue;

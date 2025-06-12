@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter @AllArgsConstructor
 public class LiteralMessageKey implements MessageKey {
     private final String fullKey;
-    private final String[] placeholders;
+    private final int variableCount;
 }

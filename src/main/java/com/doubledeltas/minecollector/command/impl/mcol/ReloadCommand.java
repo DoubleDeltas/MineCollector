@@ -24,8 +24,8 @@ public class ReloadCommand extends CommandNode {
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
-        MessageUtil.send(sender, "명령어가 잘못되었습니다!");
-        MessageUtil.send(sender, "올바른 명령어: §e/mcol reload [config | data] ...");
+        MessageUtil.sendRaw(sender, "명령어가 잘못되었습니다!");
+        MessageUtil.sendRaw(sender, "올바른 명령어: §e/mcol reload [config | data] ...");
         return false;
     }
 }

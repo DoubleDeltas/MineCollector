@@ -1,7 +1,6 @@
 package com.doubledeltas.minecollector;
 
 import com.doubledeltas.minecollector.config.McolConfig;
-import com.doubledeltas.minecollector.config.schema.McolConfigSchema;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
 import com.doubledeltas.minecollector.gui.HubGui;
@@ -117,7 +116,7 @@ public class GameDirector implements McolInitializable {
         data.addAdvCleared(type);
 
         GameStatistics stats = new GameStatistics(data);
-        MessageUtil.send(announcementConfig.getAdvancement(), player,
+        MessageUtil.sendRaw(announcementConfig.getAdvancement(), player,
                 "§e%s§f님이 발전과제 점수 §b§l%s§f점을 얻었습니다. (현재 §e%s§f점)"
                         .formatted(player.getName(), scoringConfig.getAdvancementScores().get(type), stats.getTotalScore())
         );
@@ -131,7 +130,7 @@ public class GameDirector implements McolInitializable {
      */
     public void tryOpenHubGui(Player player) {
         if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
-            MessageUtil.send(player, "§c지금은 도감을 열 수 없습니다!");
+            MessageUtil.sendRaw(player, "§c지금은 도감을 열 수 없습니다!");
             SoundUtil.playFail(player);
             return;
         }
@@ -157,7 +156,7 @@ public class GameDirector implements McolInitializable {
     private static void noticeFirstCollection(Player target, Material material) {
         McolConfig.Announcement announcementConfig = MineCollector.getInstance().getMcolConfig().getAnnouncement();
 
-        MessageUtil.sendRaw(announcementConfig.getCollection(), target, new ComponentBuilder()
+        MessageUtil.send(announcementConfig.getCollection(), target, new ComponentBuilder()
                         .append(target.getName()).color(ChatColor.YELLOW)
                         .append("님이 ").color(ChatColor.GREEN)
                         .append(GameDirector.getItemNameComponent(material)).color(ChatColor.YELLOW)
@@ -199,7 +198,7 @@ public class GameDirector implements McolInitializable {
         BaseComponent itemNameComponent = new TranslatableComponent(material.getItemTranslationKey());
         itemNameComponent.setColor(ChatColor.YELLOW);
 
-        MessageUtil.sendRaw(announcementConfig.getHighLevelReached(), target, new ComponentBuilder()
+        MessageUtil.send(announcementConfig.getHighLevelReached(), target, new ComponentBuilder()
                 .append(target.getName()).color(ChatColor.YELLOW)
                 .append("님의 ").color(color).bold(isBold)
                 .append(new TranslatableComponent(material.getItemTranslationKey())).color(ChatColor.YELLOW).bold(isBold)

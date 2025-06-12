@@ -47,7 +47,7 @@ public class DataManager implements McolInitializable {
                 playerData.put(uuid, data);
             }
 
-            MessageUtil.log(dataPath.listFiles().length + "개 게임 데이터 불러옴!");
+            MessageUtil.logRaw(dataPath.listFiles().length + "개 게임 데이터 불러옴!");
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -105,7 +105,7 @@ public class DataManager implements McolInitializable {
         for (GameData data: playerData.values()) {
             boolean result = save(data);
             if (!result) {
-                MessageUtil.log(Level.SEVERE, "게임데이터 저장 실패!");
+                MessageUtil.logRaw(Level.SEVERE, "게임데이터 저장 실패!");
                 return false;
             }
         }
