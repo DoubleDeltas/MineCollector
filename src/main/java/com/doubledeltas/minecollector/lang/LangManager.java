@@ -67,7 +67,7 @@ public class LangManager implements McolInitializable {
         }
     }
 
-    private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("(\\$\\{.+})");
+    private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("(\\{.+})");
 
     public String translate(MessageKey key, Object... vars) {
         int givenVarsCnt = vars.length;
@@ -83,8 +83,8 @@ public class LangManager implements McolInitializable {
         Matcher matcher = PLACEHOLDER_PATTERN.matcher(raw);
         StringBuilder result = new StringBuilder();
         while (matcher.find()) {
-            String pholder = matcher.group(1);  // e.g. "${1}"
-            int varIdx = Integer.parseInt(pholder.substring(2, pholder.length() - 1)); // e.g. 1
+            String pholder = matcher.group(1);  // e.g. "{1}"
+            int varIdx = Integer.parseInt(pholder.substring(1, pholder.length() - 1)); // e.g. 1
             String replacement = vars[varIdx].toString();
             matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
         }
