@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
 import java.util.logging.Level;
 
 public class MessageUtil {
-    public static String MSG_PREFIX = "§8[ §a마인§f콜렉터 §8]§f ";
-    public static BaseComponent MSG_PREFIX_COMPONENT = new TextComponent(MSG_PREFIX);
+    private static String MSG_PREFIX;
+    private static BaseComponent MSG_PREFIX_COMPONENT;
 
     /**
      * 로그 메시지를 보냅니다.
@@ -46,7 +46,7 @@ public class MessageUtil {
      * @param msg 메시지
      */
     public static void sendRaw(CommandSender subject, String msg) {
-        subject.sendMessage(MSG_PREFIX + msg);
+        subject.sendMessage(prefix() + msg);
     }
 
     public static void send(CommandSender subject, String msgKey, Object... vars) {
@@ -125,12 +125,29 @@ public class MessageUtil {
      */
     private static BaseComponent[] getPrefixedComponents(BaseComponent[] components) {
         BaseComponent[] prefixedComponents = new BaseComponent[components.length + 1];
-        prefixedComponents[0] = MSG_PREFIX_COMPONENT;
+        prefixedComponents[0] = prefixComponent();
         System.arraycopy(components, 0, prefixedComponents, 1, components.length);
         return prefixedComponents;
     }
 
     private static String translate(MessageKey msgKey, Object... vars) {
         return MineCollector.getInstance().getLangManager().translate(msgKey, vars);
+    }
+
+    public static void reloadPrefix() {
+        MSG_PREFIX = translate(MessageKey.of("prefix"));
+        MSG_PREFIX_COMPONENT = new TextComponent(MSG_PREFIX);
+    }
+
+    private static String prefix() {
+        if (MSG_PREFIX == null)
+            reloadPrefix();
+        return MSG_PREFIX;
+    }
+
+    private static BaseComponent prefixComponent() {
+        if (MSG_PREFIX_COMPONENT == null)
+            reloadPrefix();
+        return MSG_PREFIX_COMPONENT;
     }
 }

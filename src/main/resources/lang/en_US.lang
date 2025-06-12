@@ -1,3 +1,5 @@
+prefix=§8[ §aMine§fCollector §8]§f
+
 server.enabled=MineCollector plugin is enabled!
 server.disabled=MineCollector plugin is disabled!
 

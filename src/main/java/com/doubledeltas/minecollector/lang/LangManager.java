@@ -48,6 +48,7 @@ public class LangManager implements McolInitializable {
             return;
         }
         setLang(langFile);
+        MessageUtil.reloadPrefix();
         currentLang = lang;
     }
 
