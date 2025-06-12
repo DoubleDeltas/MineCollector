@@ -105,7 +105,7 @@ public class DataManager implements McolInitializable {
         for (GameData data: playerData.values()) {
             boolean result = save(data);
             if (!result) {
-                MessageUtil.logRaw(Level.SEVERE, "게임데이터 저장 실패!");
+                MessageUtil.log(Level.SEVERE, "data.save_failed");
                 return false;
             }
         }

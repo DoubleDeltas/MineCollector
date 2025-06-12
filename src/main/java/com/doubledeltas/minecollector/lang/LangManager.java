@@ -39,12 +39,12 @@ public class LangManager implements McolInitializable {
     public void loadLang(String lang) {
         if (!langFolder.exists() || !langFolder.isDirectory()) {
             plugin.getResourceManager().copyDirectory("lang", langFolder);
-            MessageUtil.logRaw("lang 폴더를 생성했습니다!");
+            MessageUtil.log("lang.default_created");
         }
         File langFile = new File(langFolder, lang + ".lang");
         if (!langFile.exists() || !langFile.isFile()) {
             setLang(defaultLangFile);
-            MessageUtil.logRaw(Level.WARNING, "lang 파일(%s)을 찾을 수 없어 기본 언어를 사용합니다.".formatted(langFile));
+            MessageUtil.log(Level.WARNING, "lang.using_default", langFile);
             return;
         }
         setLang(langFile);

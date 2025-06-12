@@ -8,3 +8,8 @@ config.updated=The config of older version({0}) has been updated to current vers
 config.higher_version_warning=The version of config is higer than current version! Have you ever used the plugin of higher version or modified config version?
 config.loaded=Config loaded!
 config.already_exist_warning=Could not save config.yml because config.yml already exists.
+
+data.save_failed=Failed to save game data!
+
+lang.default_created=lang folder created!
+lang.using_default=The language file ({0}) could not be found, so the default language will be used.
