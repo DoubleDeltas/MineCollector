@@ -5,6 +5,9 @@ game.got_advancement_score=§e{0}§f has received §b§l{1} §f Advancement poin
 game.cant_open_book_now=§cYou can't open the collection book now!
 
 command.loaded={0} commands loaded!
+command.generic.player_only=This command can be used only by players!
+command.generic.invalid=The command is invalid!
+command.generic.correct_command=Correct command: §e{0}
 
 config.default_created=Default config file created!
 config.updated=The config of older version({0}) has been updated to current version!

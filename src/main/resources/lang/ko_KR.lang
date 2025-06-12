@@ -5,6 +5,9 @@ game.got_advancement_score=§e{0}§f님이 발전과제 점수 §b§l{1}§f점�
 game.cant_open_book_now=§c지금은 도감을 열 수 없습니다!
 
 command.loaded={0}개 커맨드 불러옴!
+command.generic.player_only=이 명령어는 플레이어만 사용할 수 있습니다!
+command.generic.invalid=명령어가 잘못되었습니다!
+command.generic.correct_command=올바른 명령어: §e{0}
 
 config.default_created=기본 콘피그 파일 생성됨!
 config.updated=오래된 버전({0})의 콘피그를 현재 버전에 맞게 업데이트했습니다!

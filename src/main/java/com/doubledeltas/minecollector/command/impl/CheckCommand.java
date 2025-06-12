@@ -26,7 +26,7 @@ public final class CheckCommand extends CommandRoot {
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            MessageUtil.sendRaw(sender, "§c이 명령어는 플레이어만 칠 수 있습니다!");
+            MessageUtil.send(sender, "command.generic.player_only");
             return false;
         }
 

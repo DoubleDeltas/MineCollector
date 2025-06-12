@@ -25,7 +25,7 @@ public final class BookCommand extends CommandRoot {
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            MessageUtil.sendRaw(sender, "이 명령어는 플레이어만 사용할 수 있습니다!");
+            MessageUtil.send(sender, "command.generic.player_only");
             return false;
         }
 

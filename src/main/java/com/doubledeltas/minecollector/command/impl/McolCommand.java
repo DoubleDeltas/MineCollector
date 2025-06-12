@@ -22,8 +22,8 @@ public class McolCommand extends CommandRoot {
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
-        MessageUtil.sendRaw(sender, "명령어가 잘못되었습니다!");
-        MessageUtil.sendRaw(sender, "올바른 명령어: §e/mcol [reload|save] ...");
+        MessageUtil.send(sender, "command.generic.invalid");
+        MessageUtil.send(sender, "command.generic.correct_command", "/mcol [reload|save] ...");
         return false;
     }
 }
