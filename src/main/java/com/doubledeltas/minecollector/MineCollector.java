@@ -59,6 +59,7 @@ public final class MineCollector extends JavaPlugin {
         dataAutoSaver.init(this);
         langManager.init(this);
         resourceManager.init(this);
+        gameDirector.init(this);
 
         this.config = configManager.load();
         langManager.loadLang(config.getLang());
