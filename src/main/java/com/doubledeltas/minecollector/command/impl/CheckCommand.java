@@ -37,7 +37,7 @@ public final class CheckCommand extends CommandRoot {
             material = Material.matchMaterial(args[0]);
 
         if (material == null) {
-            MessageUtil.sendRaw(player, "§e%s §c아이템은 존재하지 않습니다!".formatted(args[0]));
+            MessageUtil.send(player, "command.check.no_exist", args[0]);
             SoundUtil.playFail(player);
             return false;
         }

@@ -10,6 +10,16 @@ command.loaded={0}개 커맨드 불러옴!
 command.generic.player_only=이 명령어는 플레이어만 사용할 수 있습니다!
 command.generic.invalid=명령어가 잘못되었습니다!
 command.generic.correct_command=올바른 명령어: §e{0}
+command.book.already_have=이미 도감을 가지고 있군요! 인벤토리를 다시 찾아보실래요?
+command.book.received=도감을 인벤토리에 넣어드렸어요! 다음엔 잃어버리지 않게 조심하세요!
+command.check.no_exist=§e{0} §c아이템은 존재하지 않습니다!
+command.collect.cant_collect_now=§c지금은 수집할 수 없습니다!
+command.collect.invalid_format=§c명령어를 정확히 입력해주세요! (/수집 or /수집 §7[숫자]§c)
+command.collect.uncollectable_item=§c이 아이템은 수집할 수 없습니다!
+command.collect.amount_1=§c수집할 아이템의 수는 1 이상이어야 합니다!
+command.collect.amount_64_1=§c수집할 아이템의 수는 64 이하이어야 합니다!
+command.collect.amount_64_2=§c('/수집' 명령어는 들고 있는 아이템만 수집할 수 있습니다)
+command.collect.amount_insufficient=§c들고 있는 아이템의 수가 부족합니다!
 
 config.default_created=기본 콘피그 파일 생성됨!
 config.updated=오래된 버전({0})의 콘피그를 현재 버전에 맞게 업데이트했습니다!

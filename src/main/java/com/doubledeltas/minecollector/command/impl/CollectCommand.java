@@ -27,7 +27,7 @@ public final class CollectCommand extends CommandRoot {
         }
 
         if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
-            MessageUtil.sendRaw(sender, "§c지금은 수집할 수 없습니다!");
+            MessageUtil.send(sender, "command.collect.cant_collect_now");
             SoundUtil.playFail(player);
             return false;
         }
@@ -49,30 +49,30 @@ public final class CollectCommand extends CommandRoot {
                 amount = Integer.parseInt(args[0]);
             }
             catch (NumberFormatException e) {
-                MessageUtil.sendRaw(player, "§c명령어를 정확히 입력해주세요! (/수집 or /수집 §7[숫자]§c)");
+                MessageUtil.send(player, "command.collect.invalid_format");
                 SoundUtil.playFail(player);
                 return false;
             }
         }
 
         if (!plugin.getGameDirector().isCollectable(handItem)) {
-            MessageUtil.sendRaw(player, "§c이 아이템은 수집할 수 없습니다!");
+            MessageUtil.send(player, "command.collect.uncollectable_item");
             SoundUtil.playFail(player);
             return false;
         }        
         if (amount < 1) {
-            MessageUtil.sendRaw(player, "§c수집할 아이템의 수는 1 이상이어야 합니다!");
+            MessageUtil.send(player, "command.collect.amount_1");
             SoundUtil.playFail(player);
             return false;
         }
         if (amount > 64) {
-            MessageUtil.sendRaw(player, "§c수집할 아이템의 수는 64 이하이어야 합니다!");
-            MessageUtil.sendRaw(player, "§c('/수집' 명령어는 들고 있는 아이템만 수집할 수 있습니다)");
+            MessageUtil.send(player, "command.collect.amount_64_1");
+            MessageUtil.send(player, "command.collect.amount_64_2");
             SoundUtil.playFail(player);
             return false;
         }
         if (amount > handAmount && handType != Material.AIR) {
-            MessageUtil.sendRaw(player, "§c들고 있는 아이템의 수가 부족합니다!");
+            MessageUtil.send(player, "command.collect.amount_insufficient");
             SoundUtil.playFail(player);
             return false;
         }
