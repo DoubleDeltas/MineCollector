@@ -48,7 +48,7 @@ public class RankingItemCommand extends CommandNode {
         int top10Size = top10.size();
 
         MessageUtil.sendRaw(sender, "");
-        MessageUtil.send(sender,
+        MessageUtil.sendRaw(sender,
                 new TextComponent("§e\""),
                 new TranslatableComponent(material.getItemTranslationKey()),
                 new TextComponent("§e\" 수집 수 TOP 10 리스트:")

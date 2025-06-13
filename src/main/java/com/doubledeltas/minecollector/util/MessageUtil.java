@@ -68,7 +68,7 @@ public class MessageUtil {
             sendRaw(player, msg);
     }
 
-    public static void send(AnnouncementTarget target, Player subject, String msgKey, Object... vars) {
+    public static void sendRaw(AnnouncementTarget target, Player subject, String msgKey, Object... vars) {
         sendRaw(target, subject, translate(MessageKey.of(msgKey, vars.length), vars));
     }
 
@@ -80,17 +80,17 @@ public class MessageUtil {
         MineCollector.getInstance().getServer().broadcastMessage(MSG_PREFIX + msg);
     }
 
-    public static void broadcast(String messageKey, Object... vars) {
-        broadcastRaw(translate(MessageKey.of(messageKey, vars.length), vars));
-    }
-
     /**
      * 플레이어 또는 콘솔에게 마인콜렉터 접두어와 함께 채팅 컴포넌트를 보냅니다.
      * @param subject 주체(수신자)
      * @param components 보낼 컴포넌트들
      */
-    public static void send(CommandSender subject, BaseComponent... components) {
+    public static void sendRaw(CommandSender subject, BaseComponent... components) {
         subject.spigot().sendMessage(MessageUtil.getPrefixedComponents(components));
+    }
+
+    public static void send(CommandSender subject, String msgKey, BaseComponent... components) {
+        sendRaw(subject, translateComponents(MessageKey.of(msgKey), components));
     }
 
     /**
@@ -99,20 +99,24 @@ public class MessageUtil {
      * @param subject 수신자
      * @param components 보낼 컴포넌트들
      */
-    public static void send(AnnouncementTarget target, Player subject, BaseComponent... components) {
+    public static void sendRaw(AnnouncementTarget target, Player subject, BaseComponent... components) {
         if (target == AnnouncementTarget.ALL_PLAYERS) {
-            broadcast(components);
+            broadcastRaw(components);
             return;
         }
         for (Player player: target.resolve(subject))
-            send(player, components);
+            sendRaw(player, components);
+    }
+
+    public static void send(AnnouncementTarget target, Player subject, String msgKey, BaseComponent... components) {
+        sendRaw(target, subject, translateComponents(MessageKey.of(msgKey), components));
     }
 
     /**
      * 마인콜렉터 서버 전체에 마인콜렉터 접두어와 함께 채팅 컴포넌트를 보냅니다.
      * @param components 보낼 컴포넌트들
      */
-    public static void broadcast(BaseComponent... components) {
+    public static void broadcastRaw(BaseComponent... components) {
         BaseComponent[] prefixedComponents = MessageUtil.getPrefixedComponents(components);
 
         MineCollector.getInstance().getServer().spigot().broadcast(prefixedComponents);
@@ -132,6 +136,10 @@ public class MessageUtil {
 
     private static String translate(MessageKey msgKey, Object... vars) {
         return MineCollector.getInstance().getLangManager().translate(msgKey, vars);
+    }
+
+    private static BaseComponent[] translateComponents(MessageKey msgKey, BaseComponent[] components) {
+        return MineCollector.getInstance().getLangManager().translateComponents(msgKey, components);
     }
 
     public static void reloadPrefix() {

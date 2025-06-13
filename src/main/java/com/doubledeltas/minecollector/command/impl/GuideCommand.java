@@ -24,7 +24,7 @@ public final class GuideCommand extends CommandRoot {
         component.setUnderlined(true);
         component.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, GUIDE_LINK));
 
-        MessageUtil.send(sender,
+        MessageUtil.sendRaw(sender,
                 component,
                 new TextComponent("§a를 눌러 마인콜렉터에 대해 알아보세요!")
         );

@@ -116,7 +116,7 @@ public class GameDirector implements McolInitializable {
         data.addAdvCleared(type);
 
         GameStatistics stats = new GameStatistics(data);
-        MessageUtil.send(
+        MessageUtil.sendRaw(
                 announcementConfig.getAdvancement(), player, "game.got_advancement_score",
                 player.getName(), scoringConfig.getAdvancementScores().get(type), stats.getTotalScore()
         );
@@ -156,7 +156,7 @@ public class GameDirector implements McolInitializable {
     private static void noticeFirstCollection(Player target, Material material) {
         McolConfig.Announcement announcementConfig = MineCollector.getInstance().getMcolConfig().getAnnouncement();
 
-        MessageUtil.send(announcementConfig.getCollection(), target, new ComponentBuilder()
+        MessageUtil.sendRaw(announcementConfig.getCollection(), target, new ComponentBuilder()
                         .append(target.getName()).color(ChatColor.YELLOW)
                         .append("님이 ").color(ChatColor.GREEN)
                         .append(GameDirector.getItemNameComponent(material)).color(ChatColor.YELLOW)
@@ -198,7 +198,7 @@ public class GameDirector implements McolInitializable {
         BaseComponent itemNameComponent = new TranslatableComponent(material.getItemTranslationKey());
         itemNameComponent.setColor(ChatColor.YELLOW);
 
-        MessageUtil.send(announcementConfig.getHighLevelReached(), target, new ComponentBuilder()
+        MessageUtil.sendRaw(announcementConfig.getHighLevelReached(), target, new ComponentBuilder()
                 .append(target.getName()).color(ChatColor.YELLOW)
                 .append("님의 ").color(color).bold(isBold)
                 .append(new TranslatableComponent(material.getItemTranslationKey())).color(ChatColor.YELLOW).bold(isBold)

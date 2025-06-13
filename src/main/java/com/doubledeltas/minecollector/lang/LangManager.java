@@ -5,8 +5,12 @@ import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
@@ -71,26 +75,65 @@ public class LangManager implements McolInitializable {
     private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("(\\{.+})");
 
     public String translate(MessageKey key, Object... vars) {
+        checkVariableCount(key, vars);
+        String raw = getRaw(key);
+        Matcher matcher = PLACEHOLDER_PATTERN.matcher(raw);
+        StringBuilder result = new StringBuilder();
+        while (matcher.find()) {
+            String replacement = getVariable(matcher.group(1)).toString();
+            matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
+        }
+        matcher.appendTail(result);
+        return result.toString();
+    }
+
+    public BaseComponent[] translateComponents(MessageKey key, BaseComponent... components) {
+        checkVariableCount(key, components);
+        String raw = getRaw(key);
+        Matcher matcher = PLACEHOLDER_PATTERN.matcher(raw);
+        List<BaseComponent> result = new ArrayList<>();
+
+        int lastEnd = 0;
+        while (matcher.find()) {
+            // add text part
+            if (lastEnd != matcher.start()) {
+                BaseComponent textComponent = new TextComponent(raw.substring(lastEnd, matcher.start()));
+                result.add(textComponent);
+            }
+            // add variable part
+            BaseComponent replacement = getVariable(matcher.group(1));
+            result.add(replacement);
+
+            lastEnd = matcher.end();
+        }
+
+        // add rest text part
+        if (lastEnd < raw.length()) {
+            result.add(new TextComponent(raw.substring(lastEnd)));
+        }
+
+        return result.toArray(new BaseComponent[0]);
+    }
+    
+    private static void checkVariableCount(MessageKey key, Object[] vars) {
         int givenVarsCnt = vars.length;
         int neededVarsCnt = key.getVariableCount();
         if (givenVarsCnt != neededVarsCnt) {
             throw new IllegalArgumentException("The %d variable(s) was needed, but %d variable(s) was given.".formatted(neededVarsCnt, givenVarsCnt));
         }
+    }
 
-        String raw = (String) langProperties.get(key.getFullKey());
+    private String getRaw(MessageKey key) {
+        String fullKey = key.getFullKey();
+        String raw = (String) langProperties.get(fullKey);
         if (raw == null)
-            raw = (String) defaultProperties.get(key.getFullKey());
+            raw = (String) defaultProperties.get(fullKey);
+        return raw;
+    }
 
-        Matcher matcher = PLACEHOLDER_PATTERN.matcher(raw);
-        StringBuilder result = new StringBuilder();
-        while (matcher.find()) {
-            String pholder = matcher.group(1);  // e.g. "{1}"
-            int varIdx = Integer.parseInt(pholder.substring(1, pholder.length() - 1)); // e.g. 1
-            String replacement = vars[varIdx].toString();
-            matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
-        }
-
-        matcher.appendTail(result);
-        return result.toString();
+    @SafeVarargs
+    private static <T> T getVariable(String placeholder, T... vars) {
+        int varIdx = Integer.parseInt(placeholder.substring(1, placeholder.length() - 1)); // e.g. 1
+        return vars[varIdx];
     }
 }
