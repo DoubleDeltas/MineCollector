@@ -58,6 +58,7 @@ public class LangManager implements McolInitializable {
     }
 
     public void reloadLang() {
+        this.plugin.reloadConfig();
         currentLang = this.plugin.getMcolConfig().getLang();
         loadLang(currentLang);
     }
