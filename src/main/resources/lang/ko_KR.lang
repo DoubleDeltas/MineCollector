@@ -20,6 +20,11 @@ command.collect.amount_1=§c수집할 아이템의 수는 1 이상이어야 합�
 command.collect.amount_64_1=§c수집할 아이템의 수는 64 이하이어야 합니다!
 command.collect.amount_64_2=§c('/수집' 명령어는 들고 있는 아이템만 수집할 수 있습니다)
 command.collect.amount_insufficient=§c들고 있는 아이템의 수가 부족합니다!
+command.ranking.invalid_category=§c랭킹 카테고리 입력이 잘못되었습니다!
+command.ranking.disabled_category=§c{0} 기능이 비활성화되어 있습니다!
+command.ranking.title=§e{0} 점수 TOP 10 리스트:
+command.ranking.nobody_scored= §7- 아직 아무도 점수를 얻지 않았군요! :)
+command.ranking.line_format= §7- §7{0}§e{1}. §f{2}§7: §e§l{3}
 
 config.default_created=기본 콘피그 파일 생성됨!
 config.updated=오래된 버전({0})의 콘피그를 현재 버전에 맞게 업데이트했습니다!

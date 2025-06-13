@@ -54,14 +54,14 @@ public final class RankingCommand extends CommandRoot {
             enabled = scoringConfig.isAdvancementEnabled();
         }
         else {
-            MessageUtil.sendRaw(sender, "§c랭킹 카테고리 입력이 잘못되었습니다!");
+            MessageUtil.send(sender, "command.ranking.invalid_category");
             if (sender instanceof Player player)
                 SoundUtil.playFail(player);
             return false;
         }
 
         if (!enabled) {
-            MessageUtil.sendRaw(sender, "§c" + categoryWord + " 기능이 비활성화되어 있습니다!");
+            MessageUtil.send(sender, "command.ranking.disabled_category", categoryWord);
             if (sender instanceof Player player)
                 SoundUtil.playFail(player);
             return false;
@@ -71,18 +71,17 @@ public final class RankingCommand extends CommandRoot {
         int top10Size = top10.size();
 
         MessageUtil.sendRaw(sender, "");
-        MessageUtil.sendRaw(sender,"§e%s 점수 TOP 10 리스트:".formatted(categoryWord));
+        MessageUtil.send(sender, "command.ranking.title", categoryWord);
 
         if (top10Size == 1) { // 아무도 수집하지 않음
-            MessageUtil.sendRaw(sender, " §7- 아직 아무도 아이템을 수집하지 않았군요! :)");
+            MessageUtil.send(sender, "command.ranking.nobody_scored");
         }
         else {
             for (int i=1; i < top10Size; i++) {
                 GameData data = top10.get(i);
-                MessageUtil.sendRaw(sender,
-                        " §7- "
-                        + ((i < 10) ? "§70" : "")
-                        + "§e%s. §f%s§7: §e§l%.1f".formatted(i, data.getName(), keyFunc.apply(data))
+                MessageUtil.send(
+                        sender, "command.ranking.line_format",
+                        (i < 10) ? "0" : "", i, data.getName(), keyFunc.apply(data)
                 );
             }
         }
