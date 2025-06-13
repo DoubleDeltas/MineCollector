@@ -143,7 +143,7 @@ public class MessageUtil {
     }
 
     public static void reloadPrefix() {
-        MSG_PREFIX = translate(MessageKey.of("prefix"));
+        MSG_PREFIX = translate(MessageKey.of("prefix")) + " ";
         MSG_PREFIX_COMPONENT = new TextComponent(MSG_PREFIX);
     }
 
