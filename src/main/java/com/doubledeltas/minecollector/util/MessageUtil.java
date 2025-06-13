@@ -90,7 +90,7 @@ public class MessageUtil {
     }
 
     public static void send(CommandSender subject, String msgKey, BaseComponent... components) {
-        sendRaw(subject, translateComponents(MessageKey.of(msgKey), components));
+        sendRaw(subject, translateComponents(MessageKey.of(msgKey, components.length), components));
     }
 
     /**
@@ -109,7 +109,7 @@ public class MessageUtil {
     }
 
     public static void send(AnnouncementTarget target, Player subject, String msgKey, BaseComponent... components) {
-        sendRaw(target, subject, translateComponents(MessageKey.of(msgKey), components));
+        sendRaw(target, subject, translateComponents(MessageKey.of(msgKey, components.length), components));
     }
 
     /**
