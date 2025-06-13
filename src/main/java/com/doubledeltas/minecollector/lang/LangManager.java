@@ -10,6 +10,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -80,7 +81,7 @@ public class LangManager implements McolInitializable {
         Matcher matcher = PLACEHOLDER_PATTERN.matcher(raw);
         StringBuilder result = new StringBuilder();
         while (matcher.find()) {
-            String replacement = getVariable(matcher.group(1)).toString();
+            String replacement = getVariable(matcher.group(1), vars).toString();
             matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
         }
         matcher.appendTail(result);
@@ -101,7 +102,7 @@ public class LangManager implements McolInitializable {
                 result.add(textComponent);
             }
             // add variable part
-            BaseComponent replacement = getVariable(matcher.group(1));
+            BaseComponent replacement = getVariable(matcher.group(1), components);
             result.add(replacement);
 
             lastEnd = matcher.end();
@@ -125,6 +126,9 @@ public class LangManager implements McolInitializable {
 
     private String getRaw(MessageKey key) {
         String fullKey = key.getFullKey();
+        if (langProperties == null)
+            return (String) defaultProperties.get(fullKey);
+
         String raw = (String) langProperties.get(fullKey);
         if (raw == null)
             raw = (String) defaultProperties.get(fullKey);

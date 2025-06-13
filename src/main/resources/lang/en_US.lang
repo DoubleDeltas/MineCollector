@@ -14,6 +14,7 @@ command.generic.correct_command=Correct command: §e{0}
 command.book.already_have=You already have the collection book! Try checking your inventory again.
 command.book.received=The collection book has been added to your inventory! Be careful not to lose it next time!
 command.check.no_exist=§e{0} §citem does not exist!
+command.check.not_collected_yet={0} §c아이템은 아직 수집되지 않았습니다!
 command.collect.invalid_format=§cPlease enter the command correctly! (/collect or /collect §7[number]§c)
 command.collect.uncollectable_item=§cThis item cannot be collected!
 command.collect.amount_1=§cThe number of items to collect must be at least 1!

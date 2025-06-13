@@ -51,10 +51,7 @@ public final class CheckCommand extends CommandRoot {
         itemNameComponent.setColor(ChatColor.YELLOW);
 
         if (amount == 0) {
-            MessageUtil.sendRaw(player,
-                    itemNameComponent,
-                    new TextComponent(" §c아이템은 아직 수집되지 않았습니다!")
-            );
+            MessageUtil.send(player, "command.check.not_collected_yet", itemNameComponent);
             SoundUtil.playFail(player);
             return false;
         }
