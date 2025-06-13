@@ -27,7 +27,7 @@ public final class CollectCommand extends CommandRoot {
         }
 
         if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
-            MessageUtil.send(sender, "command.collect.cant_collect_now");
+            MessageUtil.send(sender, "game.cant_collect_now");
             SoundUtil.playFail(player);
             return false;
         }

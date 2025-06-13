@@ -28,7 +28,7 @@ public class RankingItemCommand extends CommandNode {
         Function<GameData, Integer> keyFunc;
 
         if (args.length == 0) {
-            MessageUtil.sendRaw(sender, "§c랭킹을 볼 아이템 코드를 입력해주세요!");
+            MessageUtil.send(sender, "command.ranking_item.no_arguments");
             if (sender instanceof Player player)
                 SoundUtil.playFail(player);
             return false;
@@ -36,7 +36,7 @@ public class RankingItemCommand extends CommandNode {
 
         Material material = Material.matchMaterial(args[0]);
         if (material == null) {
-            MessageUtil.sendRaw(sender, "§e%s§c 아이템은 존재하지 않습니다!".formatted(args[0]));
+            MessageUtil.send(sender, "command.ranking_item.no_item_exists", args[0]);
             if (sender instanceof Player player)
                 SoundUtil.playFail(player);
             return false;
@@ -55,7 +55,7 @@ public class RankingItemCommand extends CommandNode {
         );
 
         if (top10Size == 1) { // 아무도 수집하지 않음
-            MessageUtil.sendRaw(sender, " §7- 아직 아무도 아이템을 수집하지 않았군요! :)");
+            MessageUtil.send(sender, "command.ranking_item.nobody_collected");
         }
         else {
             for (int i=1; i < top10Size; i++) {
@@ -63,12 +63,18 @@ public class RankingItemCommand extends CommandNode {
                 int amount = keyFunc.apply(data);
                 int quo = amount / 64;
                 int rem = amount % 64;
-                MessageUtil.sendRaw(sender,
-                        " §7- "
-                                + ((i < 10) ? "§70" : "")
-                                + "§e%s. §f%s§7: §e§l%d".formatted(i, data.getName(), amount)
-                                + ((quo > 0) ? " §7(%d셋 %d개)".formatted(quo, rem) : "")
-                );
+                if (quo == 0) {
+                    MessageUtil.send(
+                            sender, "command.ranking_item.line_format",
+                            (i < 10) ? "§70" : "", i, data.getName(), amount
+                    );
+                }
+                else {
+                    MessageUtil.send(
+                            sender, "command.ranking_item.line_format_2",
+                            (i < 10) ? "§70" : "", i, data.getName(), amount, quo, rem
+                    );
+                }
             }
         }
 

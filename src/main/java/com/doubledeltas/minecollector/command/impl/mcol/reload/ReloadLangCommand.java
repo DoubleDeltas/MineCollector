@@ -22,14 +22,13 @@ public class ReloadLangCommand extends CommandNode {
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         try {
             MineCollector.getInstance().getLangManager().reloadLang();
-            MessageUtil.sendRaw(sender, "언어팩을 리로드하였습니다!");
+            MessageUtil.send(sender, "command.reload_lang.lang_reloaded");
             if (sender instanceof Player player)
                 SoundUtil.playHighRing(player);
         }
         catch (InvalidLangException e) {
-            MessageUtil.sendRaw(sender, "§언어팩 로딩에 실패했습니다!");
+            MessageUtil.send(sender, "command.reload_lang.failed_to_reload");
             MessageUtil.sendRaw(sender, "§7 - " + e.getMessage());
-            MessageUtil.sendRaw(sender, "§7    (자세한 내용은 버킷 창을 참고해주세요.)");
             e.printStackTrace();
             if (sender instanceof Player player)
                 SoundUtil.playHighRing(player);

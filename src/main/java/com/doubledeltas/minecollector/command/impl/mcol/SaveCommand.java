@@ -19,12 +19,12 @@ public class SaveCommand extends CommandNode {
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         if (plugin.getDataManager().saveAll()) {
-            MessageUtil.sendRaw(sender, "게임 데이터 저장 완료!");
+            MessageUtil.send(sender, "command.save.save_success");
             if (sender instanceof Player player)
                 SoundUtil.playHighRing(player);
         }
         else {
-            MessageUtil.sendRaw(sender, "게임 데이터 저장에 실패했습니다.");
+            MessageUtil.send(sender, "command.save.save_failed");
             if (sender instanceof Player player)
                 SoundUtil.playFail(player);
         }

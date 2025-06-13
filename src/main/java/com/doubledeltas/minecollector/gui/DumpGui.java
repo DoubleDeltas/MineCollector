@@ -41,7 +41,7 @@ public class DumpGui extends Gui {
 
         if (e.getRawSlot() == INDEX_COLLECT && state == ProcessState.OK) {
             if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
-                MessageUtil.sendRaw(player, "§c지금은 수집할 수 없습니다!");
+                MessageUtil.send(player, "game.cant_collect_now");
                 player.closeInventory();
                 SoundUtil.playFail(player);
                 return;

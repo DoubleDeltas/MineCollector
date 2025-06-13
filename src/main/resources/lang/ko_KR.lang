@@ -5,6 +5,7 @@ server.disabled=마인콜렉터 플러그인이 꺼졌습니다.
 
 game.got_advancement_score=§e{0}§f님이 발전과제 점수 §b§l{1}§f점을 얻었습니다. (현재 §e{2}§f점)
 game.cant_open_book_now=§c지금은 도감을 열 수 없습니다!
+game.cant_collect_now=§c지금은 수집할 수 없습니다!
 
 command.loaded={0}개 커맨드 불러옴!
 command.generic.player_only=이 명령어는 플레이어만 사용할 수 있습니다!
@@ -13,7 +14,6 @@ command.generic.correct_command=올바른 명령어: §e{0}
 command.book.already_have=이미 도감을 가지고 있군요! 인벤토리를 다시 찾아보실래요?
 command.book.received=도감을 인벤토리에 넣어드렸어요! 다음엔 잃어버리지 않게 조심하세요!
 command.check.no_exist=§e{0} §c아이템은 존재하지 않습니다!
-command.collect.cant_collect_now=§c지금은 수집할 수 없습니다!
 command.collect.invalid_format=§c명령어를 정확히 입력해주세요! (/수집 or /수집 §7[숫자]§c)
 command.collect.uncollectable_item=§c이 아이템은 수집할 수 없습니다!
 command.collect.amount_1=§c수집할 아이템의 수는 1 이상이어야 합니다!
@@ -25,6 +25,18 @@ command.ranking.disabled_category=§c{0} 기능이 비활성화되어 있습니�
 command.ranking.title=§e{0} 점수 TOP 10 리스트:
 command.ranking.nobody_scored= §7- 아직 아무도 점수를 얻지 않았군요! :)
 command.ranking.line_format= §7- §7{0}§e{1}. §f{2}§7: §e§l{3}
+command.ranking_item.no_arguments=§c랭킹을 볼 아이템 코드를 입력해주세요!
+command.ranking_item.no_item_exists=§e{0}§c 아이템은 존재하지 않습니다!
+command.ranking_item.nobody_collected= §7- 아직 아무도 아이템을 수집하지 않았군요! :)
+command.ranking_item.line_format= §7- §7{0}§e{1}. §f{2}§7: §e§l{3}
+command.ranking_item.line_format_2= §7- §7{0}§e{1}. §f{2}§7: §e§l{3} §7({4}셋 {5}개)
+command.save.save_success=게임 데이터 저장 완료!
+command.save.save_failed=게임 데이터 저장에 실패했습니다.
+command.reload_config.config_reloaded=콘피그를 리로드하였습니다!
+command.reload_config.failed_to_reload=§c콘피그 로딩에 실패했습니다!
+command.reload_data.data_reloaded=데이터를 리로드하였습니다!
+command.reload_lang.lang_reloaded=언어팩을 리로드하였습니다!
+command.reload_lang.failed_to_reload=§c언어팩 로딩에 실패했습니다!
 
 config.default_created=기본 콘피그 파일 생성됨!
 config.updated=오래된 버전({0})의 콘피그를 현재 버전에 맞게 업데이트했습니다!
