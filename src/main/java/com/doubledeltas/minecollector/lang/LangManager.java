@@ -48,7 +48,6 @@ public class LangManager implements McolInitializable {
         }
         File langFile = new File(langFolder, lang + ".lang");
         if (!langFile.exists() || !langFile.isFile()) {
-            setLang(defaultLangFile);
             MessageUtil.log(Level.WARNING, "lang.using_default", langFile);
             return;
         }
