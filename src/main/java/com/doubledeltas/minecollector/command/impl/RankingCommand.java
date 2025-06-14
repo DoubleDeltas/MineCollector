@@ -6,8 +6,11 @@ import com.doubledeltas.minecollector.command.impl.ranking.RankingItemCommand;
 import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
+import com.doubledeltas.minecollector.lang.LangManager;
+import com.doubledeltas.minecollector.lang.MessageKey;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,30 +30,31 @@ public final class RankingCommand extends CommandRoot {
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
-        McolConfig.Scoring scoringConfig = MineCollector.getInstance().getMcolConfig().getScoring();
+        McolConfig.Scoring scoringConfig = plugin.getMcolConfig().getScoring();
+        LangManager langManager = plugin.getLangManager();
 
         Function<GameData, BigDecimal> keyFunc;
-        String categoryWord;
+        BaseComponent[] categoryWord;
         boolean enabled;
 
         if (args.length == 0 || List.of("total", "전체점수").contains(args[0])) {
             keyFunc = data -> new GameStatistics(data).getTotalScore();
-            categoryWord = "전체 컬렉션";
+            categoryWord = langManager.translate(MessageKey.of("command.ranking.category_total"));
             enabled = true;
         }
         else if (List.of("collection", "수집점수").contains(args[0])) {
             keyFunc = data -> new GameStatistics(data).getCollectionScore();
-            categoryWord = "수집";
+            categoryWord = langManager.translate(MessageKey.of("command.ranking.category_collection"));
             enabled = scoringConfig.isCollectionEnabled();
         }
         else if (List.of("stack", "쌓기점수").contains(args[0])) {
             keyFunc = data -> new GameStatistics(data).getStackScore();
-            categoryWord = "쌓기";
+            categoryWord = langManager.translate(MessageKey.of("command.ranking.category_stack"));
             enabled = scoringConfig.isStackEnabled();
         }
         else if (List.of("advancement", "발전점수").contains(args[0])) {
             keyFunc = data -> new GameStatistics(data).getAdvScore();
-            categoryWord = "발전";
+            categoryWord = langManager.translate(MessageKey.of("command.ranking.category_advancement"));
             enabled = scoringConfig.isAdvancementEnabled();
         }
         else {
@@ -61,7 +65,7 @@ public final class RankingCommand extends CommandRoot {
         }
 
         if (!enabled) {
-            MessageUtil.send(sender, "command.ranking.disabled_category", categoryWord);
+            MessageUtil.send(sender, "command.ranking.disabled_category", (Object[]) categoryWord);
             if (sender instanceof Player player)
                 SoundUtil.playFail(player);
             return false;
