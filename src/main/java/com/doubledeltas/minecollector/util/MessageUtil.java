@@ -139,7 +139,6 @@ public class MessageUtil {
 
     public static void reloadPrefix() {
         MSG_PREFIX_COMPONENTS = translate(MessageKey.of("prefix"));
-//        MSG_PREFIX = componentsToText(MSG_PREFIX_COMPONENTS, BaseComponent::toLegacyText);
         MSG_PREFIX = BaseComponent.toLegacyText(MSG_PREFIX_COMPONENTS);
     }
 
