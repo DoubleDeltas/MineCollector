@@ -9,6 +9,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
@@ -35,7 +36,9 @@ public class LangManager implements McolInitializable {
         this.plugin = plugin;
         this.langFolder = new File(plugin.getDataFolder(), "lang");
         this.defaultLangFile = new File(langFolder, DEFAULT_LANG);
-        defaultProperties.load(plugin.getResource("lang/" + DEFAULT_LANG + ".lang"));
+
+        InputStream is = plugin.getResource("lang/" + DEFAULT_LANG + ".lang");
+        defaultProperties.load(new InputStreamReader(is, StandardCharsets.UTF_8));
     }
 
     public void loadLang(String lang) {
