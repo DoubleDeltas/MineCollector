@@ -48,7 +48,6 @@ public final class CheckCommand extends CommandRoot {
         int quo = amount / 64;
         int rem = amount % 64;
         BaseComponent itemNameComponent = new TranslatableComponent(material.getItemTranslationKey());
-        itemNameComponent.setColor(ChatColor.YELLOW);
 
         if (amount == 0) {
             MessageUtil.send(player, "command.check.not_collected_yet", itemNameComponent);
@@ -57,20 +56,11 @@ public final class CheckCommand extends CommandRoot {
         }
 
         if (material == Material.AIR)
-            MessageUtil.sendRaw(player,
-                    itemNameComponent,
-                    new TextComponent(" §a아이템은 수집되었습니다!")
-            );
+            MessageUtil.send(player, "command.check.collected_air", itemNameComponent);
         else if (quo == 0)
-            MessageUtil.sendRaw(player,
-                    itemNameComponent,
-                    new TextComponent(" §a아이템은 §e%s§a개 수집되었습니다! (§e%s§a단계)".formatted(rem, level))
-            );
+            MessageUtil.send(player, "command.check.collected", itemNameComponent, rem, level);
         else
-            MessageUtil.sendRaw(player,
-                    itemNameComponent,
-                    new TextComponent(" §a아이템은 §e%s§a셋 §e%s§a개 수집되었습니다! (§e%s§a단계)".formatted(quo, rem, level))
-            );
+            MessageUtil.send(player, "command.check.collected_2", itemNameComponent, quo, rem, level);
 
         SoundUtil.playHighRing(player);
         return true;

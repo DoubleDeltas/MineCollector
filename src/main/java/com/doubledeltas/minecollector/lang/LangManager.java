@@ -6,12 +6,9 @@ import com.doubledeltas.minecollector.util.MessageUtil;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
@@ -75,47 +72,41 @@ public class LangManager implements McolInitializable {
         }
     }
 
-    private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("(\\{.+})");
+    private static final Pattern PLADCEHOLDER_PATTERN = Pattern.compile("(\\{\\d+?})");
 
-    public String translate(MessageKey key, Object... vars) {
+    public BaseComponent[] translate(MessageKey key, Object... vars) {
         checkVariableCount(key, vars);
-        String raw = getRaw(key);
-        Matcher matcher = PLACEHOLDER_PATTERN.matcher(raw);
-        StringBuilder result = new StringBuilder();
-        while (matcher.find()) {
-            String replacement = getVariable(matcher.group(1), vars).toString();
-            matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
-        }
-        matcher.appendTail(result);
-        return result.toString();
-    }
 
-    public BaseComponent[] translateComponents(MessageKey key, BaseComponent... components) {
-        checkVariableCount(key, components);
-        String raw = getRaw(key);
-        Matcher matcher = PLACEHOLDER_PATTERN.matcher(raw);
-        List<BaseComponent> result = new ArrayList<>();
+        ComponentBuilder builder = new ComponentBuilder();
 
-        int lastEnd = 0;
+        String raw = getRaw(key);
+
+        int lastEnd = 0;    // last end index
+        Matcher matcher = PLADCEHOLDER_PATTERN.matcher(raw);
         while (matcher.find()) {
-            // add text part
+            // append text before placeholder
             if (lastEnd != matcher.start()) {
-                BaseComponent textComponent = new TextComponent(raw.substring(lastEnd, matcher.start()));
-                result.add(textComponent);
+                String text = raw.substring(lastEnd, matcher.start());
+                builder.appendLegacy(text);
             }
-            // add variable part
-            BaseComponent replacement = getVariable(matcher.group(1), components);
-            result.add(replacement);
+
+            String group = matcher.group(1);
+            Object var = getVariable(group, vars);
+            if (var instanceof BaseComponent component)
+                builder.append(component);
+            else
+                builder.appendLegacy(var.toString());
 
             lastEnd = matcher.end();
         }
 
-        // add rest text part
+        // append rest text
         if (lastEnd < raw.length()) {
-            result.add(new TextComponent(raw.substring(lastEnd)));
+            String text = raw.substring(lastEnd);
+            builder.appendLegacy(text);
         }
 
-        return result.toArray(new BaseComponent[0]);
+        return builder.create();
     }
     
     private static void checkVariableCount(MessageKey key, Object[] vars) {

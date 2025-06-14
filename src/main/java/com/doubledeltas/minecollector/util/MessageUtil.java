@@ -12,8 +12,9 @@ import org.bukkit.entity.Player;
 import java.util.logging.Level;
 
 public class MessageUtil {
+    private static final BaseComponent BLANK_COMPONENT = new TextComponent(" ");
+    private static BaseComponent[] MSG_PREFIX_COMPONENTS;
     private static String MSG_PREFIX;
-    private static BaseComponent MSG_PREFIX_COMPONENT;
 
     /**
      * 로그 메시지를 보냅니다.
@@ -24,16 +25,20 @@ public class MessageUtil {
         MineCollector.getInstance().getLogger().log(level, msg);
     }
 
+    public static void logRaw(Level level, BaseComponent[] components) {
+        logRaw(level, BaseComponent.toPlainText(components));
+    }
+
+    public static void log(Level level, String msgKey, Object... vars) {
+        logRaw(level, translate(MessageKey.of(msgKey, vars.length), vars));
+    }
+
     /**
      * {@link Level#INFO} 레벨의 로그 메시지를 보냅니다.
      * @param msg 메시지
      */
     public static void logRaw(String msg) {
         logRaw(Level.INFO, msg);
-    }
-
-    public static void log(Level level, String msgKey, Object... vars) {
-        logRaw(level, translate(MessageKey.of(msgKey, vars.length), vars));
     }
 
     public static void log(String msgKey, Object... vars) {
@@ -46,7 +51,16 @@ public class MessageUtil {
      * @param msg 메시지
      */
     public static void sendRaw(CommandSender subject, String msg) {
-        subject.sendMessage(prefix() + msg);
+        subject.sendMessage(prefix() + " " + msg);
+    }
+
+    /**
+     * 플레이어 또는 콘솔에게 마인콜렉터 접두어와 함께 채팅 컴포넌트를 보냅니다.
+     * @param subject 주체(수신자)
+     * @param components 보낼 컴포넌트들
+     */
+    public static void sendRaw(CommandSender subject, BaseComponent... components) {
+        subject.spigot().sendMessage(MessageUtil.getPrefixedComponents(components));
     }
 
     public static void send(CommandSender subject, String msgKey, Object... vars) {
@@ -68,31 +82,6 @@ public class MessageUtil {
             sendRaw(player, msg);
     }
 
-    public static void sendRaw(AnnouncementTarget target, Player subject, String msgKey, Object... vars) {
-        sendRaw(target, subject, translate(MessageKey.of(msgKey, vars.length), vars));
-    }
-
-    /**
-     * 마인콜렉터 서버 전체에 마인콜렉터 메시지를 보냅니다.
-     * @param msg 메시지
-     */
-    public static void broadcastRaw(String msg) {
-        MineCollector.getInstance().getServer().broadcastMessage(MSG_PREFIX + msg);
-    }
-
-    /**
-     * 플레이어 또는 콘솔에게 마인콜렉터 접두어와 함께 채팅 컴포넌트를 보냅니다.
-     * @param subject 주체(수신자)
-     * @param components 보낼 컴포넌트들
-     */
-    public static void sendRaw(CommandSender subject, BaseComponent... components) {
-        subject.spigot().sendMessage(MessageUtil.getPrefixedComponents(components));
-    }
-
-    public static void send(CommandSender subject, String msgKey, BaseComponent... components) {
-        sendRaw(subject, translateComponents(MessageKey.of(msgKey, components.length), components));
-    }
-
     /**
      * {@link AnnouncementTarget}에게 채팅 컴포넌트를 보냅니다.
      * @param target {@link AnnouncementTarget}
@@ -108,8 +97,16 @@ public class MessageUtil {
             sendRaw(player, components);
     }
 
-    public static void send(AnnouncementTarget target, Player subject, String msgKey, BaseComponent... components) {
-        sendRaw(target, subject, translateComponents(MessageKey.of(msgKey, components.length), components));
+    public static void sendRaw(AnnouncementTarget target, Player subject, String msgKey, Object... vars) {
+        sendRaw(target, subject, translate(MessageKey.of(msgKey, vars.length), vars));
+    }
+
+    /**
+     * 마인콜렉터 서버 전체에 마인콜렉터 메시지를 보냅니다.
+     * @param msg 메시지
+     */
+    public static void broadcastRaw(String msg) {
+        MineCollector.getInstance().getServer().broadcastMessage(MSG_PREFIX + " " + msg);
     }
 
     /**
@@ -128,23 +125,22 @@ public class MessageUtil {
      * @param components BaseComponent 배열
      */
     private static BaseComponent[] getPrefixedComponents(BaseComponent[] components) {
-        BaseComponent[] prefixedComponents = new BaseComponent[components.length + 1];
-        prefixedComponents[0] = prefixComponent();
-        System.arraycopy(components, 0, prefixedComponents, 1, components.length);
-        return prefixedComponents;
+        BaseComponent[] prefix = prefixComponents();
+        BaseComponent[] result = new BaseComponent[prefix.length + 1 + components.length];
+        System.arraycopy(prefix, 0, result, 0, prefix.length);
+        result[prefix.length] = BLANK_COMPONENT;
+        System.arraycopy(components, 0, result, prefix.length + 1, components.length);
+        return result;
     }
 
-    private static String translate(MessageKey msgKey, Object... vars) {
+    private static BaseComponent[] translate(MessageKey msgKey, Object... vars) {
         return MineCollector.getInstance().getLangManager().translate(msgKey, vars);
     }
 
-    private static BaseComponent[] translateComponents(MessageKey msgKey, BaseComponent[] components) {
-        return MineCollector.getInstance().getLangManager().translateComponents(msgKey, components);
-    }
-
     public static void reloadPrefix() {
-        MSG_PREFIX = translate(MessageKey.of("prefix")) + " ";
-        MSG_PREFIX_COMPONENT = new TextComponent(MSG_PREFIX);
+        MSG_PREFIX_COMPONENTS = translate(MessageKey.of("prefix"));
+//        MSG_PREFIX = componentsToText(MSG_PREFIX_COMPONENTS, BaseComponent::toLegacyText);
+        MSG_PREFIX = BaseComponent.toLegacyText(MSG_PREFIX_COMPONENTS);
     }
 
     private static String prefix() {
@@ -153,9 +149,9 @@ public class MessageUtil {
         return MSG_PREFIX;
     }
 
-    private static BaseComponent prefixComponent() {
-        if (MSG_PREFIX_COMPONENT == null)
+    private static BaseComponent[] prefixComponents() {
+        if (MSG_PREFIX_COMPONENTS == null)
             reloadPrefix();
-        return MSG_PREFIX_COMPONENT;
+        return MSG_PREFIX_COMPONENTS;
     }
 }
