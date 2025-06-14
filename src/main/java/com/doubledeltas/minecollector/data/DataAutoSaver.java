@@ -28,7 +28,7 @@ public class DataAutoSaver implements McolInitializable {
                 plugin, () -> {
                     plugin.getDataManager().saveAll();
                     if (isLogging) {
-                        MessageUtil.log("데이터 자동 저장됨!");
+                        MessageUtil.log("data.auto_saved");
                     }
                 },
                 period,

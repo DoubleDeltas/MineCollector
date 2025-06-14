@@ -25,19 +25,19 @@ public final class BookCommand extends CommandRoot {
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            MessageUtil.send(sender, "이 명령어는 플레이어만 사용할 수 있습니다!");
+            MessageUtil.send(sender, "command.generic.player_only");
             return false;
         }
 
         ItemStack collectionBook = MineCollector.getInstance().getItemManager().getItem(StaticItem.COLLECTION_BOOK);
 
         if (player.getInventory().contains(collectionBook) || player.getInventory().getItemInOffHand().equals(collectionBook)) {
-            MessageUtil.send(player, "이미 도감을 가지고 있군요! 인벤토리를 다시 찾아보실래요?");
+            MessageUtil.send(player, "command.book.already_have");
             SoundUtil.playFail(player);
         }
         else {
             player.getInventory().addItem(collectionBook);
-            MessageUtil.send(player, "도감을 인벤토리에 넣어드렸어요! 다음엔 잃어버리지 않게 조심하세요!");
+            MessageUtil.send(player, "command.book.received");
             SoundUtil.playHighRing(player);
         }
 

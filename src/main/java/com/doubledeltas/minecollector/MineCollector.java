@@ -9,6 +9,8 @@ import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.event.EventManager;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.InlineItemManager;
+import com.doubledeltas.minecollector.lang.LangManager;
+import com.doubledeltas.minecollector.resource.ResourceManager;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.version.VersionManager;
 import com.doubledeltas.minecollector.version.VersionSystem;
@@ -34,6 +36,10 @@ public final class MineCollector extends JavaPlugin {
     private final EventManager eventManager = new EventManager();
     @Getter
     private final DataAutoSaver dataAutoSaver = new DataAutoSaver();
+    @Getter
+    private final LangManager langManager = new LangManager();
+    @Getter
+    private final ResourceManager resourceManager = new ResourceManager();
 
     private McolConfig config;
 
@@ -51,22 +57,22 @@ public final class MineCollector extends JavaPlugin {
         commandManager.init(this);
         eventManager.init(this);
         dataAutoSaver.init(this);
+        langManager.init(this);
+        resourceManager.init(this);
+        gameDirector.init(this);
 
+        this.config = configManager.load();
+        langManager.loadLang(config.getLang());
         commandManager.loadCommands();
-        try {
-            this.config = configManager.load();
-        } catch (InvalidConfigException e) {
-            throw new RuntimeException(e);
-        }
         dataManager.loadData();
         dataAutoSaver.start();
-        MessageUtil.log(Level.INFO, "마인콜렉터 플러그인이 켜졌습니다!");
+        MessageUtil.log(Level.INFO, "server.enabled");
     }
 
     @Override
     public void onDisable() {
         dataManager.saveAll();
-        MessageUtil.log(Level.INFO, "마인콜렉터 플러그인이 꺼졌습니다.");
+        MessageUtil.log(Level.INFO, "server.disabled");
     }
 
     public McolConfig getMcolConfig() {
