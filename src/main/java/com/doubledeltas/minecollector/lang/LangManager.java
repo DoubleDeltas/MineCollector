@@ -41,7 +41,12 @@ public class LangManager implements McolInitializable {
         defaultProperties.load(new InputStreamReader(is, StandardCharsets.UTF_8));
     }
 
-    public void loadLang(String lang) {
+    /**
+     * 언어팩을 로딩합니다.
+     * @param lang 언어팩 파일 이름
+     * @return 로딩 성공 여부
+     */
+    public boolean loadLang(String lang) {
         if (!langFolder.exists() || !langFolder.isDirectory()) {
             plugin.getResourceManager().copyDirectory("lang", langFolder);
             MessageUtil.log("lang.default_created");
@@ -49,17 +54,21 @@ public class LangManager implements McolInitializable {
         File langFile = new File(langFolder, lang + ".lang");
         if (!langFile.exists() || !langFile.isFile()) {
             MessageUtil.log(Level.WARNING, "lang.using_default", langFile);
-            return;
+            return false;
         }
         setLang(langFile);
         MessageUtil.reloadPrefix();
         currentLang = lang;
+        return true;
     }
 
-    public void reloadLang() {
-        this.plugin.reloadMcolConfig();
+    /**
+     * Config에 명시된 언어팩을 로딩합니다.
+     * @return 로딩 성공 여부
+     */
+    public boolean loadLang() {
         currentLang = this.plugin.getMcolConfig().getLang();
-        loadLang(currentLang);
+        return loadLang(currentLang);
     }
 
     protected void setLang(File langFile) {

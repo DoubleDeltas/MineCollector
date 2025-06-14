@@ -3,6 +3,7 @@ package com.doubledeltas.minecollector.command.impl.mcol.reload;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandNode;
 import com.doubledeltas.minecollector.config.InvalidConfigException;
+import com.doubledeltas.minecollector.lang.InvalidLangException;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.command.Command;
@@ -20,8 +21,16 @@ public class ReloadConfigCommand extends CommandNode {
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         try {
-            MineCollector.getInstance().reloadMcolConfig();
-//            MessageUtil.sendRaw(sender, "콘피그를 리로드하였습니다!");
+            plugin.reloadMcolConfig();
+            boolean langReloadResult = MineCollector.getInstance().getLangManager().loadLang();
+            if (!langReloadResult) {
+                String lang = plugin.getMcolConfig().getLang();
+                MessageUtil.send(sender, "command.reload_config.lang_failed");
+                MessageUtil.send(sender, "command.reload_config.lang_failed_2", lang);
+                if (sender instanceof Player player)
+                    SoundUtil.playFail(player);
+                return false;
+            }
             MessageUtil.send(sender, "command.reload_config.config_reloaded");
             if (sender instanceof Player player)
                 SoundUtil.playHighRing(player);

@@ -44,11 +44,12 @@ command.guide.here=§e§nHere
 command.guide.message=§aClick {0}§a to learn more about MineCollector!
 command.save.save_success=Game data saved successfully!
 command.save.save_failed=Failed to save game data.
-command.reload_config.config_reloaded=Configuration reloaded!
+command.reload_config.config_reloaded=Config and language pack reloaded!
+command.reload_config.failed_to_reload=§cFailed to load config!
+command.reload_config.lang_failed=§cThe config is reloaded successfully, but loading language pack is failed!
+command.reload_config.lang_failed_2=§7 - The language file {0} specified in the config does not exist!
 command.reload_config.failed_to_reload=§cFailed to load configuration!
 command.reload_data.data_reloaded=Data reloaded!
-command.reload_lang.lang_reloaded=Language pack reloaded!
-command.reload_lang.failed_to_reload=§cFailed to load language pack!
 
 config.default_created=Default config file created!
 config.updated=The config of older version({0}) has been updated to current version!

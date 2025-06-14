@@ -44,11 +44,11 @@ command.guide.here=§e§n여기
 command.guide.message=§a{0}§a를 눌러 마인콜렉터에 대해 알아보세요!
 command.save.save_success=게임 데이터 저장 완료!
 command.save.save_failed=게임 데이터 저장에 실패했습니다.
-command.reload_config.config_reloaded=콘피그를 리로드하였습니다!
+command.reload_config.config_reloaded=콘피그 및 언어팩을 리로드하였습니다!
 command.reload_config.failed_to_reload=§c콘피그 로딩에 실패했습니다!
+command.reload_config.lang_failed=§c콘피그 로딩은 성공했지만, 언어팩 로딩에 실패했습니다!
+command.reload_config.lang_failed_2=§7 - config에 명시된 언어팩({0})이 존재하지 않습니다!
 command.reload_data.data_reloaded=데이터를 리로드하였습니다!
-command.reload_lang.lang_reloaded=언어팩을 리로드하였습니다!
-command.reload_lang.failed_to_reload=§c언어팩 로딩에 실패했습니다!
 
 config.default_created=기본 콘피그 파일 생성됨!
 config.updated=오래된 버전({0})의 콘피그를 현재 버전에 맞게 업데이트했습니다!
