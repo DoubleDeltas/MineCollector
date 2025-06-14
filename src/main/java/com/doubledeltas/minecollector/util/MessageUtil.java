@@ -97,7 +97,7 @@ public class MessageUtil {
             sendRaw(player, components);
     }
 
-    public static void sendRaw(AnnouncementTarget target, Player subject, String msgKey, Object... vars) {
+    public static void send(AnnouncementTarget target, Player subject, String msgKey, Object... vars) {
         sendRaw(target, subject, translate(MessageKey.of(msgKey, vars.length), vars));
     }
 

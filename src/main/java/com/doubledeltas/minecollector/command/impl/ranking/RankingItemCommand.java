@@ -5,7 +5,7 @@ import com.doubledeltas.minecollector.command.CommandNode;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -48,11 +48,8 @@ public class RankingItemCommand extends CommandNode {
         int top10Size = top10.size();
 
         MessageUtil.sendRaw(sender, "");
-        MessageUtil.sendRaw(sender,
-                new TextComponent("§e\""),
-                new TranslatableComponent(material.getItemTranslationKey()),
-                new TextComponent("§e\" 수집 수 TOP 10 리스트:")
-        );
+        BaseComponent itemComponent = new TranslatableComponent(material.getItemTranslationKey());
+        MessageUtil.send(sender, "command.ranking_item.title", itemComponent);
 
         if (top10Size == 1) { // 아무도 수집하지 않음
             MessageUtil.send(sender, "command.ranking_item.nobody_collected");

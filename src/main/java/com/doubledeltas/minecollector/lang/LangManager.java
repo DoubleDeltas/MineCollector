@@ -94,6 +94,8 @@ public class LangManager implements McolInitializable {
             Object var = getVariable(group, vars);
             if (var instanceof BaseComponent component)
                 builder.append(component);
+            else if (var instanceof BaseComponent[] components)
+                builder.append(components);
             else
                 builder.appendLegacy(var.toString());
 

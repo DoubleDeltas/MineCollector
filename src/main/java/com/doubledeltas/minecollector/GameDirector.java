@@ -1,17 +1,18 @@
 package com.doubledeltas.minecollector;
 
+import com.doubledeltas.minecollector.config.AnnouncementTarget;
 import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
 import com.doubledeltas.minecollector.gui.HubGui;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
+import com.doubledeltas.minecollector.lang.LangManager;
+import com.doubledeltas.minecollector.lang.MessageKey;
 import com.doubledeltas.minecollector.util.CollectionLevelUtil;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.Material;
@@ -25,21 +26,6 @@ import java.util.List;
 
 public class GameDirector implements McolInitializable {
     private MineCollector plugin;
-
-    private static final ChatColor[] LEVEL_UP_MSG_COLORS = new ChatColor[] {
-            null,
-            null,
-            ChatColor.YELLOW,
-            ChatColor.YELLOW,
-            ChatColor.YELLOW,
-            ChatColor.YELLOW,
-            ChatColor.AQUA,
-            ChatColor.DARK_AQUA,
-            ChatColor.BLUE,
-            ChatColor.DARK_PURPLE,
-            ChatColor.LIGHT_PURPLE,
-            ChatColor.of("#ff4488")
-    };
 
     @Override
     public void init(MineCollector plugin) {
@@ -116,7 +102,7 @@ public class GameDirector implements McolInitializable {
         data.addAdvCleared(type);
 
         GameStatistics stats = new GameStatistics(data);
-        MessageUtil.sendRaw(
+        MessageUtil.send(
                 announcementConfig.getAdvancement(), player, "game.got_advancement_score",
                 player.getName(), scoringConfig.getAdvancementScores().get(type), stats.getTotalScore()
         );
@@ -150,69 +136,64 @@ public class GameDirector implements McolInitializable {
 
     /**
      * 첫 수집 공지를 띄웁니다.
-     * @param target 수집한 플레이어
+     * @param player 수집한 플레이어
      * @param material 수집한 아이템 종류
      */
-    private static void noticeFirstCollection(Player target, Material material) {
+    private static void noticeFirstCollection(Player player, Material material) {
         McolConfig.Announcement announcementConfig = MineCollector.getInstance().getMcolConfig().getAnnouncement();
+        AnnouncementTarget target = announcementConfig.getCollection();
 
-        MessageUtil.sendRaw(announcementConfig.getCollection(), target, new ComponentBuilder()
-                        .append(target.getName()).color(ChatColor.YELLOW)
-                        .append("님이 ").color(ChatColor.GREEN)
-                        .append(GameDirector.getItemNameComponent(material)).color(ChatColor.YELLOW)
-                        .append(" 아이템을 처음 수집했습니다!").color(ChatColor.GREEN)
-                        .create()
-        );
-        for (Player p: announcementConfig.getCollection().resolve(target))
+        BaseComponent itemComponent = GameDirector.getItemNameComponent(material);
+
+        MessageUtil.send(target, player, "game.first_collection", player.getName(), itemComponent);
+        for (Player p: announcementConfig.getCollection().resolve(player))
            SoundUtil.playHighRing(p);
     }
 
     /**
      * 단계 도달 축하 공지를 띄웁니다.
-     * @param target 수집한 플레이어
+     * @param player 수집한 플레이어
      * @param material 수집한 아이템 종류
      * @param level 도달한 단계 수
      */
-    private static void noticeLevelUp(Player target, Material material, int level) {
-        McolConfig config = MineCollector.getInstance().getMcolConfig();
-        McolConfig.Announcement announcementConfig = config.getAnnouncement();
+    private static void noticeLevelUp(Player player, Material material, int level) {
+        McolConfig.Announcement announcementConfig = MineCollector.getInstance().getMcolConfig().getAnnouncement();
 
         if (level < announcementConfig.getHighLevelMinimum()) return;
-
-        ChatColor color = LEVEL_UP_MSG_COLORS[Math.min(level, LEVEL_UP_MSG_COLORS.length - 1)];
-        boolean isBold = (level >= 10);
 
         int amount = CollectionLevelUtil.getMinimumAmount(level);
         int quo = amount / 64;
         int rem = amount % 64;
 
-        String amountDisplay;
+        String format = switch (level) {
+            case 2, 3, 4, 5     -> "§e";                // yellow
+            case 6              -> "§b";                // aqua
+            case 7              -> "§3";                // dark aqua
+            case 8              -> "§9";                // blue
+            case 9              -> "§5";                // purple
+            case 10             -> "§d§l";              // pink, bold
+            default /* 11+ */   -> "§x§f§f§4§4§8§8§l";  // fuchsia(#FF4488), bold
+        };
+        AnnouncementTarget target = announcementConfig.getHighLevelReached();
+        BaseComponent itemComponent = new TranslatableComponent(material.getItemTranslationKey());
+
+        LangManager langManager = MineCollector.getInstance().getLangManager();
+        BaseComponent[] amountComponents;
         if (quo > 0 && rem > 0)
-            amountDisplay = "%d셋 %d개".formatted(quo, rem);
+            amountComponents = langManager.translate(MessageKey.of("game.stack_and_pcs", 2), quo, rem);
         else if (quo > 0)
-            amountDisplay = "%d셋".formatted(quo);
+            amountComponents = langManager.translate(MessageKey.of("game.stack", 1), quo);
         else
-            amountDisplay = "%d개".formatted(rem);
+            amountComponents = langManager.translate(MessageKey.of("game.pcs", 1), rem);
 
+        MessageUtil.send(target, player, "game.level_up", format, player.getName(), itemComponent, level, amountComponents);
 
-        BaseComponent itemNameComponent = new TranslatableComponent(material.getItemTranslationKey());
-        itemNameComponent.setColor(ChatColor.YELLOW);
-
-        MessageUtil.sendRaw(announcementConfig.getHighLevelReached(), target, new ComponentBuilder()
-                .append(target.getName()).color(ChatColor.YELLOW)
-                .append("님의 ").color(color).bold(isBold)
-                .append(new TranslatableComponent(material.getItemTranslationKey())).color(ChatColor.YELLOW).bold(isBold)
-                .append(" 컬렉션이 ").color(color).bold(isBold)
-                .append(level + "단계").color(color).bold(true)
-                .append("에 도달했습니다! (" + amountDisplay + ")").color(color).bold(isBold)
-                .create()
-        );
         if (level <= 8) {
-            for (Player p: announcementConfig.getHighLevelReached().resolve(target))
+            for (Player p: announcementConfig.getHighLevelReached().resolve(player))
                 SoundUtil.playHighFirework(p);
         }
         else {
-            for (Player p: announcementConfig.getHighLevelReached().resolve(target))
+            for (Player p: announcementConfig.getHighLevelReached().resolve(player))
                 SoundUtil.playLegend(p);
         }
     }
