@@ -79,7 +79,7 @@ public class GameDirector implements McolInitializable {
     public boolean isCollectable(ItemStack item) {
         ItemManager itemManager = MineCollector.getInstance().getItemManager();
 
-        if (itemManager.getItem(StaticItem.COLLECTION_BOOK).equals(item))
+        if (itemManager.isItemOf(item, StaticItem.COLLECTION_BOOK))
             return true;
         if (!item.hasItemMeta())
             return true;
