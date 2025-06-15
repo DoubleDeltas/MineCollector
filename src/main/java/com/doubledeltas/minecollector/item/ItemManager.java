@@ -40,7 +40,7 @@ public abstract class ItemManager {
      * 새로운 아이템을 만들어 가져옵니다. 이 아이템은 개인 아이템 등에 활용될 수 있습니다.
      * @param itemCode 아이템 경로
      * @param vars {@code [placeholder]}에 채울 변수
-     * @see EmbeddedItemManager#getItem(ItemCode) GUI 아이콘으로는 이것을 사용해보세요!
+     * @see ItemManager#getItem(ItemCode) GUI 아이콘으로는 이것을 사용해보세요!
      * @return 아이템
      */
     public ItemStack createItem(ItemCode itemCode, Map<String, ?> vars) {
@@ -80,7 +80,7 @@ public abstract class ItemManager {
     /**
      * 새로운 아이템을 만들어 가져옵니다. 이 아이템은 개인 아이템 등에 활용될 수 있습니다.
      * @param itemCode 아이템 경로
-     * @see EmbeddedItemManager#getItem(ItemCode) GUI 아이콘으로는 이것을 사용해보세요!
+     * @see ItemManager#getItem(ItemCode) GUI 아이콘으로는 이것을 사용해보세요!
      * @return 아이템
      */
     public ItemStack createItem(ItemCode itemCode) {
