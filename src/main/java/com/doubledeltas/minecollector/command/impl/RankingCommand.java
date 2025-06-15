@@ -75,7 +75,7 @@ public final class RankingCommand extends CommandRoot {
         int top10Size = top10.size();
 
         MessageUtil.sendRaw(sender, "");
-        MessageUtil.send(sender, "command.ranking.title", categoryWord);
+        MessageUtil.send(sender, "command.ranking.title", (Object[]) categoryWord);
 
         if (top10Size == 1) { // 아무도 수집하지 않음
             MessageUtil.send(sender, "command.ranking.nobody_scored");
