@@ -3,7 +3,6 @@ package com.doubledeltas.minecollector.config.schema;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.config.InvalidConfigException;
 import com.doubledeltas.minecollector.config.McolConfig;
-import com.doubledeltas.minecollector.lang.LangManager;
 import com.doubledeltas.minecollector.version.SemanticVersion;
 import com.doubledeltas.minecollector.version.Version;
 import com.doubledeltas.minecollector.version.VersionUpdater;
@@ -19,7 +18,7 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled implements Cu
     @Builder.Default
     private String configVersion = "1.3";
     @Builder.Default
-    private String lang = LangManager.DEFAULT_LANG;
+    private String lang = "lang_ko";
 
     public McolConfigSchema1_3() {
         super();
@@ -71,11 +70,8 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled implements Cu
     public static final class Updater implements VersionUpdater<McolConfigSchemaUnlabeled, McolConfigSchema1_3> {
         @Override
         public McolConfigSchema1_3 update(McolConfigSchemaUnlabeled source) {
-            McolConfigSchema1_3 defaultSchema = new McolConfigSchema1_3();
-
             return McolConfigSchema1_3.builder()
                     .enabled(source.isEnabled())
-                    .lang(defaultSchema.getLang())
                     .scoring(source.getScoring())
                     .announcement(source.getAnnouncement())
                     .game(source.getGame())
