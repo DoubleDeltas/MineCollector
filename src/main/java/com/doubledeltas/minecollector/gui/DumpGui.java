@@ -22,7 +22,7 @@ public class DumpGui extends Gui {
     private ProcessState state = ProcessState.OK;
 
     public DumpGui() {
-        super(6, "§8[ §2마인§0콜렉터 §8]§0 - 수집");
+        super(6, "gui.dump.title");
 
         ItemManager itemManager = MineCollector.getInstance().getItemManager();
 

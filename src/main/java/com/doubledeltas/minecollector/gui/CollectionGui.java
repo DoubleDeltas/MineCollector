@@ -22,7 +22,7 @@ public class CollectionGui extends Gui {
     private int page;
 
     public CollectionGui(Player player, int page) {
-        super(6, "§8[ §2마인§0콜렉터 §8]§0 - 도감");
+        super(6, "gui.collection.title");
         this.page = page;
 
         ItemManager itemManager = MineCollector.getInstance().getItemManager();
