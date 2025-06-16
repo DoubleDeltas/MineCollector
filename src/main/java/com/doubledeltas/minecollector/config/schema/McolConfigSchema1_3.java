@@ -21,9 +21,13 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled implements Cu
     @Builder.Default
     private String lang = LangManager.DEFAULT_LANG;
 
+    /**
+     * Default schema
+     */
     public McolConfigSchema1_3() {
         super();
         this.configVersion = MineCollector.getInstance().getDescription().getVersion();
+        this.lang = LangManager.DEFAULT_LANG;
     }
 
     @Override

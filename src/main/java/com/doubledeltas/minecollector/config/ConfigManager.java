@@ -121,6 +121,7 @@ public class ConfigManager implements McolInitializable {
      */
     public void saveConfig() {
         saveConfig(McolConfigSchema.getLatestDefault(), false);
+        System.out.println(McolConfigSchema.getLatestDefault());
     }
 
     /**
