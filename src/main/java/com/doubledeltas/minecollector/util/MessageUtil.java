@@ -6,33 +6,45 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 
+import static com.doubledeltas.minecollector.lang.LangManager.translateToComponents;
+import static com.doubledeltas.minecollector.lang.LangManager.translateToText;
+
 public class MessageUtil {
-    public static String MSG_PREFIX = "§8[ §a마인§f콜렉터 §8]§f ";
-    public static BaseComponent MSG_PREFIX_COMPONENT = new TextComponent(MSG_PREFIX);
+    private static final BaseComponent BLANK_COMPONENT = new TextComponent(" ");
+    private static BaseComponent[] MSG_PREFIX_COMPONENTS;
+    private static String MSG_PREFIX;
 
     /**
      * 로그 메시지를 보냅니다.
      * @param level 로그 레벨
      * @param msg 메시지
      */
-    public static void log(Level level, String msg) {
+    public static void logRaw(Level level, String msg) {
         MineCollector.getInstance().getLogger().log(level, msg);
+    }
+
+    public static void logRaw(Level level, BaseComponent[] components) {
+        logRaw(level, BaseComponent.toPlainText(components));
+    }
+
+    public static void log(Level level, String msgKey, Object... vars) {
+        logRaw(level, BaseComponent.toPlainText(translateToComponents(msgKey, vars)));
     }
 
     /**
      * {@link Level#INFO} 레벨의 로그 메시지를 보냅니다.
      * @param msg 메시지
      */
-    public static void log(String msg) {
-        log(Level.INFO, msg);
+    public static void logRaw(String msg) {
+        logRaw(Level.INFO, msg);
+    }
+
+    public static void log(String msgKey, Object... vars) {
+        log(Level.INFO, msgKey, vars);
     }
 
     /**
@@ -40,31 +52,8 @@ public class MessageUtil {
      * @param subject 수신자
      * @param msg 메시지
      */
-    public static void send(CommandSender subject, String msg) {
-        subject.sendMessage(MSG_PREFIX + msg);
-    }
-
-    /**
-     * {@link AnnouncementTarget}에게 마인콜렉터 메시지를 보냅니다.
-     * @param target {@link AnnouncementTarget}
-     * @param subject 수신자
-     * @param msg 메시지
-     */
-    public static void send(AnnouncementTarget target, Player subject, String msg) {
-        if (target == AnnouncementTarget.ALL_PLAYERS) {
-            broadcast(msg);
-            return;
-        }
-        for (Player player: target.resolve(subject))
-            send(player, msg);
-    }
-
-    /**
-     * 마인콜렉터 서버 전체에 마인콜렉터 메시지를 보냅니다.
-     * @param msg 메시지
-     */
-    public static void broadcast(String msg) {
-        MineCollector.getInstance().getServer().broadcastMessage(MSG_PREFIX + msg);
+    public static void sendRaw(CommandSender subject, String msg) {
+        subject.sendMessage(prefix() + " " + msg);
     }
 
     /**
@@ -74,6 +63,25 @@ public class MessageUtil {
      */
     public static void sendRaw(CommandSender subject, BaseComponent... components) {
         subject.spigot().sendMessage(MessageUtil.getPrefixedComponents(components));
+    }
+
+    public static void send(CommandSender subject, String msgKey, Object... vars) {
+        sendRaw(subject, translateToText(msgKey, vars));
+    }
+
+    /**
+     * {@link AnnouncementTarget}에게 마인콜렉터 메시지를 보냅니다.
+     * @param target {@link AnnouncementTarget}
+     * @param subject 수신자
+     * @param msg 메시지
+     */
+    public static void sendRaw(AnnouncementTarget target, Player subject, String msg) {
+        if (target == AnnouncementTarget.ALL_PLAYERS) {
+            broadcastRaw(msg);
+            return;
+        }
+        for (Player player: target.resolve(subject))
+            sendRaw(player, msg);
     }
 
     /**
@@ -89,6 +97,18 @@ public class MessageUtil {
         }
         for (Player player: target.resolve(subject))
             sendRaw(player, components);
+    }
+
+    public static void send(AnnouncementTarget target, Player subject, String msgKey, Object... vars) {
+        sendRaw(target, subject, translateToComponents(msgKey, vars));
+    }
+
+    /**
+     * 마인콜렉터 서버 전체에 마인콜렉터 메시지를 보냅니다.
+     * @param msg 메시지
+     */
+    public static void broadcastRaw(String msg) {
+        MineCollector.getInstance().getServer().broadcastMessage(MSG_PREFIX + " " + msg);
     }
 
     /**
@@ -107,9 +127,28 @@ public class MessageUtil {
      * @param components BaseComponent 배열
      */
     private static BaseComponent[] getPrefixedComponents(BaseComponent[] components) {
-        BaseComponent[] prefixedComponents = new BaseComponent[components.length + 1];
-        prefixedComponents[0] = MSG_PREFIX_COMPONENT;
-        System.arraycopy(components, 0, prefixedComponents, 1, components.length);
-        return prefixedComponents;
+        BaseComponent[] prefix = prefixComponents();
+        BaseComponent[] result = new BaseComponent[prefix.length + 1 + components.length];
+        System.arraycopy(prefix, 0, result, 0, prefix.length);
+        result[prefix.length] = BLANK_COMPONENT;
+        System.arraycopy(components, 0, result, prefix.length + 1, components.length);
+        return result;
+    }
+
+    public static void reloadPrefix() {
+        MSG_PREFIX_COMPONENTS = translateToComponents("prefix");
+        MSG_PREFIX = BaseComponent.toLegacyText(MSG_PREFIX_COMPONENTS);
+    }
+
+    private static String prefix() {
+        if (MSG_PREFIX == null)
+            reloadPrefix();
+        return MSG_PREFIX;
+    }
+
+    private static BaseComponent[] prefixComponents() {
+        if (MSG_PREFIX_COMPONENTS == null)
+            reloadPrefix();
+        return MSG_PREFIX_COMPONENTS;
     }
 }

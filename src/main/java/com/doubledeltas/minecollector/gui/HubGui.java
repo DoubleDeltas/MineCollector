@@ -14,7 +14,7 @@ public class HubGui extends Gui {
     private static final int INDEX_BACK = 52;
 
     public HubGui() {
-        super(6, "§8[ §2마인§0콜렉터 §8]§0");
+        super(6, "gui.hub.title");
 
         ItemManager itemManager = MineCollector.getInstance().getItemManager();
 

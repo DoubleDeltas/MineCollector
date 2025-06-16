@@ -1,7 +1,5 @@
-package com.doubledeltas.minecollector.item.manager;
+package com.doubledeltas.minecollector.item;
 
-import com.doubledeltas.minecollector.item.ItemBuilder;
-import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.GuiItem;
 import com.doubledeltas.minecollector.item.itemCode.ItemCode;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
@@ -42,8 +40,7 @@ public class InlineItemManager extends ItemManager {
         return null;
     }
 
-
-    private ItemStack getCollectBook() {
+    protected ItemStack getCollectBook() {
         return new ItemBuilder(Material.KNOWLEDGE_BOOK)
                 .displayName("§a§l[ §r§f도감 §a§l]")
                 .lore(
@@ -53,19 +50,19 @@ public class InlineItemManager extends ItemManager {
                 .build();
     }
 
-    private ItemStack getGuiBlack() {
+    protected ItemStack getGuiBlack() {
         return new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)
                 .displayName("§0")
                 .build();
     }
 
-    private ItemStack getGuiGray() {
+    protected ItemStack getGuiGray() {
         return new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
                 .displayName("§8")
                 .build();
     }
 
-    private ItemStack getGuiNoPrev() {
+    protected ItemStack getGuiNoPrev() {
         return new ItemBuilder(Material.RED_BANNER)
                 .displayName("§c이전 페이지가 없습니다")
                 .addBannerPattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE)
@@ -79,7 +76,7 @@ public class InlineItemManager extends ItemManager {
                 .build();
     }
 
-    private ItemStack getGuiPrev() {
+    protected ItemStack getGuiPrev() {
         return new ItemBuilder(Material.BLACK_BANNER)
                 .displayName("§e이전 페이지로")
                 .addBannerPattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE)
@@ -93,7 +90,7 @@ public class InlineItemManager extends ItemManager {
                 .build();
     }
 
-    private ItemStack getGuiNoNext() {
+    protected ItemStack getGuiNoNext() {
         return new ItemBuilder(Material.RED_BANNER)
                 .displayName("§c다음 페이지가 없습니다")
                 .addBannerPattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE)
@@ -107,7 +104,7 @@ public class InlineItemManager extends ItemManager {
                 .build();
     }
 
-    private ItemStack getGuiNext() {
+    protected ItemStack getGuiNext() {
         return new ItemBuilder(Material.BLACK_BANNER)
                 .displayName("§e다음 페이지로")
                 .addBannerPattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE)
@@ -121,27 +118,27 @@ public class InlineItemManager extends ItemManager {
                 .build();
     }
 
-    private ItemStack getGuiBack() {
+    protected ItemStack getGuiBack() {
         return new ItemBuilder(Material.IRON_DOOR)
                 .displayName("§c§lBack")
                 .build();
     }
 
-    private ItemStack getGuiCollection() {
+    protected ItemStack getGuiCollection() {
         return new ItemBuilder(Material.KNOWLEDGE_BOOK)
                 .displayName("§a§l[ §f도감 §a§l]")
                 .lore("§7수집한 아이템의 목록을 볼 수 있습니다.")
                 .build();
     }
 
-    private ItemStack getGuiDump() {
+    protected ItemStack getGuiDump() {
         return new ItemBuilder(Material.CHEST)
                 .displayName("§6§l[ §f수집 §6§l]")
                 .lore("§7많은 아이템을 손쉽게 수집할 수 있습니다.")
                 .build();
     }
 
-    private ItemStack getGuiRanking() {
+    protected ItemStack getGuiRanking() {
         return new ItemBuilder(Material.MOJANG_BANNER_PATTERN)
                 .displayName("§d§l[ §f랭킹 §d§l]")
                 .lore("§7수집 점수가 가장 높은 TOP 10을 보여줍니다.")
@@ -149,7 +146,7 @@ public class InlineItemManager extends ItemManager {
                 .build();
     }
 
-    private ItemStack getGuiUnknown() {
+    protected ItemStack getGuiUnknown() {
         return new ItemBuilder(Material.LIGHT_GRAY_BANNER)
                 .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_RIGHT)
                 .addBannerPattern(DyeColor.LIGHT_GRAY, PatternType.HALF_HORIZONTAL_MIRROR)
@@ -162,7 +159,7 @@ public class InlineItemManager extends ItemManager {
                 .build();
     }
 
-    private ItemStack getGuiOk() {
+    protected ItemStack getGuiOk() {
         return new ItemBuilder(Material.LIME_BANNER)
                 .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_TOP)
                 .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_LEFT)
@@ -174,7 +171,7 @@ public class InlineItemManager extends ItemManager {
                 .build();
     }
 
-    private ItemStack getGuiHmm() {
+    protected ItemStack getGuiHmm() {
         return new ItemBuilder(Material.ORANGE_BANNER)
                 .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE)
                 .addBannerPattern(DyeColor.ORANGE, PatternType.STRIPE_SMALL)
@@ -184,7 +181,7 @@ public class InlineItemManager extends ItemManager {
                 .build();
     }
 
-    private ItemStack getGuiNo() {
+    protected ItemStack getGuiNo() {
         return new ItemBuilder(Material.RED_BANNER)
                 .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_DOWNLEFT)
                 .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_DOWNRIGHT)
@@ -194,7 +191,7 @@ public class InlineItemManager extends ItemManager {
                 .build();
     }
 
-    private ItemStack getGuiAirPlaceholder() {
+    protected ItemStack getGuiAirPlaceholder() {
         return new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
                 .displayName("§f공기")
                 .lore("§7수집되었습니다!")
@@ -202,14 +199,14 @@ public class InlineItemManager extends ItemManager {
     }
 
 
-    private ItemStack getGuiUnknownAirPlaceholder() {
+    protected ItemStack getGuiUnknownAirPlaceholder() {
         return new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
                 .displayName("§f공기")
                 .lore("§c아직 수집되지 않았습니다")
                 .build();
     }
 
-    private ItemStack getGuiRawCore() {
+    protected ItemStack getGuiRawCore() {
         return new ItemBuilder(Material.END_CRYSTAL)
                 .displayName("§f컬렉션 점수: §e§l[totalScore]")
                 .lore(

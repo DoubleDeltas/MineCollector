@@ -1,15 +1,12 @@
 package com.doubledeltas.minecollector.data;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.config.chapter.ScoringChapter;
 import com.doubledeltas.minecollector.util.CollectionLevelUtil;
-import com.doubledeltas.minecollector.util.Yamls;
+import com.doubledeltas.minecollector.yaml.Yamls;
 import org.bukkit.Material;
 import org.bukkit.advancement.AdvancementDisplayType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
 import java.io.Reader;
@@ -20,9 +17,9 @@ import java.util.UUID;
 
 public class GameData {
     private String name;
-    private UUID uuid;
-    private Map<String, Integer> collection;
-    private Map<AdvancementDisplayType, Integer> advCleared;
+    private final UUID uuid;
+    private final Map<String, Integer> collection;
+    private final Map<AdvancementDisplayType, Integer> advCleared;
 
     public GameData(Player player) {
         this.name = player.getName();
@@ -39,7 +36,8 @@ public class GameData {
      * @param map 불러올 {@code Map} 객체
      * @see GameData#toMap()
      */
-    public GameData(Map map) {
+    @SuppressWarnings("unchecked")
+    public GameData(Map<?,?> map) {
         this.name = (String) map.get("name");
         this.uuid = UUID.fromString((String) map.get("uuid"));
         this.collection = (Map<String, Integer>) map.get("collection");

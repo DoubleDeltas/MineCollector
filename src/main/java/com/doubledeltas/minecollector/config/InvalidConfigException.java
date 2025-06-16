@@ -1,6 +1,6 @@
 package com.doubledeltas.minecollector.config;
 
-public class InvalidConfigException extends Exception {
+public class InvalidConfigException extends RuntimeException {
     public InvalidConfigException() {
         super();
     }
