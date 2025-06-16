@@ -31,6 +31,9 @@ public class InlineItemManagerV2 extends InlineItemManager {
 
     @Override
     public boolean isItemOf(ItemStack item, ItemCode itemCode) {
+        if (item == null)
+            return false;
+
         boolean v1Check = super.isItemOf(item, itemCode);
         if (ITEM_CODES_TO_CHECK_WITH_V1.contains(itemCode))
             return v1Check;
