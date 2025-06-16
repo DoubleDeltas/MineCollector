@@ -7,11 +7,14 @@ import com.doubledeltas.minecollector.item.ItemBuilder;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.GuiItem;
 import com.doubledeltas.minecollector.util.SoundUtil;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import static com.doubledeltas.minecollector.lang.LangManager.translateToComponents;
 import static com.doubledeltas.minecollector.lang.LangManager.translateToText;
 
 public class CollectionGui extends Gui {
@@ -100,14 +103,22 @@ public class CollectionGui extends Gui {
         int rem = amount % 64;
         int lv = data.getLevel(material);
 
-        String countDisplay = (quo > 0)
-                ? translateToText("game.stack_and_pcs", quo, rem)
-                : translateToText("game.pcs", rem);
+        BaseComponent[] countDisplay = (quo > 0)
+                ? translateToComponents("game.stack_and_pcs", quo, rem)
+                : translateToComponents("game.pcs", rem);
+
+        BaseComponent[] components = new ComponentBuilder()
+                .append(translateToComponents("gui.collection.count"))
+                .append(" ")
+                .append(countDisplay)
+                .create();
+
         ItemBuilder builder = new ItemBuilder(material, lv)
-                .lore(translateToText("gui.collection.count") + " " + countDisplay);
+                .lore(BaseComponent.toLegacyText(components));
 
         if (lv >= 5)
             builder.glowing();
+
         return builder.build();
     }
 
