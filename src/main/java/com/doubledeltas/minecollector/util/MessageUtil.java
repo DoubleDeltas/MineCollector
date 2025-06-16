@@ -32,7 +32,7 @@ public class MessageUtil {
     }
 
     public static void log(Level level, String msgKey, Object... vars) {
-        logRaw(level, translateToText(msgKey, vars));
+        logRaw(level, BaseComponent.toPlainText(translateToComponents(msgKey, vars)));
     }
 
     /**
@@ -100,7 +100,7 @@ public class MessageUtil {
     }
 
     public static void send(AnnouncementTarget target, Player subject, String msgKey, Object... vars) {
-        sendRaw(target, subject, translateToText(msgKey, vars));
+        sendRaw(target, subject, translateToComponents(msgKey, vars));
     }
 
     /**
