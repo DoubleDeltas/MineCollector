@@ -58,6 +58,7 @@ public class LangManager implements McolInitializable {
         }
         setLang(langFile);
         MessageUtil.reloadPrefix();
+        plugin.getItemManager().clearCache();
         currentLang = lang;
         return true;
     }
@@ -120,6 +121,10 @@ public class LangManager implements McolInitializable {
         }
 
         return builder.create();
+    }
+
+    public String translateToText(MessageKey key, Object... vars) {
+        return BaseComponent.toLegacyText(translate(key, vars));
     }
     
     private static void checkVariableCount(MessageKey key, Object[] vars) {

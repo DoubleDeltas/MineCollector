@@ -55,6 +55,32 @@ command.reload_config.lang_failed_2=§7 - The language file {0} specified in the
 command.reload_config.failed_to_reload=§cFailed to load configuration!
 command.reload_data.data_reloaded=Data reloaded!
 
+gui.collection.collected=§7Collected!
+gui.collection.not_collected_yet=§cNot yet collected
+
+item.static.collection_book.display_name=§a§l[ §r§fCollection Book §a§l]
+item.static.collection_book.lore_1=§7View collected items or
+item.static.collection_book.lore_2=§7collect large quantities of items.
+item.gui.no_prev.display_name=§cNo previous page
+item.gui.prev.display_name=§eGo to previous page
+item.gui.no_next.display_name=§cNo next page
+item.gui.next.display_name=§eGo to next page
+item.gui.back.display_name=§c§lBack
+item.gui.collection.display_name=§a§l[ §fCollection §a§l]
+item.gui.collection.lore_1=§7View a list of collected items.
+item.gui.dump.display_name=§6§l[ §fDump §6§l]
+item.gui.dump.lore_1=§7Easily collect a large number of items.
+item.gui.ranking.display_name=§d§l[ §fRanking §d§l]
+item.gui.ranking.lore_1=§7Displays the top 10 highest collection scores.
+item.gui.ok.display_name=§aCollect!
+item.gui.hmm.display_name=§eCollecting...
+item.gui.no.display_name=§cCannot collect!
+item.gui.air_placeholder.display_name=§fAir
+item.gui.raw_core.display_name=§fCollection Score: §e§l{0}
+item.gui.raw_core.lore_1=§7 - Collection Score: §f§l{0}
+item.gui.raw_core.lore_2=§7 - Stack Score: §a§l{0}
+item.gui.raw_core.lore_3=§7 - Advancement Score: §b§l{0}
+
 config.default_created=Default config file created!
 config.updated=The config of older version({0}) has been updated to current version!
 config.higher_version_warning=The version of config is higher than current version! Have you ever used the plugin of higher version or modified config version?

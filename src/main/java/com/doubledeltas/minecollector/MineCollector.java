@@ -7,8 +7,8 @@ import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.data.DataAutoSaver;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.event.EventManager;
+import com.doubledeltas.minecollector.item.InlineItemManagerV2;
 import com.doubledeltas.minecollector.item.ItemManager;
-import com.doubledeltas.minecollector.item.InlineItemManager;
 import com.doubledeltas.minecollector.lang.LangManager;
 import com.doubledeltas.minecollector.resource.ResourceManager;
 import com.doubledeltas.minecollector.util.MessageUtil;
@@ -23,7 +23,7 @@ public final class MineCollector extends JavaPlugin {
     @Getter
     private final GameDirector gameDirector = new GameDirector();
     @Getter
-    private final ItemManager itemManager = new InlineItemManager();
+    private final ItemManager itemManager = new InlineItemManagerV2();
     @Getter
     private final CommandManager commandManager = new CommandManager();
     @Getter
@@ -53,6 +53,7 @@ public final class MineCollector extends JavaPlugin {
         versionManager.register(VersionSystem.SEMANTIC);
 
         configManager.init(this);
+        itemManager.init(this);
         dataManager.init(this);
         commandManager.init(this);
         eventManager.init(this);
