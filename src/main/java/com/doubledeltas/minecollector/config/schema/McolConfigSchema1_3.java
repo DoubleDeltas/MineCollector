@@ -11,6 +11,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Duration;
+import java.util.Locale;
 
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -27,7 +28,7 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled implements Cu
     public McolConfigSchema1_3() {
         super();
         this.configVersion = MineCollector.getInstance().getDescription().getVersion();
-        this.lang = LangManager.DEFAULT_LANG;
+        this.lang = Locale.getDefault() == Locale.KOREA ? "ko_KR" : LangManager.DEFAULT_LANG;
     }
 
     @Override
