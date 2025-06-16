@@ -129,10 +129,6 @@ public class ConfigManager implements McolInitializable {
      * @param override 기존 config.yml 파일을 덮어쓸지 여부
      */
     public void saveConfig(McolConfigSchema schema, boolean override) {
-        if (!plugin.getDataFolder().exists()) {
-            plugin.getDataFolder().mkdirs();
-        }
-
         File configFile = new File(plugin.getDataFolder(), "config.yml");
         if (configFile.exists() && !override) {
             MessageUtil.log(Level.WARNING, "config.already_exist_warning");
