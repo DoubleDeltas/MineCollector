@@ -58,6 +58,7 @@ gui.hub.title=§8[ §2마인§0콜렉터 §8]§0
 gui.collection.title=§8[ §2마인§0콜렉터 §8]§0 - 도감
 gui.collection.collected=§7수집되었습니다!
 gui.collection.not_collected_yet=§c아직 수집되지 않았습니다
+gui.collection.count=§7수집된 개수:
 gui.dump.title=§8[ §2마인§0콜렉터 §8]§0 - 수집
 
 item.static.collection_book.display_name=§a§l[ §r§f도감 §a§l]

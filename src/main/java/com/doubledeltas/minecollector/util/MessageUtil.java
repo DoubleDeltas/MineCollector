@@ -2,7 +2,6 @@ package com.doubledeltas.minecollector.util;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.config.AnnouncementTarget;
-import com.doubledeltas.minecollector.lang.MessageKey;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -10,6 +9,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
+
+import static com.doubledeltas.minecollector.lang.LangManager.translateToComponents;
+import static com.doubledeltas.minecollector.lang.LangManager.translateToText;
 
 public class MessageUtil {
     private static final BaseComponent BLANK_COMPONENT = new TextComponent(" ");
@@ -30,7 +32,7 @@ public class MessageUtil {
     }
 
     public static void log(Level level, String msgKey, Object... vars) {
-        logRaw(level, translate(MessageKey.of(msgKey, vars.length), vars));
+        logRaw(level, translateToText(msgKey, vars));
     }
 
     /**
@@ -64,7 +66,7 @@ public class MessageUtil {
     }
 
     public static void send(CommandSender subject, String msgKey, Object... vars) {
-        sendRaw(subject, translate(MessageKey.of(msgKey, vars.length), vars));
+        sendRaw(subject, translateToText(msgKey, vars));
     }
 
     /**
@@ -98,7 +100,7 @@ public class MessageUtil {
     }
 
     public static void send(AnnouncementTarget target, Player subject, String msgKey, Object... vars) {
-        sendRaw(target, subject, translate(MessageKey.of(msgKey, vars.length), vars));
+        sendRaw(target, subject, translateToText(msgKey, vars));
     }
 
     /**
@@ -133,12 +135,8 @@ public class MessageUtil {
         return result;
     }
 
-    private static BaseComponent[] translate(MessageKey msgKey, Object... vars) {
-        return MineCollector.getInstance().getLangManager().translate(msgKey, vars);
-    }
-
     public static void reloadPrefix() {
-        MSG_PREFIX_COMPONENTS = translate(MessageKey.of("prefix"));
+        MSG_PREFIX_COMPONENTS = translateToComponents("prefix");
         MSG_PREFIX = BaseComponent.toLegacyText(MSG_PREFIX_COMPONENTS);
     }
 

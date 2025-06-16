@@ -1,7 +1,7 @@
 package com.doubledeltas.minecollector.gui;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.lang.MessageKey;
+import com.doubledeltas.minecollector.lang.LangManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ public abstract class Gui implements Listener {
     protected Inventory inventory;
 
     public Gui(int row, String titleKey) {
-        String title = plugin.getLangManager().translateToText(MessageKey.of(titleKey));
+        String title = LangManager.translateToText(titleKey);
         inventory = Bukkit.createInventory(null, row * 9, title);
         MineCollector.getInstance().getServer().getPluginManager().registerEvents(this, MineCollector.getInstance());
     }

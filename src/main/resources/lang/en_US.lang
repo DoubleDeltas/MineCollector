@@ -55,8 +55,12 @@ command.reload_config.lang_failed_2=§7 - The language file {0} specified in the
 command.reload_config.failed_to_reload=§cFailed to load configuration!
 command.reload_data.data_reloaded=Data reloaded!
 
+gui.hub.title=§8[ §2Mine§0Collector §8]§0
+gui.collection.title=§8[ §2Mine§0Collector §8]§0 - Collection
 gui.collection.collected=§7Collected!
 gui.collection.not_collected_yet=§cNot yet collected
+gui.collection.count=§7Collected count:
+gui.dump.title=§8[ §2Mine§0Collector §8]§0 - Dump
 
 item.static.collection_book.display_name=§a§l[ §r§fCollection Book §a§l]
 item.static.collection_book.lore_1=§7View collected items or

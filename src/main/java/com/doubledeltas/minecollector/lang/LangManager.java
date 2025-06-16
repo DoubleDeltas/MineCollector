@@ -40,6 +40,28 @@ public class LangManager implements McolInitializable {
     }
 
     /**
+     * 현재 로딩된 LangManager로 번역합니다.
+     * @param msgKey 메시지 키
+     * @param vars 대입할 변수
+     * @return 번역한 문자열
+     */
+    public static String translateToText(String msgKey, Object... vars) {
+        MessageKey key = MessageKey.of(msgKey, vars.length);
+        return MineCollector.getInstance().getLangManager().translateToText(key, vars);
+    }
+
+    /**
+     * 현재 로딩된 LangManager로 번역합니다.
+     * @param msgKey 메시지 키
+     * @param vars 대입할 변수
+     * @return 번역한 채팅 컴포넌트열
+     */
+    public static BaseComponent[] translateToComponents(String msgKey, Object... vars) {
+        MessageKey key = MessageKey.of(msgKey, vars.length);
+        return MineCollector.getInstance().getLangManager().translate(key, vars);
+    }
+    
+    /**
      * 언어팩을 로딩합니다.
      * @param lang 언어팩 파일 이름
      * @return 로딩 성공 여부

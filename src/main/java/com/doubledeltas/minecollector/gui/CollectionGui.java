@@ -1,7 +1,6 @@
 package com.doubledeltas.minecollector.gui;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
 import com.doubledeltas.minecollector.item.ItemBuilder;
@@ -13,13 +12,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import static com.doubledeltas.minecollector.lang.LangManager.translateToText;
+
 public class CollectionGui extends Gui {
     private static final int INDEX_PREV = 47;
     private static final int INDEX_CORE = 48;
     private static final int INDEX_NEXT = 49;
     private static final int INDEX_BACK = 52;
 
-    private int page;
+    private final int page;
 
     public CollectionGui(Player player, int page) {
         super(6, "gui.collection.title");
@@ -36,33 +37,15 @@ public class CollectionGui extends Gui {
             GameData data = plugin.getDataManager().getData(player);
             Material material = Material.values()[idx];
 
-            int flags = (data.getCollection(material) == 0 ? 0 : 0b001)
-                    | (MineCollector.getInstance().getMcolConfig().getGame().isHideUnknownCollection() ? 0b010 : 0)
-                    | (material == Material.AIR ? 0b100 : 0);
             ItemStack item;
-            switch (flags) {
-                case 0b000          -> item = new ItemBuilder(material)
-                        .lore("§c아직 수집되지 않았습니다")
-                        .build();
-                case 0b001, 0b011   -> {
-                    int amount = data.getCollection(material);
-                    int quo = amount / 64;
-                    int rem = amount % 64;
-                    int lv = data.getLevel(material);
-                    ItemBuilder builder = new ItemBuilder(material, lv)
-                            .lore((quo > 0) ?
-                                    "§7수집된 개수: %d셋 %d개".formatted(quo, rem) :
-                                    "§7수집된 개수: %d개".formatted(rem)
-                            );
-                    if (lv >= 5)
-                        builder.glowing();
-                    item = builder.build();
-                }
-                case 0b010, 0b110   -> item = itemManager.getItem(GuiItem.UNKNOWN);
-                case 0b100          -> item = itemManager.getItem(GuiItem.UNKNOWN_AIR_PLACEHOLDER);
-                case 0b101, 0b111   -> item = itemManager.getItem(GuiItem.AIR_PLACEHOLDER);
-                default -> item = null;
-            }
+            boolean showUnknown = !plugin.getMcolConfig().getGame().isHideUnknownCollection();
+            boolean collected = data.getCollection(material) > 0;
+            if (collected)
+                item = getCollectedItem(data, material);
+            else if (showUnknown)
+                item = getUncollectedItem(material);
+            else
+                item = itemManager.getItem(GuiItem.UNKNOWN);
             inventory.setItem(i, item);
         }
 
@@ -97,6 +80,35 @@ public class CollectionGui extends Gui {
             new HubGui().openGui(player);
             SoundUtil.playPage(player);
         }
+    }
+
+    private ItemStack getUncollectedItem(Material material) {
+        if (material == Material.AIR)
+            return plugin.getItemManager().getItem(GuiItem.UNKNOWN_AIR_PLACEHOLDER);
+
+        return new ItemBuilder(material)
+                .lore(translateToText("gui.collection.not_collected_yet"))
+                .build();
+    }
+
+    private ItemStack getCollectedItem(GameData data, Material material) {
+        if (material == Material.AIR)
+            return plugin.getItemManager().getItem(GuiItem.AIR_PLACEHOLDER);
+
+        int amount = data.getCollection(material);
+        int quo = amount / 64;
+        int rem = amount % 64;
+        int lv = data.getLevel(material);
+
+        String countDisplay = (quo > 0)
+                ? translateToText("game.stack_and_pcs", quo, rem)
+                : translateToText("game.pcs", rem);
+        ItemBuilder builder = new ItemBuilder(material, lv)
+                .lore(translateToText("gui.collection.count") + " " + countDisplay);
+
+        if (lv >= 5)
+            builder.glowing();
+        return builder.build();
     }
 
     private boolean isLastPage() {
