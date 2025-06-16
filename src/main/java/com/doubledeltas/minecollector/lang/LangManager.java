@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LangManager implements McolInitializable {
-    private static final String DEFAULT_LANG = "en_US";
+    public static final String DEFAULT_LANG = "en_US";
 
     private MineCollector plugin;
     private File langFolder;

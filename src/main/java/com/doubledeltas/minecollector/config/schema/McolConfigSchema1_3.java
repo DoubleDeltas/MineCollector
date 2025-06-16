@@ -3,6 +3,7 @@ package com.doubledeltas.minecollector.config.schema;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.config.InvalidConfigException;
 import com.doubledeltas.minecollector.config.McolConfig;
+import com.doubledeltas.minecollector.lang.LangManager;
 import com.doubledeltas.minecollector.version.SemanticVersion;
 import com.doubledeltas.minecollector.version.Version;
 import com.doubledeltas.minecollector.version.VersionUpdater;
@@ -18,7 +19,7 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled implements Cu
     @Builder.Default
     private String configVersion = "1.3";
     @Builder.Default
-    private String lang = "lang_ko";
+    private String lang = LangManager.DEFAULT_LANG;
 
     public McolConfigSchema1_3() {
         super();
