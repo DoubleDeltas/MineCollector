@@ -1,34 +1,32 @@
 package com.doubledeltas.minecollector.version;
 
-import com.doubledeltas.minecollector.util.Parser;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>Semantic version.</p>
+ * @since 1.3
+ * @see <a href="https://semver.org/lang/ko/">유의적 버전 2.0</a>
+ */
 @AllArgsConstructor @EqualsAndHashCode
 public final class SemanticVersion implements Version<SemanticVersion> {
-    private static final Pattern PATTERN = Pattern.compile("^\\d+(?:\\.\\d+){0,2}$");
+    private static final Pattern PATTERN = Pattern.compile("^(?<major>0|[1-9]\\d*)\\.(?<minor>0|[1-9]\\d*)\\.(?<patch>0|[1-9]\\d*)(?:-(?<prerelease>(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$");
 
-    private byte major;
-    private byte minor;
-    private byte patch;
-
-    public SemanticVersion(int major) {
-        this(major, 0);
-    }
-
-    public SemanticVersion(int major, int minor) {
-        this(major, minor, 0);
-    }
+    private int major;
+    private int minor;
+    private int patch;
+    private String preRelease;
+    private String buildMetadata;
 
     public SemanticVersion(int major, int minor, int patch) {
-        if (major < 0 || major > Byte.MAX_VALUE || minor < 0 || minor > Byte.MAX_VALUE || patch < 0 || patch > Byte.MAX_VALUE)
-            throw new IllegalArgumentException("major, minor, patch must between 0~127");
+        this(major, minor, patch, null);
+    }
 
-        this.major = (byte) major;
-        this.minor = (byte) minor;
-        this.patch = (byte) patch;
+    public SemanticVersion(int major, int minor, int patch, String preRelease) {
+        this(major, minor, patch, preRelease, null);
     }
 
     @Override
@@ -38,9 +36,18 @@ public final class SemanticVersion implements Version<SemanticVersion> {
 
     @Override
     public int compareTo(SemanticVersion other) {
-        if (this.major != other.major) return Byte.compare(this.major, other.major);
-        if (this.minor != other.minor) return Byte.compare(this.minor, other.minor);
-        if (this.patch != other.patch) return Byte.compare(this.patch, other.patch);
+        if (this.major != other.major) return Integer.compare(this.major, other.major);
+        if (this.minor != other.minor) return Integer.compare(this.minor, other.minor);
+        if (this.patch != other.patch) return Integer.compare(this.patch, other.patch);
+
+        boolean isThisStable = this.preRelease == null;
+        boolean isOtherStable = other.preRelease == null;
+        if ( isThisStable && !isOtherStable) return -1;     // this precedes.
+        if (!isThisStable &&  isOtherStable) return 1;      // the other precedes.
+        if (!isThisStable && !isOtherStable) return this.preRelease.compareTo(other.preRelease);
+
+        // buildMetadata doesn't affect to the order.
+
         return 0;
     }
 
@@ -59,12 +66,15 @@ public final class SemanticVersion implements Version<SemanticVersion> {
 
         @Override
         public SemanticVersion parse(String string) {
-            String[] words = string.split("\\.");
-            byte major = Byte.parseByte(words[0]);
-            byte minor = words.length >= 2 ? Byte.parseByte(words[1]) : 0;
-            byte patch = words.length == 3 ? Byte.parseByte(words[2]) : 0;
+            Matcher matcher = SemanticVersion.PATTERN.matcher(string);
+            matcher.matches();
+            int major = Integer.parseInt(matcher.group("major"));
+            int minor = Integer.parseInt(matcher.group("minor"));
+            int patch = Integer.parseInt(matcher.group("patch"));
+            String preRelease = matcher.group("prerelease");
+            String buildMetadata = matcher.group("buildmetadata");
 
-            return new SemanticVersion(major, minor, patch);
+            return new SemanticVersion(major, minor, patch, preRelease, buildMetadata);
         }
     }
 }

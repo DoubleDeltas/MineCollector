@@ -35,10 +35,10 @@ public class ConfigManager implements McolInitializable {
                 (table, schema) -> table.getVersionManager().parse(schema.getConfigVersion())
         );
         schemaTable.registerSchema("unlabeled", McolConfigSchemaUnlabeled.class);
-        schemaTable.registerSchema("1.3",       McolConfigSchema1_3.class);
+        schemaTable.registerSchema("1.3.0",     McolConfigSchema1_3_0.class);
 
         this.updaterChain = new VersionUpdaterChain<>(versionManager, UnlabeledVersion.INSTANCE);
-        updaterChain.chain("1.3", new McolConfigSchema1_3.Updater());
+        updaterChain.chain("1.3.0", new McolConfigSchema1_3_0.Updater());
     }
 
     public McolConfig load() throws InvalidConfigException {

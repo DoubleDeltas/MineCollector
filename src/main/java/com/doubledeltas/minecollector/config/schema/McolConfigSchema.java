@@ -2,7 +2,6 @@ package com.doubledeltas.minecollector.config.schema;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.config.InvalidConfigException;
-import com.doubledeltas.minecollector.config.McolConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +23,6 @@ public interface McolConfigSchema {
     }
 
     static McolConfigSchema getLatestDefault() {
-        return new McolConfigSchema1_3();
+        return new McolConfigSchema1_3_0();
     }
 }
