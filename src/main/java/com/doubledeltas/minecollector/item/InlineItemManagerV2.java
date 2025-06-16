@@ -43,7 +43,7 @@ public class InlineItemManagerV2 extends InlineItemManager {
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         ItemCode pdcItemCode = pdc.get(ItemCode.PERSISTENT_DATA_KEY, ItemCode.PERSISTENT_DATA_TYPE);
 
-        return StaticItem.COLLECTION_BOOK.equals(pdcItemCode);
+        return itemCode.equals(pdcItemCode);
     }
 
     @Override

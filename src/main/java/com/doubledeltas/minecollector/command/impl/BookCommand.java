@@ -3,6 +3,7 @@ package com.doubledeltas.minecollector.command.impl;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.command.impl.book.BookOpenCommand;
+import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
@@ -29,9 +30,9 @@ public final class BookCommand extends CommandRoot {
             return false;
         }
 
-        ItemStack collectionBook = MineCollector.getInstance().getItemManager().getItem(StaticItem.COLLECTION_BOOK);
+        ItemStack collectionBook = plugin.getItemManager().getItem(StaticItem.COLLECTION_BOOK);
 
-        if (player.getInventory().contains(collectionBook) || player.getInventory().getItemInOffHand().equals(collectionBook)) {
+        if (hasCollectionBook(player)) {
             MessageUtil.send(player, "command.book.already_have");
             SoundUtil.playFail(player);
         }
@@ -41,6 +42,15 @@ public final class BookCommand extends CommandRoot {
             SoundUtil.playHighRing(player);
         }
 
+        return false;
+    }
+
+    private boolean hasCollectionBook(Player player) {
+        ItemManager itemManager = plugin.getItemManager();
+        for (ItemStack item : player.getInventory()) {
+            if (itemManager.isItemOf(item, StaticItem.COLLECTION_BOOK))
+                return true;
+        }
         return false;
     }
 }
