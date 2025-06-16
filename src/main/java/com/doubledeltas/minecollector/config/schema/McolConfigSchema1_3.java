@@ -53,6 +53,8 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled implements Cu
                         .stackEnabled(getScoring().isStackEnabled())
                         .stackMultiple(getScoring().getStackMultiple())
                         .stackScore(getScoring().getStackScore())
+                        .advancementEnabled(getScoring().isAdvancementEnabled())
+                        .advancementScores(getScoring().getAdvancementScores())
                         .build())
                 .announcement(McolConfig.Announcement.builder()
                         .collection(getAnnouncement().getCollection())
