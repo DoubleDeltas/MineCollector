@@ -3,24 +3,31 @@ package com.doubledeltas.minecollector.config.schema;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.config.InvalidConfigException;
 import com.doubledeltas.minecollector.config.McolConfig;
-import com.doubledeltas.minecollector.version.SemanticVersion;
+import com.doubledeltas.minecollector.lang.LangManager;
 import com.doubledeltas.minecollector.version.Version;
 import com.doubledeltas.minecollector.version.VersionUpdater;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Duration;
+import java.util.Locale;
 
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Data @AllArgsConstructor @SuperBuilder
-public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled implements CurrentMcolConfigSchema {
+public class McolConfigSchema1_3_0 extends McolConfigSchemaUnlabeled implements CurrentMcolConfigSchema {
     @Builder.Default
-    private String configVersion = "1.3";
+    private String configVersion = "1.3.0";
+    @Builder.Default
+    private String lang = LangManager.DEFAULT_LANG;
 
-    public McolConfigSchema1_3() {
+    /**
+     * Default schema
+     */
+    public McolConfigSchema1_3_0() {
         super();
         this.configVersion = MineCollector.getInstance().getDescription().getVersion();
+        this.lang = Locale.getDefault() == Locale.KOREA ? "ko_KR" : LangManager.DEFAULT_LANG;
     }
 
     @Override
@@ -39,12 +46,15 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled implements Cu
         validate();
         return McolConfig.builder()
                 .enabled(isEnabled())
+                .lang(getLang())
                 .scoring(McolConfig.Scoring.builder()
                         .collectionEnabled(getScoring().isCollectionEnabled())
                         .collectionScore(getScoring().getCollectionScore())
                         .stackEnabled(getScoring().isStackEnabled())
                         .stackMultiple(getScoring().getStackMultiple())
                         .stackScore(getScoring().getStackScore())
+                        .advancementEnabled(getScoring().isAdvancementEnabled())
+                        .advancementScores(getScoring().getAdvancementScores())
                         .build())
                 .announcement(McolConfig.Announcement.builder()
                         .collection(getAnnouncement().getCollection())
@@ -64,10 +74,10 @@ public class McolConfigSchema1_3 extends McolConfigSchemaUnlabeled implements Cu
                 .build();
     }
 
-    public static final class Updater implements VersionUpdater<McolConfigSchemaUnlabeled, McolConfigSchema1_3> {
+    public static final class Updater implements VersionUpdater<McolConfigSchemaUnlabeled, McolConfigSchema1_3_0> {
         @Override
-        public McolConfigSchema1_3 update(McolConfigSchemaUnlabeled source) {
-            return McolConfigSchema1_3.builder()
+        public McolConfigSchema1_3_0 update(McolConfigSchemaUnlabeled source) {
+            return McolConfigSchema1_3_0.builder()
                     .enabled(source.isEnabled())
                     .scoring(source.getScoring())
                     .announcement(source.getAnnouncement())

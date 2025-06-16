@@ -7,8 +7,10 @@ import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.data.DataAutoSaver;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.event.EventManager;
+import com.doubledeltas.minecollector.item.InlineItemManagerV2;
 import com.doubledeltas.minecollector.item.ItemManager;
-import com.doubledeltas.minecollector.item.InlineItemManager;
+import com.doubledeltas.minecollector.lang.LangManager;
+import com.doubledeltas.minecollector.resource.ResourceManager;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.version.VersionManager;
 import com.doubledeltas.minecollector.version.VersionSystem;
@@ -21,7 +23,7 @@ public final class MineCollector extends JavaPlugin {
     @Getter
     private final GameDirector gameDirector = new GameDirector();
     @Getter
-    private final ItemManager itemManager = new InlineItemManager();
+    private final ItemManager itemManager = new InlineItemManagerV2();
     @Getter
     private final CommandManager commandManager = new CommandManager();
     @Getter
@@ -34,6 +36,10 @@ public final class MineCollector extends JavaPlugin {
     private final EventManager eventManager = new EventManager();
     @Getter
     private final DataAutoSaver dataAutoSaver = new DataAutoSaver();
+    @Getter
+    private final LangManager langManager = new LangManager();
+    @Getter
+    private final ResourceManager resourceManager = new ResourceManager();
 
     private McolConfig config;
 
@@ -47,26 +53,27 @@ public final class MineCollector extends JavaPlugin {
         versionManager.register(VersionSystem.SEMANTIC);
 
         configManager.init(this);
+        itemManager.init(this);
         dataManager.init(this);
         commandManager.init(this);
         eventManager.init(this);
         dataAutoSaver.init(this);
+        langManager.init(this);
+        resourceManager.init(this);
+        gameDirector.init(this);
 
+        this.config = configManager.load();
+        langManager.loadLang();
         commandManager.loadCommands();
-        try {
-            this.config = configManager.load();
-        } catch (InvalidConfigException e) {
-            throw new RuntimeException(e);
-        }
         dataManager.loadData();
         dataAutoSaver.start();
-        MessageUtil.log(Level.INFO, "마인콜렉터 플러그인이 켜졌습니다!");
+        MessageUtil.log(Level.INFO, "server.enabled");
     }
 
     @Override
     public void onDisable() {
         dataManager.saveAll();
-        MessageUtil.log(Level.INFO, "마인콜렉터 플러그인이 꺼졌습니다.");
+        MessageUtil.log(Level.INFO, "server.disabled");
     }
 
     public McolConfig getMcolConfig() {

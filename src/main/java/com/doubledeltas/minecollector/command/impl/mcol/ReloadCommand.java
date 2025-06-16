@@ -19,13 +19,14 @@ public class ReloadCommand extends CommandNode {
     public ReloadCommand() {
         this.subcommands = List.of(
                 new ReloadConfigCommand(),
-                new ReloadDataCommand());
+                new ReloadDataCommand()
+        );
     }
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
-        MessageUtil.send(sender, "명령어가 잘못되었습니다!");
-        MessageUtil.send(sender, "올바른 명령어: §e/mcol reload [config | data] ...");
+        MessageUtil.send(sender, "command.generic.invalid");
+        MessageUtil.send(sender, "command.generic.correct_command", "/mcol reload [config | data | lang] ...");
         return false;
     }
 }

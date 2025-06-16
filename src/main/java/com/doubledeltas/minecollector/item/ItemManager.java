@@ -1,5 +1,7 @@
 package com.doubledeltas.minecollector.item;
 
+import com.doubledeltas.minecollector.McolInitializable;
+import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.item.itemCode.ItemCode;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,7 +16,8 @@ import java.util.stream.Collectors;
  * GUI, 무기, 도구 등 특수한 아이템을 다룰 때 이용할 수 있습니다.
  * @author DoubleDeltas
  */
-public abstract class ItemManager {
+public abstract class ItemManager implements McolInitializable {
+    protected MineCollector plugin;
     protected Map<ItemCode, ItemStack> itemStore = new HashMap<>();
 
     /**
@@ -40,7 +43,7 @@ public abstract class ItemManager {
      * 새로운 아이템을 만들어 가져옵니다. 이 아이템은 개인 아이템 등에 활용될 수 있습니다.
      * @param itemCode 아이템 경로
      * @param vars {@code [placeholder]}에 채울 변수
-     * @see EmbeddedItemManager#getItem(ItemCode) GUI 아이콘으로는 이것을 사용해보세요!
+     * @see ItemManager#getItem(ItemCode) GUI 아이콘으로는 이것을 사용해보세요!
      * @return 아이템
      */
     public ItemStack createItem(ItemCode itemCode, Map<String, ?> vars) {
@@ -80,7 +83,7 @@ public abstract class ItemManager {
     /**
      * 새로운 아이템을 만들어 가져옵니다. 이 아이템은 개인 아이템 등에 활용될 수 있습니다.
      * @param itemCode 아이템 경로
-     * @see EmbeddedItemManager#getItem(ItemCode) GUI 아이콘으로는 이것을 사용해보세요!
+     * @see ItemManager#getItem(ItemCode) GUI 아이콘으로는 이것을 사용해보세요!
      * @return 아이템
      */
     public ItemStack createItem(ItemCode itemCode) {
@@ -93,4 +96,17 @@ public abstract class ItemManager {
      * @return 불러온 아이템
      */
     protected abstract ItemStack loadItem(ItemCode itemCode);
+
+    @Override
+    public void init(MineCollector plugin) {
+        this.plugin = plugin;
+    }
+
+    public void clearCache() {
+        itemStore.clear();
+    }
+
+    public boolean isItemOf(ItemStack item, ItemCode itemCode) {
+        return getItem(itemCode).isSimilar(item);
+    }
 }

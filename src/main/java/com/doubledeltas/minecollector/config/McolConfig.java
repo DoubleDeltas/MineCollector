@@ -1,9 +1,5 @@
 package com.doubledeltas.minecollector.config;
 
-import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.config.schema.McolConfigSchema;
-import com.doubledeltas.minecollector.config.schema.McolConfigSchema1_3;
-import com.doubledeltas.minecollector.config.schema.McolConfigSchemaUnlabeled;
 import com.doubledeltas.minecollector.version.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +14,7 @@ import java.util.Map;
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class McolConfig {
     private boolean         enabled;
+    private String          lang;
     private Scoring         scoring;
     private Announcement    announcement;
     private Game            game;
@@ -55,33 +52,5 @@ public class McolConfig {
     public static class DB {
         private Duration    autosavePeriod;
         private boolean     autosaveLogging;
-    }
-
-    public McolConfigSchema toSchema() {
-        return McolConfigSchema1_3.builder()
-                .enabled(isEnabled())
-                .scoring(McolConfigSchemaUnlabeled.Scoring.builder()
-                        .collectionEnabled(getScoring().isCollectionEnabled())
-                        .collectionScore(getScoring().getCollectionScore())
-                        .stackEnabled(getScoring().isStackEnabled())
-                        .stackMultiple(getScoring().getStackMultiple())
-                        .stackScore(getScoring().getStackScore())
-                        .build())
-                .announcement(McolConfigSchemaUnlabeled.Announcement.builder()
-                        .collection(getAnnouncement().getCollection())
-                        .highLevelReached(getAnnouncement().getHighLevelReached())
-                        .highLevelMinimum(getAnnouncement().getHighLevelMinimum())
-                        .advancement(getAnnouncement().getAdvancement())
-                        .build())
-                .game(McolConfigSchemaUnlabeled.Game.builder()
-                        .hideUnknownCollection(getGame().isHideUnknownCollection())
-                        .respawnEnderegg(getGame().isRespawnEnderegg())
-                        .build())
-                .db(McolConfigSchemaUnlabeled.DB.builder()
-                        .autosavePeriod((int) getDb().getAutosavePeriod().toMinutes())
-                        .autosaveLogging(getDb().isAutosaveLogging())
-                        .build())
-                .configVersion(getConfigVersion().toString())
-                .build();
     }
 }

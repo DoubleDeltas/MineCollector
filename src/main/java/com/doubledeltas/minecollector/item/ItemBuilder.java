@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector.item;
 
+import com.doubledeltas.minecollector.item.itemCode.ItemCode;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
@@ -9,6 +10,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 
 import java.util.List;
 
@@ -53,6 +55,12 @@ public class ItemBuilder {
 
     public ItemBuilder itemFlags(ItemFlag flag) {
         meta.addItemFlags(flag);
+        return this;
+    }
+
+    public ItemBuilder itemCode(ItemCode itemCode) {
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(ItemCode.PERSISTENT_DATA_KEY, ItemCode.PERSISTENT_DATA_TYPE, itemCode);
         return this;
     }
 

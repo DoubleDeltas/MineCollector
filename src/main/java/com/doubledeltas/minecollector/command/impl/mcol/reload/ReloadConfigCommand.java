@@ -3,6 +3,7 @@ package com.doubledeltas.minecollector.command.impl.mcol.reload;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandNode;
 import com.doubledeltas.minecollector.config.InvalidConfigException;
+import com.doubledeltas.minecollector.lang.InvalidLangException;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.command.Command;
@@ -20,15 +21,23 @@ public class ReloadConfigCommand extends CommandNode {
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         try {
-            MineCollector.getInstance().reloadMcolConfig();
-            MessageUtil.send(sender, "콘피그를 리로드하였습니다!");
+            plugin.reloadMcolConfig();
+            boolean langReloadResult = MineCollector.getInstance().getLangManager().loadLang();
+            if (!langReloadResult) {
+                String lang = plugin.getMcolConfig().getLang();
+                MessageUtil.send(sender, "command.reload_config.lang_failed");
+                MessageUtil.send(sender, "command.reload_config.lang_failed_2", lang);
+                if (sender instanceof Player player)
+                    SoundUtil.playFail(player);
+                return false;
+            }
+            MessageUtil.send(sender, "command.reload_config.config_reloaded");
             if (sender instanceof Player player)
                 SoundUtil.playHighRing(player);
         }
         catch (InvalidConfigException e) {
-            MessageUtil.send(sender, "§c콘피그 로딩에 실패했습니다!");
-            MessageUtil.send(sender, "§7 - " + e.getMessage());
-            MessageUtil.send(sender, "§7    (자세한 내용은 버킷 창을 참고해주세요.)");
+            MessageUtil.send(sender, "command.reload_config.failed_to_reload");
+            MessageUtil.sendRaw(sender, "§7 - " + e.getMessage());
             e.printStackTrace();
             if (sender instanceof Player player)
                 SoundUtil.playHighRing(player);
