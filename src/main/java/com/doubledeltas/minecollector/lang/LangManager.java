@@ -20,7 +20,6 @@ public class LangManager implements McolInitializable {
 
     private MineCollector plugin;
     private File langFolder;
-    private File defaultLangFile;
     @Getter
     private Properties langProperties;
     private final Properties defaultProperties;
@@ -35,7 +34,6 @@ public class LangManager implements McolInitializable {
     public void init(MineCollector plugin) {
         this.plugin = plugin;
         this.langFolder = new File(plugin.getDataFolder(), "lang");
-        this.defaultLangFile = new File(langFolder, DEFAULT_LANG);
 
         InputStream is = plugin.getResource("lang/" + DEFAULT_LANG + ".lang");
         defaultProperties.load(new InputStreamReader(is, StandardCharsets.UTF_8));
