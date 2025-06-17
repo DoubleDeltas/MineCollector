@@ -14,6 +14,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -54,6 +55,7 @@ public class DumpGui extends Gui {
             setState(ProcessState.HMM);
 
             Collection<ItemStack> items = new ArrayList<>();
+            BitSet bitSet = new BitSet(45);
             for (int i=0; i<=44; i++) {
                 ItemStack item = Objects.requireNonNullElse(inventory.getItem(i), AIR_ITEM);
 
@@ -64,7 +66,7 @@ public class DumpGui extends Gui {
                     continue;
                 }
                 items.add(item);
-                inventory.setItem(i, AIR_ITEM);
+                bitSet.set(i);
             }
 
             boolean collected = plugin.getGameDirector().collect(player, items, ItemCollectEvent.Route.DUMP);
@@ -73,6 +75,10 @@ public class DumpGui extends Gui {
                 return;
             }
 
+            for (int i=0; i<=44; i++) {
+                if (bitSet.get(i))
+                    inventory.setItem(i, AIR_ITEM);
+            }
             SoundUtil.playCollect(player);
             player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 100, 1, 1, 1);
         }
