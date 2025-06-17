@@ -13,8 +13,7 @@ public class EventManager implements McolInitializable {
             new PlayerInteractEventListener(),
             new PlayerLoginEventListener(),
             new PlayerAdvancementDontEventListener(),
-            new EntityDeathEventListener(),
-            new TestListener()
+            new EntityDeathEventListener()
     );
 
     public void init(MineCollector plugin) {
