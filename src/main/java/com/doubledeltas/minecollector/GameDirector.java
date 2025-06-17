@@ -65,7 +65,7 @@ public class GameDirector implements McolInitializable {
 
             int newLevel = data.getLevel(item.getType());
             for (int i = oldLevel + 1; i <= newLevel; i++) {
-                CollectionLevelUpEvent levelUpEvent = new CollectionLevelUpEvent(player, item.getType(), newLevel);
+                CollectionLevelUpEvent levelUpEvent = new CollectionLevelUpEvent(player, item.getType(), i);
                 Bukkit.getPluginManager().callEvent(levelUpEvent);
 
                 noticeLevelUp(player, item.getType(), i);
