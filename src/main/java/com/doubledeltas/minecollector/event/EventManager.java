@@ -2,6 +2,10 @@ package com.doubledeltas.minecollector.event;
 
 import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.event.listener.EntityDeathEventListener;
+import com.doubledeltas.minecollector.event.listener.PlayerAdvancementDontEventListener;
+import com.doubledeltas.minecollector.event.listener.PlayerInteractEventListener;
+import com.doubledeltas.minecollector.event.listener.PlayerLoginEventListener;
 import org.bukkit.event.Listener;
 
 import java.util.Arrays;
