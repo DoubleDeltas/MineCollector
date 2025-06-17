@@ -4,6 +4,8 @@ import com.doubledeltas.minecollector.config.AnnouncementTarget;
 import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
+import com.doubledeltas.minecollector.event.event.CollectionLevelUpEvent;
+import com.doubledeltas.minecollector.event.event.ItemCollectEvent;
 import com.doubledeltas.minecollector.gui.HubGui;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
@@ -15,6 +17,7 @@ import com.doubledeltas.minecollector.util.SoundUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.TranslatableComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementDisplayType;
@@ -36,13 +39,18 @@ public class GameDirector implements McolInitializable {
      * 아이템을 수집합니다.
      * @param player 플레이어
      * @param items 수집할 아이템들
+     * @return 아이템 수집 성공 여부. 공기의 중복 수집도 성공으로 간주합니다.
      */
-    public void collect(Player player, Collection<ItemStack> items) {
+    public boolean collect(Player player, Collection<ItemStack> items, ItemCollectEvent.Route route) {
+        ItemCollectEvent collectEvent = new ItemCollectEvent(player, items, route);
+        Bukkit.getPluginManager().callEvent(collectEvent);
+        if (collectEvent.isCancelled())
+            return false;
 
         GameData data = plugin.getDataManager().getData(player);
         for (ItemStack item: items) {
             if (item.getType() == Material.AIR && data.getCollection(Material.AIR) > 0)
-                return;
+                return true;
 
             if (data.getCollection(item.getType()) == 0)
                 noticeFirstCollection(player, item.getType());
@@ -57,18 +65,24 @@ public class GameDirector implements McolInitializable {
 
             int newLevel = data.getLevel(item.getType());
             for (int i = oldLevel + 1; i <= newLevel; i++) {
+                CollectionLevelUpEvent levelUpEvent = new CollectionLevelUpEvent(player, item.getType(), i);
+                Bukkit.getPluginManager().callEvent(levelUpEvent);
+
                 noticeLevelUp(player, item.getType(), i);
             }
         }
+        return true;
     }
 
     /**
      * 아이템을 수집합니다.
      * @param player 플레이어
      * @param item 수집할 아이템
+     * @param route 수집 루트(커맨드, 수집 GUI 등)
+     * @return 수집 성공 여부 (취소되지 않음)
      */
-    public void collect(Player player, ItemStack item) {
-        collect(player, List.of(item));
+    public boolean collect(Player player, ItemStack item, ItemCollectEvent.Route route) {
+        return collect(player, List.of(item), route);
     }
 
     /**

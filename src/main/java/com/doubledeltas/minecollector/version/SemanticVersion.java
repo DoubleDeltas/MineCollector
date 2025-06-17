@@ -31,7 +31,17 @@ public final class SemanticVersion implements Version<SemanticVersion> {
 
     @Override
     public String toString() {
-        return major + "." + minor + "." + patch;
+        StringBuilder sb = new StringBuilder();
+        sb.append('.').append(minor).append('.').append(patch);
+        if (preRelease != null) {
+            sb.append('-');
+            sb.append(preRelease);
+        }
+        if (buildMetadata != null) {
+            sb.append('+');
+            sb.append(buildMetadata);
+        }
+        return sb.toString();
     }
 
     @Override
