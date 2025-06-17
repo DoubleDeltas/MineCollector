@@ -60,9 +60,6 @@ public class DumpGui extends Gui {
                 ItemStack item = Objects.requireNonNullElse(inventory.getItem(i), AIR_ITEM);
 
                 if (!plugin.getGameDirector().isCollectable(item)) {
-//                    MessageUtil.sendRaw(player,
-//                            "§e수집할 수 없는 아이템(§7%s§e)은 수집되지 않았습니다.".formatted(item.getItemMeta().getDisplayName())
-//                    );
                     MessageUtil.send(player, "gui.dump.uncollectable", item.getItemMeta().getDisplayName());
                     continue;
                 }
