@@ -20,6 +20,12 @@ public class CollectionLevelUpEvent extends Event {
     private final Material material;
     private final int newLevel;
 
+    // --- BOILERPLATE FOR EVENT API ---
+
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
     @Override
     @Nonnull
     public HandlerList getHandlers() {

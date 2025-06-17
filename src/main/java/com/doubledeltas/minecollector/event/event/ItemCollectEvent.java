@@ -25,12 +25,6 @@ public class ItemCollectEvent extends Event implements Cancellable {
     private final Route route;
 
     @Override
-    @Nonnull
-    public HandlerList getHandlers() {
-        return HANDLERS;
-    }
-
-    @Override
     public boolean isCancelled() {
         return canceled;
     }
@@ -46,5 +40,18 @@ public class ItemCollectEvent extends Event implements Cancellable {
     public enum Route {
         COMMAND,
         DUMP
+    }
+
+
+    // --- BOILERPLATE FOR EVENT API ---
+
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
+    @Override
+    @Nonnull
+    public HandlerList getHandlers() {
+        return HANDLERS;
     }
 }
