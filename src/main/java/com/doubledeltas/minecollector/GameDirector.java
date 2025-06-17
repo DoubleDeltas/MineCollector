@@ -4,6 +4,7 @@ import com.doubledeltas.minecollector.config.AnnouncementTarget;
 import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
+import com.doubledeltas.minecollector.event.event.CollectionLevelUpEvent;
 import com.doubledeltas.minecollector.event.event.ItemCollectEvent;
 import com.doubledeltas.minecollector.gui.HubGui;
 import com.doubledeltas.minecollector.item.ItemManager;
@@ -41,9 +42,9 @@ public class GameDirector implements McolInitializable {
      * @return 아이템 수집 성공 여부. 공기의 중복 수집도 성공으로 간주합니다.
      */
     public boolean collect(Player player, Collection<ItemStack> items, ItemCollectEvent.Route route) {
-        ItemCollectEvent event = new ItemCollectEvent(player, items, route);
-        Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled())
+        ItemCollectEvent collectEvent = new ItemCollectEvent(player, items, route);
+        Bukkit.getPluginManager().callEvent(collectEvent);
+        if (collectEvent.isCancelled())
             return false;
 
         GameData data = plugin.getDataManager().getData(player);
@@ -64,6 +65,9 @@ public class GameDirector implements McolInitializable {
 
             int newLevel = data.getLevel(item.getType());
             for (int i = oldLevel + 1; i <= newLevel; i++) {
+                CollectionLevelUpEvent levelUpEvent = new CollectionLevelUpEvent(player, item.getType(), newLevel);
+                Bukkit.getPluginManager().callEvent(levelUpEvent);
+
                 noticeLevelUp(player, item.getType(), i);
             }
         }
