@@ -61,6 +61,7 @@ gui.collection.collected=§7Collected!
 gui.collection.not_collected_yet=§cNot yet collected
 gui.collection.count=§7Collected count:
 gui.dump.title=§8[ §2Mine§0Collector §8]§0 - Dump
+gui.dump.uncollectable=§eThe uncollectable item(§7{0}§e) was not collected.
 
 item.static.collection_book.display_name=§a§l[ §r§fCollection Book §a§l]
 item.static.collection_book.lore_1=§7View collected items or
