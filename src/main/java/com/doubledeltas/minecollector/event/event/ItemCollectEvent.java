@@ -1,5 +1,7 @@
 package com.doubledeltas.minecollector.event.event;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -14,8 +16,9 @@ import java.util.Collection;
  * 아이템을 수집할 때 발생하는 이벤트
  * @since 1.3.1
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor @Getter
 public class ItemCollectEvent extends Event implements Cancellable {
+    @Getter(AccessLevel.NONE)
     private static final HandlerList HANDLERS = new HandlerList();
 
     private boolean canceled;
