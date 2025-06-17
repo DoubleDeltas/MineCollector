@@ -1,6 +1,7 @@
 package com.doubledeltas.minecollector.gui;
 
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.event.event.ItemCollectEvent;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.GuiItem;
 import com.doubledeltas.minecollector.util.MessageUtil;
@@ -12,11 +13,15 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 public class DumpGui extends Gui {
     private static final int INDEX_COLLECT = 49;
     private static final int INDEX_BACK = 52;
+
+    private static final ItemStack AIR_ITEM = new ItemStack(Material.AIR);
 
     private enum ProcessState { OK, HMM, NO }
     private ProcessState state = ProcessState.OK;
@@ -34,7 +39,6 @@ public class DumpGui extends Gui {
 
     @Override
     public void onClick(Player player, InventoryClickEvent e) {
-        final ItemStack AIR_ITEM = new ItemStack(Material.AIR);
 
         if (45 <= e.getRawSlot() && e.getRawSlot() < 53)
             e.setCancelled(true);
@@ -49,6 +53,7 @@ public class DumpGui extends Gui {
 
             setState(ProcessState.HMM);
 
+            Collection<ItemStack> items = new ArrayList<>();
             for (int i=0; i<=44; i++) {
                 ItemStack item = Objects.requireNonNullElse(inventory.getItem(i), AIR_ITEM);
 
@@ -58,11 +63,16 @@ public class DumpGui extends Gui {
                     );
                     continue;
                 }
-                plugin.getGameDirector().collect(player, item);
+                items.add(item);
                 inventory.setItem(i, AIR_ITEM);
             }
 
+            boolean collected = plugin.getGameDirector().collect(player, items, ItemCollectEvent.Route.DUMP);
             setState(ProcessState.OK);
+            if (!collected) {
+                return;
+            }
+
             SoundUtil.playCollect(player);
             player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 100, 1, 1, 1);
         }

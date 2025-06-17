@@ -2,6 +2,7 @@ package com.doubledeltas.minecollector.command.impl;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandRoot;
+import com.doubledeltas.minecollector.event.event.ItemCollectEvent;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.Material;
@@ -77,7 +78,12 @@ public final class CollectCommand extends CommandRoot {
             return false;
         }
 
-        plugin.getGameDirector().collect(player, new ItemStack(handItem.getType(), amount));
+        ItemStack item = new ItemStack(handItem.getType(), amount);
+
+        boolean collected = plugin.getGameDirector().collect(player, item, ItemCollectEvent.Route.COMMAND);
+        if (!collected)
+            return false;   // cancelled
+
         handItem.setAmount(handAmount - amount);
         player.getInventory().setItemInMainHand(handItem);
 
