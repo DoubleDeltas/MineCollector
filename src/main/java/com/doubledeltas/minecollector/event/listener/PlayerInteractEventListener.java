@@ -1,4 +1,4 @@
-package com.doubledeltas.minecollector.event;
+package com.doubledeltas.minecollector.event.listener;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;

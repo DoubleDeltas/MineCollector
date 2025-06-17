@@ -1,6 +1,5 @@
-package com.doubledeltas.minecollector.event;
+package com.doubledeltas.minecollector.event.listener;
 
-import com.doubledeltas.minecollector.GameDirector;
 import com.doubledeltas.minecollector.MineCollector;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.event.EventHandler;
