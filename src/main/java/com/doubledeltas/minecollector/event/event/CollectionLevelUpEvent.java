@@ -8,6 +8,10 @@ import org.bukkit.event.HandlerList;
 
 import javax.annotation.Nonnull;
 
+/**
+ * 아이템 콜렉션의 단계가 상승할 때 발생하는 이벤트
+ * @since 1.3.1
+ */
 @RequiredArgsConstructor
 public class CollectionLevelUpEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
