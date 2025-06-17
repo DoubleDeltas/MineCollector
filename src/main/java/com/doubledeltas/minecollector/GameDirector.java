@@ -21,8 +21,6 @@ import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementDisplayType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
@@ -68,9 +66,8 @@ public class GameDirector implements McolInitializable {
             for (int i = oldLevel + 1; i <= newLevel; i++) {
                 noticeLevelUp(player, item.getType(), i);
             }
-
-            return true;
         }
+        return true;
     }
 
     /**
@@ -81,7 +78,7 @@ public class GameDirector implements McolInitializable {
      * @return 수집 성공 여부 (취소되지 않음)
      */
     public boolean collect(Player player, ItemStack item, ItemCollectEvent.Route route) {
-        collect(player, List.of(item), route);
+        return collect(player, List.of(item), route);
     }
 
     /**
