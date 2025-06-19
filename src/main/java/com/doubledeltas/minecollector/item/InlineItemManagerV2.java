@@ -155,7 +155,7 @@ public class InlineItemManagerV2 extends InlineItemManager {
     protected ItemStack getGuiRanking() {
         return new ItemBuilder(Material.MOJANG_BANNER_PATTERN)
                 .displayName(translateToText("item.gui.ranking.display_name"))
-                .lore(translateToText("item.gui.dump.lore_1"))
+                .lore(translateToText("item.gui.ranking.lore_1"))
                 .itemFlags(ItemFlag.HIDE_POTION_EFFECTS)
                 .itemCode(GuiItem.RANKING)
                 .build();
