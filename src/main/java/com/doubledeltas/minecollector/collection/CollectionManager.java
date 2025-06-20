@@ -39,9 +39,9 @@ public class CollectionManager implements McolInitializable {
             pieces.add(plainItemPiece);
             keyPieceMap.put(plainItemPiece.toPieceKey(), plainItemPiece);
             plainItemPieceMap.put(material, plainItemPiece);
-
-            MessageUtil.log("collection.loaded", pieces.size());
         }
+
+        MessageUtil.log("collection.loaded", pieces.size());
     }
 
     public Piece getPieceAt(int idx) {
