@@ -2,6 +2,7 @@ package com.doubledeltas.minecollector.collection;
 
 import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.util.MessageUtil;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -38,6 +39,8 @@ public class CollectionManager implements McolInitializable {
             pieces.add(plainItemPiece);
             keyPieceMap.put(plainItemPiece.toPieceKey(), plainItemPiece);
             plainItemPieceMap.put(material, plainItemPiece);
+
+            MessageUtil.log("collection.loaded", pieces.size());
         }
     }
 

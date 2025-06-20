@@ -98,3 +98,5 @@ data.auto_saved=Data auto-saved!
 
 lang.default_created=lang folder created!
 lang.using_default=The language file ({0}) could not be found, so the default language will be used.
+
+collection.loaded={0} collection piece(s) loaded!
