@@ -1,6 +1,8 @@
 package com.doubledeltas.minecollector.gui;
 
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.collection.CollectionManager;
+import com.doubledeltas.minecollector.collection.Piece;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
 import com.doubledeltas.minecollector.item.ItemBuilder;
@@ -23,33 +25,31 @@ public class CollectionGui extends Gui {
     private static final int INDEX_NEXT = 49;
     private static final int INDEX_BACK = 52;
 
+    private static final int CAPACITY = 45;
+
     private final int page;
+    private final boolean isLastPage;
 
     public CollectionGui(Player player, int page) {
         super(6, "gui.collection.title");
         this.page = page;
 
         ItemManager itemManager = MineCollector.getInstance().getItemManager();
+        CollectionManager collectionManager = MineCollector.getInstance().getCollectionManager();
 
-        for (int i=0; i <= 44; i++) {
-            int idx = (page - 1) * 45 + i;
-            if (idx >= Material.values().length) {
+        int size = collectionManager.getSize();
+        this.isLastPage = page * CAPACITY >= size;
+
+        GameData data = plugin.getDataManager().getData(player);
+        for (int i=0; i < CAPACITY; i++) {
+            int idx = (page - 1) * CAPACITY + i;
+            if (idx >= size) {
                 inventory.setItem(i, itemManager.getItem(GuiItem.GRAY));
                 continue;
             }
-            GameData data = plugin.getDataManager().getData(player);
-            Material material = Material.values()[idx];
+            Piece piece = collectionManager.getPieceAt(idx);
 
-            ItemStack item;
-            boolean showUnknown = !plugin.getMcolConfig().getGame().isHideUnknownCollection();
-            boolean collected = data.getCollection(material) > 0;
-            if (collected)
-                item = getCollectedItem(data, material);
-            else if (showUnknown)
-                item = getUncollectedItem(material);
-            else
-                item = itemManager.getItem(GuiItem.UNKNOWN);
-            inventory.setItem(i, item);
+            inventory.setItem(i, piece.createDisplay(data).getItem());
         }
 
         for (int i=45; i<=53; i++)
@@ -62,10 +62,10 @@ public class CollectionGui extends Gui {
         );
         coreItem.setAmount(page);
         inventory.setItem(INDEX_CORE, coreItem);
-
-        inventory.setItem(INDEX_NEXT, itemManager.getItem(isLastPage() ? GuiItem.NO_NEXT : GuiItem.NEXT));
+        inventory.setItem(INDEX_NEXT, itemManager.getItem(isLastPage ? GuiItem.NO_NEXT : GuiItem.NEXT));
         inventory.setItem(INDEX_BACK, itemManager.getItem(GuiItem.BACK));
     }
+
 
     @Override
     public void onClick(Player player, InventoryClickEvent e) {
@@ -75,7 +75,7 @@ public class CollectionGui extends Gui {
             new CollectionGui(player, page - 1).openGui(player);
             SoundUtil.playPage(player);
         }
-        else if (e.getRawSlot() == INDEX_NEXT && !isLastPage()) {
+        else if (e.getRawSlot() == INDEX_NEXT && !isLastPage) {
             new CollectionGui(player, page + 1).openGui(player);
             SoundUtil.playPage(player);
         }
@@ -83,46 +83,5 @@ public class CollectionGui extends Gui {
             new HubGui().openGui(player);
             SoundUtil.playPage(player);
         }
-    }
-
-    private ItemStack getUncollectedItem(Material material) {
-        if (material == Material.AIR)
-            return plugin.getItemManager().getItem(GuiItem.UNKNOWN_AIR_PLACEHOLDER);
-
-        return new ItemBuilder(material)
-                .lore(translateToText("gui.collection.not_collected_yet"))
-                .build();
-    }
-
-    private ItemStack getCollectedItem(GameData data, Material material) {
-        if (material == Material.AIR)
-            return plugin.getItemManager().getItem(GuiItem.AIR_PLACEHOLDER);
-
-        int amount = data.getCollection(material);
-        int quo = amount / 64;
-        int rem = amount % 64;
-        int lv = data.getLevel(material);
-
-        BaseComponent[] countDisplay = (quo > 0)
-                ? translateToComponents("game.stack_and_pcs", quo, rem)
-                : translateToComponents("game.pcs", rem);
-
-        BaseComponent[] components = new ComponentBuilder()
-                .append(translateToComponents("gui.collection.count"))
-                .append(" ")
-                .append(countDisplay)
-                .create();
-
-        ItemBuilder builder = new ItemBuilder(material, lv)
-                .lore(BaseComponent.toLegacyText(components));
-
-        if (lv >= 5)
-            builder.glowing();
-
-        return builder.build();
-    }
-
-    private boolean isLastPage() {
-        return (this.page + 1) * 45 >= Material.values().length;
     }
 }

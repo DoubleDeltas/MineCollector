@@ -1,6 +1,7 @@
 package com.doubledeltas.minecollector.command.impl.ranking;
 
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.collection.Piece;
 import com.doubledeltas.minecollector.command.CommandNode;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.util.MessageUtil;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -34,21 +36,22 @@ public class RankingItemCommand extends CommandNode {
             return false;
         }
 
-        Material material = Material.matchMaterial(args[0]);
-        if (material == null) {
+        Optional<Piece> pieceOptional = plugin.getCollectionManager().findPieceOf(args[0]);
+        if (pieceOptional.isEmpty()) {
             MessageUtil.send(sender, "command.ranking_item.no_item_exists", args[0]);
             if (sender instanceof Player player)
                 SoundUtil.playFail(player);
             return false;
         }
+        Piece piece = pieceOptional.get();
 
-        keyFunc = data -> data.getCollection(material);
+        keyFunc = piece::getAmount;
 
         List<GameData> top10 = plugin.getDataManager().getTop10(keyFunc);
         int top10Size = top10.size();
 
         MessageUtil.sendRaw(sender, "");
-        BaseComponent itemComponent = new TranslatableComponent(material.getItemTranslationKey());
+        BaseComponent itemComponent = piece.toChatComponent();
         MessageUtil.send(sender, "command.ranking_item.title", itemComponent);
 
         if (top10Size == 1) { // 아무도 수집하지 않음
@@ -83,15 +86,9 @@ public class RankingItemCommand extends CommandNode {
 
     @Override
     public List<String> getTabRecommendation(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length > 1)
+        if (args.length == 1)
+            return plugin.getCollectionManager().recommendItemKeys(sender, args[0]);
+        else
             return List.of();
-
-        return Arrays.stream(Material.values())
-                .filter(material -> sender.isOp()
-                        || !MineCollector.getInstance().getMcolConfig().getGame().isHideUnknownCollection()
-                        || plugin.getDataManager().getData((Player) sender).getCollection(material) > 0
-                )
-                .map(material -> material.getKey().toString())
-                .collect(Collectors.toList());
     }
 }
