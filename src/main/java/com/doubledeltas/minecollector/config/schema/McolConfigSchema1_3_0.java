@@ -16,8 +16,10 @@ import java.util.Locale;
 @ToString(callSuper = true)
 @Data @AllArgsConstructor @SuperBuilder
 public class McolConfigSchema1_3_0 extends McolConfigSchemaUnlabeled implements CurrentMcolConfigSchema {
+    public static String CONFIG_VERSION = "1.3.0";
+
     @Builder.Default
-    private String configVersion = "1.3.0";
+    private String configVersion = CONFIG_VERSION;
     @Builder.Default
     private String lang = LangManager.DEFAULT_LANG;
 
@@ -26,7 +28,7 @@ public class McolConfigSchema1_3_0 extends McolConfigSchemaUnlabeled implements 
      */
     public McolConfigSchema1_3_0() {
         super();
-        this.configVersion = MineCollector.getInstance().getDescription().getVersion();
+        this.configVersion = CONFIG_VERSION;
         this.lang = Locale.getDefault() == Locale.KOREA ? "ko_KR" : LangManager.DEFAULT_LANG;
     }
 
