@@ -116,6 +116,7 @@ public class InlineItemManager extends ItemManager {
     protected ItemStack getGuiPrev() {
         return new ItemBuilder(Material.BLACK_BANNER)
                 .displayName(translateToText("item.gui.prev.display_name"))
+                .lore(translateToText("item.gui.prev.lore_1"))
                 .addBannerPattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE)
                 .addBannerPattern(DyeColor.WHITE, PatternType.HALF_VERTICAL_MIRROR)
                 .addBannerPattern(DyeColor.BLACK, PatternType.SQUARE_TOP_RIGHT)
@@ -146,6 +147,7 @@ public class InlineItemManager extends ItemManager {
     protected ItemStack getGuiNext() {
         return new ItemBuilder(Material.BLACK_BANNER)
                 .displayName(translateToText("item.gui.next.display_name"))
+                .lore(translateToText("item.gui.next.lore_1"))
                 .addBannerPattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE)
                 .addBannerPattern(DyeColor.WHITE, PatternType.HALF_VERTICAL)
                 .addBannerPattern(DyeColor.BLACK, PatternType.SQUARE_TOP_LEFT)
