@@ -54,16 +54,17 @@ public class CollectionGui extends Gui {
 
         for (int i=45; i<=53; i++)
             inventory.setItem(i, itemManager.getItem(GuiItem.BLACK));
-        inventory.setItem(INDEX_PREV, itemManager.getItem((page == 1) ? GuiItem.NO_PREV : GuiItem.PREV));
 
         ItemStack coreItem = itemManager.createItem(
                 GuiItem.CORE,
                 new GameStatistics(plugin.getDataManager().getData(player)).toMap()
         );
         coreItem.setAmount(page);
-        inventory.setItem(INDEX_CORE, coreItem);
-        inventory.setItem(INDEX_NEXT, itemManager.getItem(isLastPage ? GuiItem.NO_NEXT : GuiItem.NEXT));
-        inventory.setItem(INDEX_BACK, itemManager.getItem(GuiItem.BACK));
+        inventory.setItem(INDEX_CORE,   coreItem);
+
+        inventory.setItem(INDEX_PREV,   itemManager.getItem((page == 1) ? GuiItem.NO_PREV : GuiItem.PREV));
+        inventory.setItem(INDEX_NEXT,   itemManager.getItem(isLastPage ? GuiItem.NO_NEXT : GuiItem.NEXT));
+        inventory.setItem(INDEX_BACK,   itemManager.getItem(GuiItem.BACK));
     }
 
 
@@ -71,15 +72,16 @@ public class CollectionGui extends Gui {
     public void onClick(Player player, InventoryClickEvent e) {
         e.setCancelled(true);
 
-        if (e.getRawSlot() == INDEX_PREV && page > 1) {
+        int rawSlot = e.getRawSlot();
+        if (rawSlot == INDEX_PREV && page > 1) {
             new CollectionGui(player, page - 1).openGui(player);
             SoundUtil.playPage(player);
         }
-        else if (e.getRawSlot() == INDEX_NEXT && !isLastPage) {
+        else if (rawSlot == INDEX_NEXT && !isLastPage) {
             new CollectionGui(player, page + 1).openGui(player);
             SoundUtil.playPage(player);
         }
-        else if (e.getRawSlot() == INDEX_BACK) {
+        else if (rawSlot == INDEX_BACK) {
             new HubGui().openGui(player);
             SoundUtil.playPage(player);
         }

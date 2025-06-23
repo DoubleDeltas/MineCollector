@@ -18,10 +18,6 @@ public enum GuiItem implements ItemCode {
     AIR_PLACEHOLDER("air_placeholder"),
     UNKNOWN_AIR_PLACEHOLDER("unknown_air_placeholder"),
     CORE("core"),
-    NO_FIRST("noFirst"),
-    FIRST("first"),
-    NO_LAST("noLast"),
-    LAST("last"),
     ;
 
     private final String subpathName;

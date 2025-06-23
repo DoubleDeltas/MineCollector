@@ -47,10 +47,6 @@ public class InlineItemManager extends ItemManager {
                 case AIR_PLACEHOLDER            -> getGuiAirPlaceholder();
                 case UNKNOWN_AIR_PLACEHOLDER    -> getGuiUnknownAirPlaceholder();
                 case CORE                       -> getGuiRawCore();
-                case NO_FIRST                   -> getGuiNoFirst();
-                case FIRST                      -> getGuiFirst();
-                case NO_LAST                    -> getGuiNoLast();
-                case LAST                       -> getGuiLast();
             };
         return null;
     }
@@ -261,62 +257,6 @@ public class InlineItemManager extends ItemManager {
                         translateToText("item.gui.raw_core.lore_2", "[stackScore]"),
                         translateToText("item.gui.raw_core.lore_3", "[advScore]")
                 )
-                .build();
-    }
-
-    protected ItemStack getGuiNoFirst() {
-        return new ItemBuilder(Material.RED_BANNER)
-                .displayName(translateToText("item.gui.no_first.display_name"))
-                .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_SMALL)
-                .addBannerPattern(DyeColor.BLACK, PatternType.HALF_VERTICAL)
-                .addBannerPattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE)
-                .addBannerPattern(DyeColor.BLACK, PatternType.SQUARE_TOP_RIGHT)
-                .addBannerPattern(DyeColor.BLACK, PatternType.SQUARE_BOTTOM_RIGHT)
-                .addBannerPattern(DyeColor.BLACK, PatternType.BORDER)
-                .itemFlags(ItemFlag.HIDE_POTION_EFFECTS)
-                .itemCode(GuiItem.NO_FIRST)
-                .build();
-    }
-
-    protected ItemStack getGuiFirst() {
-        return new ItemBuilder(Material.BLACK_BANNER)
-                .displayName(translateToText("item.gui.first.display_name"))
-                .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_SMALL)
-                .addBannerPattern(DyeColor.BLACK, PatternType.HALF_VERTICAL)
-                .addBannerPattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE)
-                .addBannerPattern(DyeColor.BLACK, PatternType.SQUARE_TOP_RIGHT)
-                .addBannerPattern(DyeColor.BLACK, PatternType.SQUARE_BOTTOM_RIGHT)
-                .addBannerPattern(DyeColor.BLACK, PatternType.BORDER)
-                .itemFlags(ItemFlag.HIDE_POTION_EFFECTS)
-                .itemCode(GuiItem.FIRST)
-                .build();
-    }
-
-    protected ItemStack getGuiNoLast() {
-        return new ItemBuilder(Material.RED_BANNER)
-                .displayName(translateToText("item.gui.no_last.display_name"))
-                .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_SMALL)
-                .addBannerPattern(DyeColor.BLACK, PatternType.HALF_VERTICAL_MIRROR)
-                .addBannerPattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE)
-                .addBannerPattern(DyeColor.BLACK, PatternType.SQUARE_TOP_LEFT)
-                .addBannerPattern(DyeColor.BLACK, PatternType.SQUARE_BOTTOM_LEFT)
-                .addBannerPattern(DyeColor.BLACK, PatternType.BORDER)
-                .itemFlags(ItemFlag.HIDE_POTION_EFFECTS)
-                .itemCode(GuiItem.NO_LAST)
-                .build();
-    }
-
-    protected ItemStack getGuiLast() {
-        return new ItemBuilder(Material.BLACK_BANNER)
-                .displayName(translateToText("item.gui.last.display_name"))
-                .addBannerPattern(DyeColor.WHITE, PatternType.STRIPE_SMALL)
-                .addBannerPattern(DyeColor.BLACK, PatternType.HALF_VERTICAL_MIRROR)
-                .addBannerPattern(DyeColor.WHITE, PatternType.RHOMBUS_MIDDLE)
-                .addBannerPattern(DyeColor.BLACK, PatternType.SQUARE_TOP_LEFT)
-                .addBannerPattern(DyeColor.BLACK, PatternType.SQUARE_BOTTOM_LEFT)
-                .addBannerPattern(DyeColor.BLACK, PatternType.BORDER)
-                .itemFlags(ItemFlag.HIDE_POTION_EFFECTS)
-                .itemCode(GuiItem.NO_LAST)
                 .build();
     }
 }
