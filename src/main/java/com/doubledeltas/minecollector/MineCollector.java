@@ -49,6 +49,7 @@ public final class MineCollector extends JavaPlugin {
 
         configManager.init(this);
         itemManager.init(this);
+        collectionManager.init(this);
         dataManager.init(this);
         commandManager.init(this);
         eventManager.init(this);
