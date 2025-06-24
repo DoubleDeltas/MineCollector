@@ -44,26 +44,13 @@ public class ConfigManager implements McolInitializable {
     public McolConfig load() throws InvalidConfigException {
         // 파일이 없으면 기본 콘피그 파일 생성
         if (!configPath.isFile()) {
-            plugin.getConfig().options().copyDefaults(true);
             saveConfig();
             MessageUtil.log("config.default_created");
         }
 
+        McolConfigSchema schema;
         try (FileReader fileReader = new FileReader(configPath)) {
-            McolConfigSchema schema = Yamls.getConfigYaml().load(fileReader, schemaTable);
-            String schemaVersionName = schema.getConfigVersion();
-            Version<?> schemaVersion = Version.parse(schemaVersionName);
-            int versionComparison = Version.compare(Version.parse(schemaVersionName), schemaTable.getLatestVersion());
-            if (versionComparison < 0) {
-                schema = updaterChain.updateToLatest(schema, schemaVersion);
-                saveConfig(schema, true);
-                MessageUtil.log("config.updated", schemaVersionName);
-            }
-            else if (versionComparison > 0) {
-                MessageUtil.log(Level.WARNING, "config.higher_version_warning");
-            }
-            MessageUtil.log("config.loaded");
-            return ((CurrentMcolConfigSchema) schema).convert();
+            schema = Yamls.getConfigYaml().load(fileReader, schemaTable);
         } catch (FileNotFoundException e) {
             throw new InvalidConfigException("Could not found config.yml file", e);
         } catch (YAMLException e) {
@@ -72,6 +59,20 @@ public class ConfigManager implements McolInitializable {
             e.printStackTrace();
             return null;
         }
+
+        String schemaVersionName = schema.getConfigVersion();
+        Version<?> schemaVersion = Version.parse(schemaVersionName);
+        int versionComparison = Version.compare(Version.parse(schemaVersionName), schemaTable.getLatestVersion());
+        if (versionComparison < 0) {
+            schema = updaterChain.updateToLatest(schema, schemaVersion);
+            saveConfig(schema, true);
+            MessageUtil.log("config.updated", schemaVersionName);
+        }
+        else if (versionComparison > 0) {
+            MessageUtil.log(Level.WARNING, "config.higher_version_warning");
+        }
+        MessageUtil.log("config.loaded");
+        return ((CurrentMcolConfigSchema) schema).convert();
     }
 
     private static final Pattern PLACEHOLDER_PATTERN

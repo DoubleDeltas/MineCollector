@@ -1,11 +1,13 @@
 package com.doubledeltas.minecollector;
 
+import com.doubledeltas.minecollector.collection.Piece;
 import com.doubledeltas.minecollector.config.AnnouncementTarget;
 import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
 import com.doubledeltas.minecollector.event.event.CollectionLevelUpEvent;
 import com.doubledeltas.minecollector.event.event.ItemCollectEvent;
+import com.doubledeltas.minecollector.event.event.TotalScoreUpEvent;
 import com.doubledeltas.minecollector.gui.HubGui;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
@@ -23,7 +25,9 @@ import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementDisplayType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
@@ -48,29 +52,30 @@ public class GameDirector implements McolInitializable {
             return false;
 
         GameData data = plugin.getDataManager().getData(player);
+        BigDecimal oldTotalScore = new GameStatistics(data).getTotalScore();
         for (ItemStack item: items) {
-            if (item.getType() == Material.AIR && data.getCollection(Material.AIR) > 0)
-                return true;
+            Piece piece = plugin.getCollectionManager().getPieceOf(item);
 
-            if (data.getCollection(item.getType()) == 0)
-                noticeFirstCollection(player, item.getType());
+            if (piece.getAmount(data) == 0)
+                noticeFirstCollection(player, piece);
 
-            int oldLevel = data.getLevel(item.getType());
+            int oldLevel = piece.getLevel(data);
 
-            // Spigot은 AIR를 1개, Paper는 0개로 처리하므로 따로 처리
-            if (item.getType() == Material.AIR)
-                data.addCollection(Material.AIR, 1);
-            else
-                data.addCollection(item);
+            piece.addAmount(data, item.getAmount());
 
-            int newLevel = data.getLevel(item.getType());
+            int newLevel = piece.getLevel(data);
             for (int i = oldLevel + 1; i <= newLevel; i++) {
-                CollectionLevelUpEvent levelUpEvent = new CollectionLevelUpEvent(player, item.getType(), i);
+                CollectionLevelUpEvent levelUpEvent = new CollectionLevelUpEvent(player, piece, i);
                 Bukkit.getPluginManager().callEvent(levelUpEvent);
 
-                noticeLevelUp(player, item.getType(), i);
+                noticeLevelUp(player, piece, i);
             }
         }
+        BigDecimal newTotalScore = new GameStatistics(data).getTotalScore();
+
+        TotalScoreUpEvent totalScoreUpEvent = new TotalScoreUpEvent(player, oldTotalScore, newTotalScore);
+        Bukkit.getPluginManager().callEvent(totalScoreUpEvent);
+
         return true;
     }
 
@@ -97,7 +102,8 @@ public class GameDirector implements McolInitializable {
             return true;
         if (!item.hasItemMeta())
             return true;
-        return !item.getItemMeta().hasDisplayName();
+
+        return !item.getItemMeta().hasDisplayName();    // renamed plain item
     }
 
     /**
@@ -139,38 +145,29 @@ public class GameDirector implements McolInitializable {
         SoundUtil.playPageAll(player);
     }
 
-    private static BaseComponent getItemNameComponent(Material material) {
-        try {
-            return new TranslatableComponent(material.getItemTranslationKey());
-        }
-        catch (NoSuchMethodError e) {
-            return new TextComponent(material.name());
-        }
-    }
-
     /**
      * 첫 수집 공지를 띄웁니다.
      * @param player 수집한 플레이어
-     * @param material 수집한 아이템 종류
+     * @param piece 수집품
      */
-    private static void noticeFirstCollection(Player player, Material material) {
+    private static void noticeFirstCollection(Player player, Piece piece) {
         McolConfig.Announcement announcementConfig = MineCollector.getInstance().getMcolConfig().getAnnouncement();
         AnnouncementTarget target = announcementConfig.getCollection();
 
-        BaseComponent itemComponent = GameDirector.getItemNameComponent(material);
+        BaseComponent itemComponent = piece.toChatComponent();
 
         MessageUtil.send(target, player, "game.first_collection", player.getName(), itemComponent);
         for (Player p: announcementConfig.getCollection().resolve(player))
-           SoundUtil.playHighRing(p);
+            SoundUtil.playHighRing(p);
     }
 
     /**
      * 단계 도달 축하 공지를 띄웁니다.
      * @param player 수집한 플레이어
-     * @param material 수집한 아이템 종류
+     * @param piece 수집품
      * @param level 도달한 단계 수
      */
-    private static void noticeLevelUp(Player player, Material material, int level) {
+    private static void noticeLevelUp(Player player, Piece piece, int level) {
         McolConfig.Announcement announcementConfig = MineCollector.getInstance().getMcolConfig().getAnnouncement();
 
         if (level < announcementConfig.getHighLevelMinimum()) return;
@@ -189,7 +186,7 @@ public class GameDirector implements McolInitializable {
             default /* 11+ */   -> "§x§f§f§4§4§8§8§l";  // fuchsia(#FF4488), bold
         };
         AnnouncementTarget target = announcementConfig.getHighLevelReached();
-        BaseComponent itemComponent = new TranslatableComponent(material.getItemTranslationKey());
+        BaseComponent itemComponent = piece.toChatComponent();
 
         LangManager langManager = MineCollector.getInstance().getLangManager();
         BaseComponent[] amountComponents;

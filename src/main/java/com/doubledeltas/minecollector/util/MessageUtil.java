@@ -66,7 +66,7 @@ public class MessageUtil {
     }
 
     public static void send(CommandSender subject, String msgKey, Object... vars) {
-        sendRaw(subject, translateToText(msgKey, vars));
+        sendRaw(subject, translateToComponents(msgKey, vars));
     }
 
     /**

@@ -40,11 +40,11 @@ public class DumpGui extends Gui {
 
     @Override
     public void onClick(Player player, InventoryClickEvent e) {
-
-        if (45 <= e.getRawSlot() && e.getRawSlot() < 53)
+        int rawSlot = e.getRawSlot();
+        if (45 <= rawSlot && rawSlot <= 53)
             e.setCancelled(true);
 
-        if (e.getRawSlot() == INDEX_COLLECT && state == ProcessState.OK) {
+        if (rawSlot == INDEX_COLLECT && state == ProcessState.OK) {
             if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
                 MessageUtil.send(player, "game.cant_collect_now");
                 player.closeInventory();
@@ -81,7 +81,7 @@ public class DumpGui extends Gui {
             player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 100, 1, 1, 1);
         }
 
-        else if (e.getRawSlot() == INDEX_BACK) {
+        else if (rawSlot == INDEX_BACK) {
             new HubGui().openGui(player);
             SoundUtil.playPage(player);
         }

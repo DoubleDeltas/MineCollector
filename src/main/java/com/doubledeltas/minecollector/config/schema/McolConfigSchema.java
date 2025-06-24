@@ -22,7 +22,7 @@ public interface McolConfigSchema {
         private McolConfigSchema schema;
     }
 
-    static McolConfigSchema getLatestDefault() {
+    static CurrentMcolConfigSchema getLatestDefault() {
         return new McolConfigSchema1_3_0();
     }
 }

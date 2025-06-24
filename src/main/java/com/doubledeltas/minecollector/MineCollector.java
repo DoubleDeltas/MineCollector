@@ -1,5 +1,6 @@
 package com.doubledeltas.minecollector;
 
+import com.doubledeltas.minecollector.collection.CollectionManager;
 import com.doubledeltas.minecollector.command.CommandManager;
 import com.doubledeltas.minecollector.config.ConfigManager;
 import com.doubledeltas.minecollector.config.InvalidConfigException;
@@ -7,40 +8,34 @@ import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.data.DataAutoSaver;
 import com.doubledeltas.minecollector.data.DataManager;
 import com.doubledeltas.minecollector.event.EventManager;
-import com.doubledeltas.minecollector.item.InlineItemManagerV2;
+import com.doubledeltas.minecollector.item.InlineItemManager;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.lang.LangManager;
 import com.doubledeltas.minecollector.resource.ResourceManager;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.version.VersionManager;
 import com.doubledeltas.minecollector.version.VersionSystem;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
 
+@Getter
 public final class MineCollector extends JavaPlugin {
-    @Getter
-    private final GameDirector gameDirector = new GameDirector();
-    @Getter
-    private final ItemManager itemManager = new InlineItemManagerV2();
-    @Getter
-    private final CommandManager commandManager = new CommandManager();
-    @Getter
-    private final ConfigManager configManager = new ConfigManager();
-    @Getter
-    private final DataManager dataManager = new DataManager();
-    @Getter
-    private final VersionManager versionManager = new VersionManager();
-    @Getter
-    private final EventManager eventManager = new EventManager();
-    @Getter
-    private final DataAutoSaver dataAutoSaver = new DataAutoSaver();
-    @Getter
-    private final LangManager langManager = new LangManager();
-    @Getter
-    private final ResourceManager resourceManager = new ResourceManager();
+    private final GameDirector      gameDirector        = new GameDirector();
+    private final ItemManager       itemManager         = new InlineItemManager();
+    private final CommandManager    commandManager      = new CommandManager();
+    private final ConfigManager     configManager       = new ConfigManager();
+    private final DataManager       dataManager         = new DataManager();
+    private final VersionManager    versionManager      = new VersionManager();
+    private final EventManager      eventManager        = new EventManager();
+    private final DataAutoSaver     dataAutoSaver       = new DataAutoSaver();
+    private final LangManager       langManager         = new LangManager();
+    private final ResourceManager   resourceManager     = new ResourceManager();
+    private final CollectionManager collectionManager   = new CollectionManager();
 
+    @Getter(AccessLevel.NONE)
     private McolConfig config;
 
     public static MineCollector getInstance() {
@@ -64,6 +59,7 @@ public final class MineCollector extends JavaPlugin {
 
         this.config = configManager.load();
         langManager.loadLang();
+        collectionManager.generatePieces();
         commandManager.loadCommands();
         dataManager.loadData();
         dataAutoSaver.start();
