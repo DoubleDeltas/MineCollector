@@ -13,6 +13,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,6 +29,7 @@ public class CollectionGui extends Gui {
     private static final int CAPACITY = 45;
 
     private final int page;
+    private final int pieceCount;
     private final boolean isLastPage;
 
     public CollectionGui(Player player, int page) {
@@ -37,13 +39,13 @@ public class CollectionGui extends Gui {
         ItemManager itemManager = MineCollector.getInstance().getItemManager();
         CollectionManager collectionManager = MineCollector.getInstance().getCollectionManager();
 
-        int size = collectionManager.getSize();
-        this.isLastPage = page * CAPACITY >= size;
+        this.pieceCount = collectionManager.getSize();
+        this.isLastPage = getLastPage() == page;
 
         GameData data = plugin.getDataManager().getData(player);
         for (int i=0; i < CAPACITY; i++) {
             int idx = (page - 1) * CAPACITY + i;
-            if (idx >= size) {
+            if (idx >= pieceCount) {
                 inventory.setItem(i, itemManager.getItem(GuiItem.GRAY));
                 continue;
             }
@@ -73,17 +75,34 @@ public class CollectionGui extends Gui {
         e.setCancelled(true);
 
         int rawSlot = e.getRawSlot();
+        boolean shiftClick = e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY;
         if (rawSlot == INDEX_PREV && page > 1) {
-            new CollectionGui(player, page - 1).openGui(player);
-            SoundUtil.playPage(player);
+            if (shiftClick) {
+                new CollectionGui(player, 1).openGui(player);
+                SoundUtil.playPageAll(player);
+            }
+            else {
+                new CollectionGui(player, page - 1).openGui(player);
+                SoundUtil.playPage(player);
+            }
         }
         else if (rawSlot == INDEX_NEXT && !isLastPage) {
-            new CollectionGui(player, page + 1).openGui(player);
-            SoundUtil.playPage(player);
+            if (shiftClick) {
+                new CollectionGui(player, getLastPage()).openGui(player);
+                SoundUtil.playPageAll(player);
+            }
+            else {
+                new CollectionGui(player, page + 1).openGui(player);
+                SoundUtil.playPage(player);
+            }
         }
         else if (rawSlot == INDEX_BACK) {
             new HubGui().openGui(player);
             SoundUtil.playPage(player);
         }
+    }
+
+    private int getLastPage() {
+        return (int) Math.ceil((double) pieceCount / CAPACITY);
     }
 }
