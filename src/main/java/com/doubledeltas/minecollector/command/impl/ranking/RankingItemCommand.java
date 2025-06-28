@@ -1,23 +1,18 @@
 package com.doubledeltas.minecollector.command.impl.ranking;
 
-import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.collection.Piece;
 import com.doubledeltas.minecollector.command.CommandNode;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TranslatableComponent;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class RankingItemCommand extends CommandNode {
     @Override
