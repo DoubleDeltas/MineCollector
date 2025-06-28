@@ -9,6 +9,7 @@ commands:
   마인콜렉터:
     aliases: [minecollector, mcol, 마콜]
     description: 마인콜렉터 메인 커맨드입니다.
+    permission: minecollector.mcol
   수집:
     aliases: [tnwlq, collect]
     description: 아이템을 수집합니다.
