@@ -1,6 +1,5 @@
 package com.doubledeltas.minecollector.command.impl;
 
-import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.command.impl.book.BookOpenCommand;
 import com.doubledeltas.minecollector.item.ItemManager;
@@ -52,5 +51,10 @@ public final class BookCommand extends CommandRoot {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public String getRequiredPermissionKey() {
+        return "minecollector.book.obtain";
     }
 }

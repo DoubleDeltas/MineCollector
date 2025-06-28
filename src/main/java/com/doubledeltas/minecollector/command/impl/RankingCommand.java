@@ -1,6 +1,5 @@
 package com.doubledeltas.minecollector.command.impl;
 
-import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.command.CommandRoot;
 import com.doubledeltas.minecollector.command.impl.ranking.RankingItemCommand;
 import com.doubledeltas.minecollector.config.McolConfig;

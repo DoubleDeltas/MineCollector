@@ -141,6 +141,12 @@ public class GameDirector implements McolInitializable {
             return;
         }
 
+        if (!player.hasPermission("minecollector.book.open.manually")) {
+            MessageUtil.send(player, "game.cant_open_book_no_permission");
+            SoundUtil.playFail(player);
+            return;
+        }
+
         new HubGui().openGui(player);
         SoundUtil.playPageAll(player);
     }

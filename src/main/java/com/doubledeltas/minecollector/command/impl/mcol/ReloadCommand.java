@@ -29,4 +29,9 @@ public class ReloadCommand extends CommandNode {
         MessageUtil.send(sender, "command.generic.correct_command", "/mcol reload [config | data | lang] ...");
         return false;
     }
+
+    @Override
+    public String getRequiredPermissionKey() {
+        return null;
+    }
 }

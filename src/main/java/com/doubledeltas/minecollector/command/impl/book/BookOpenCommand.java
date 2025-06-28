@@ -29,4 +29,9 @@ public class BookOpenCommand extends CommandNode {
     public List<String> getTabRecommendation(CommandSender sender, Command command, String label, String[] args) {
         return List.of("", "열기");
     }
+
+    @Override
+    public String getRequiredPermissionKey() {
+        return "minecollector.book.open";
+    }
 }
