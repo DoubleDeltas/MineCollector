@@ -9,84 +9,88 @@ commands:
   마인콜렉터:
     aliases: [minecollector, mcol, 마콜]
     description: 마인콜렉터 메인 커맨드입니다.
-    permission: minecollector.mcol
+    permission: minecollector.expose.mcol
   수집:
     aliases: [tnwlq, collect]
     description: 아이템을 수집합니다.
-    permission: minecollector.collect.command
+    permission: minecollector.expose.collect
   체크:
     aliases: [cpzm, check]
     description: 아이템을 몇 개 수집했는지 체크합니다.
-    permission: minecollector.check
+    permission: minecollector.expose.check
   도감:
     aliases: [ehrka, book, getbook]
     description: 도감을 얻습니다.
-    permission: minecollector.book.obtain
+    permission: minecollector.expose.book
   랭킹:
     aliases: [fodzld, ranking, rank]
     description: 수집 점수 랭킹을 봅니다.
-    permission: minecollector.ranking.total
+    permission: minecollector.expose.ranking
   가이드:
     aliases: [rkdlem, guide, 도움, ehdna, help, 도움말]
     description: 마인콜렉터 가이드를 봅니다.
-    permission: minecollector.guide
+    permission: minecollector.expose.guide
 
 
 permissions:
-  minecollector.mcol:
-    description: Main op command for MineCollector
-    default: op
-    children:
-      minecollector.mcol.reload: true
-      minecollector.mcol.save: true
+# command root exposures
+  minecollector.expose.book:
+    description: Expose '/book' command to the player
+    default: false
+  minecollector.expose.check:
+    description: Expose '/check' command to the player
+    default: false
+  minecollector.expose.collect:
+    description: Expose '/collect' command to the player
+    default: false
+  minecollector.expose.guide:
+    description: Expose '/guide' command to the player
+    default: false
+  minecollector.expose.mcol:
+    description: Expose '/mcol' command to the player
+    default: false
+  minecollector.expose.ranking:
+    description: Expose '/ranking' command to the player
+    default: false
 
+# permissions
   minecollector.mcol.reload:
     description: Allow the op to reload MineCollector config or data
     default: op
     children:
+      minecollector.expose.mcol: true
       minecollector.mcol.reload.config: true
       minecollector.mcol.reload.data: true
 
   minecollector.mcol.reload.config:
     description: Allow op to reload MineCollector config
     default: op
+    children:
+      minecollector.expose.mcol: true
 
   minecollector.mcol.reload.data:
     description: Allow op to reload MineCollector data
     default: op
+    children:
+      minecollector.expose.mcol: true
 
   minecollector.mcol.save:
     description: Allow op to save MineCollector data manually
     default: op
-
-  minecollector.collect:
-    description: Allow the player to collect items into collection
-    default: true
     children:
-      minecollector.collect.command: true
-      minecollector.collect.dump: true
-
-  minecollector.book:
-    description: Allow the player to get new collection book or open it
-    default: true
-    children:
-      minecollector.book.obtain: true
-      minecollector.book.open: true
+      minecollector.expose.mcol: true
 
   minecollector.book.obtain:
     description: Allow the player to obtain new collection book
     default: true
-
-  minecollector.book.open:
-    description: Allow the player to open the collection
-    default: true
     children:
-      minecollector.book.open.command: true
-      minecollector.book.open.manually: true
+      minecollector.expose.book: true
 
   minecollector.book.open.command:
     description: Allow the player to open the collection using '/book open' command
     default: true
+    children:
+      minecollector.expose.book: true
 
   minecollector.book.open.manually:
     description: Allow the player to open the collection using the collection book
@@ -95,10 +99,14 @@ permissions:
   minecollector.check:
     description: Allow the player to check own collection
     default: true
+    children:
+      minecollector.expose.check: true
 
   minecollector.collect.command:
     description: Allow the player to collect by typing '/check' command
     default: true
+    children:
+      minecollector.expose.collect: true
 
   minecollector.collect.dump:
     description: Allow the player to collect by 'dump' in collection book
@@ -107,33 +115,35 @@ permissions:
   minecollector.guide:
     description: Allow the player to check the MineCollector guide
     default: true
-
-  minecollector.ranking:
-    description: Allow the player to check the ranking
-    default: true
     children:
-      minecollector.ranking.total: true
-      minecollector.ranking.collection: true
-      minecollector.ranking.stack: true
-      minecollector.ranking.advancement: true
-      minecollector.ranking.item: true
+      minecollector.expose.guide: true
 
   minecollector.ranking.total:
     description: Allow the player to check the total score ranking
     default: true
+    children:
+      minecollector.expose.ranking: true
 
   minecollector.ranking.collection:
     description: Allow the player to check the collection score ranking
     default: true
+    children:
+      minecollector.expose.ranking: true
 
   minecollector.ranking.stack:
     description: Allow the player to check the stack score ranking
     default: true
+    children:
+      minecollector.expose.ranking: true
 
   minecollector.ranking.advancement:
     description: Allow the player to check the advancement score ranking
     default: true
+    children:
+      minecollector.expose.ranking: true
 
   minecollector.ranking.item:
     description: Allow the player to check the item collection ranking
     default: true
+    children:
+      minecollector.expose.ranking: true
