@@ -36,15 +36,15 @@ permissions:
     description: Main op command for MineCollector
     default: op
     children:
-      - minecollector.mcol.reload
-      - minecollector.mcol.save
+      minecollector.mcol.reload: true
+      minecollector.mcol.save: true
 
   minecollector.mcol.reload:
     description: Allow the op to reload MineCollector config or data
     default: op
     children:
-      - minecollector.mcol.reload.config
-      - minecollector.mcol.reload.data
+      minecollector.mcol.reload.config: true
+      minecollector.mcol.reload.data: true
 
   minecollector.mcol.reload.config:
     description: Allow op to reload MineCollector config
@@ -62,15 +62,15 @@ permissions:
     description: Allow the player to collect items into collection
     default: not op
     children:
-      - minecollector.collect.command
-      - minecollector.collect.dump
+      minecollector.collect.command: true
+      minecollector.collect.dump: true
 
   minecollector.book:
     description: Allow the player to get new collection book or open it
     default: not op
     children:
-      - minecollector.book.obtain
-      - minecollector.book.open
+      minecollector.book.obtain: true
+      minecollector.book.open: true
 
   minecollector.book.obtain:
     description: Allow the player to obtain new collection book
@@ -80,8 +80,8 @@ permissions:
     description: Allow the player to open the collection
     default: not op
     children:
-      - minecollector.book.open.command
-      - minecollector.book.open.manually
+      minecollector.book.open.command: true
+      minecollector.book.open.manually: true
 
   minecollector.book.open.command:
     description: Allow the player to open the collection using '/book open' command
@@ -111,11 +111,11 @@ permissions:
     description: Allow the player to check the ranking
     default: not op
     children:
-      - minecollector.ranking.total
-      - minecollector.ranking.collection
-      - minecollector.ranking.stack
-      - minecollector.ranking.advancement
-      - minecollector.ranking.item
+      minecollector.ranking.total: true
+      minecollector.ranking.collection: true
+      minecollector.ranking.stack: true
+      minecollector.ranking.advancement: true
+      minecollector.ranking.item: true
 
   minecollector.ranking.total:
     description: Allow the player to check the total score ranking
