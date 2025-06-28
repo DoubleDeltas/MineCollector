@@ -5,7 +5,9 @@ server.disabled=MineCollector plugin is disabled!
 
 game.got_advancement_score=§e{0}§f has received §b§l{1} §f Advancement points. (cur. §e{2}§f pts)
 game.cant_open_book_now=§cYou can't open the collection book now!
+game.cant_open_book_no_permission=§cYou don't have the permission to open the collection book!
 game.cant_collect_now=§cYou can't collect now!
+game.cant_collect_no_permission=§cYou don't have the permission to collect!
 game.first_collection=§e{0} §acollected §e{1} §aitem firstly!
 game.level_up=§e§l{1}{0}'s §e§l{2} {0}collection reached to Level {0}§l{3}! ({4})
 game.stack={0} stacks

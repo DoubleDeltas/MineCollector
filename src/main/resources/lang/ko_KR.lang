@@ -5,7 +5,9 @@ server.disabled=마인콜렉터 플러그인이 꺼졌습니다.
 
 game.got_advancement_score=§e{0}§f님이 발전과제 점수 §b§l{1}§f점을 얻었습니다. (현재 §e{2}§f점)
 game.cant_open_book_now=§c지금은 도감을 열 수 없습니다!
+game.cant_open_book_no_permission=§c도감을 열 권한이 없습니다!
 game.cant_collect_now=§c지금은 수집할 수 없습니다!
+game.cant_collect_no_permission=§c아이템을 수집할 권한이 없습니다!
 game.first_collection=§e{0}§a님이 §e{1} §a아이템을 처음 수집했습니다!
 game.level_up=§e§l{1}{0}님의 §e§l{2} {0}콜렉션이 {0}§l{3}단계§r{0}에 도달했습니다! ({4})
 game.stack={0}셋
