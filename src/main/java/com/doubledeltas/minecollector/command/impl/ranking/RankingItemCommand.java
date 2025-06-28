@@ -86,4 +86,9 @@ public class RankingItemCommand extends CommandNode {
         else
             return List.of();
     }
+
+    @Override
+    public String getRequiredPermissionKey() {
+        return "minecollector.ranking.item";
+    }
 }

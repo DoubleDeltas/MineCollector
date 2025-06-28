@@ -45,4 +45,9 @@ public class ReloadConfigCommand extends CommandNode {
 
         return false;
     }
+
+    @Override
+    public String getRequiredPermissionKey() {
+        return "minecollector.mcol.reload.config";
+    }
 }

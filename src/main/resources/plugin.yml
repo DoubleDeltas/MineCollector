@@ -9,7 +9,6 @@ commands:
   마인콜렉터:
     aliases: [minecollector, mcol, 마콜]
     description: 마인콜렉터 메인 커맨드입니다.
-    permission: minecollector.mcol
   수집:
     aliases: [tnwlq, collect]
     description: 아이템을 수집합니다.
@@ -25,6 +24,7 @@ commands:
   랭킹:
     aliases: [fodzld, ranking, rank]
     description: 수집 점수 랭킹을 봅니다.
+    permission: minecollector.ranking.total
   가이드:
     aliases: [rkdlem, guide, 도움, ehdna, help, 도움말]
     description: 마인콜렉터 가이드를 봅니다.
@@ -60,56 +60,56 @@ permissions:
 
   minecollector.collect:
     description: Allow the player to collect items into collection
-    default: not op
+    default: true
     children:
       minecollector.collect.command: true
       minecollector.collect.dump: true
 
   minecollector.book:
     description: Allow the player to get new collection book or open it
-    default: not op
+    default: true
     children:
       minecollector.book.obtain: true
       minecollector.book.open: true
 
   minecollector.book.obtain:
     description: Allow the player to obtain new collection book
-    default: not op
+    default: true
 
   minecollector.book.open:
     description: Allow the player to open the collection
-    default: not op
+    default: true
     children:
       minecollector.book.open.command: true
       minecollector.book.open.manually: true
 
   minecollector.book.open.command:
     description: Allow the player to open the collection using '/book open' command
-    default: not op
+    default: true
 
   minecollector.book.open.manually:
     description: Allow the player to open the collection using the collection book
-    default: not op
+    default: true
 
   minecollector.check:
     description: Allow the player to check own collection
-    default: not op
+    default: true
 
   minecollector.collect.command:
     description: Allow the player to collect by typing '/check' command
-    default: not op
+    default: true
 
   minecollector.collect.dump:
     description: Allow the player to collect by 'dump' in collection book
-    default: not op
+    default: true
 
   minecollector.guide:
     description: Allow the player to check the MineCollector guide
-    default: not op
+    default: true
 
   minecollector.ranking:
     description: Allow the player to check the ranking
-    default: not op
+    default: true
     children:
       minecollector.ranking.total: true
       minecollector.ranking.collection: true
@@ -119,20 +119,20 @@ permissions:
 
   minecollector.ranking.total:
     description: Allow the player to check the total score ranking
-    default: not op
+    default: true
 
   minecollector.ranking.collection:
     description: Allow the player to check the collection score ranking
-    default: not op
+    default: true
 
   minecollector.ranking.stack:
     description: Allow the player to check the stack score ranking
-    default: not op
+    default: true
 
   minecollector.ranking.advancement:
     description: Allow the player to check the advancement score ranking
-    default: not op
+    default: true
 
   minecollector.ranking.item:
     description: Allow the player to check the item collection ranking
-    default: not op
+    default: true

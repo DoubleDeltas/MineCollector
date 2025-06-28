@@ -16,6 +16,7 @@ command.loaded={0}개 커맨드 불러옴!
 command.generic.player_only=이 명령어는 플레이어만 사용할 수 있습니다!
 command.generic.invalid=명령어가 잘못되었습니다!
 command.generic.correct_command=올바른 명령어: §e{0}
+command.generic.no_permission=이 명령어를 실행할 권한이 없습니다!
 command.book.already_have=이미 도감을 가지고 있군요! 인벤토리를 다시 찾아보실래요?
 command.book.received=도감을 인벤토리에 넣어드렸어요! 다음엔 잃어버리지 않게 조심하세요!
 command.check.no_exist=§e{0} §c아이템은 존재하지 않습니다!
