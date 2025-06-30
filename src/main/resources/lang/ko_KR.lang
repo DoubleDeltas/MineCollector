@@ -104,3 +104,5 @@ lang.default_created=lang 폴더를 생성했습니다!
 lang.using_default=lang 파일({0})을 찾을 수 없어 기본 언어를 사용합니다.
 
 collection.loaded={0}개 수집품 불러옴!
+
+team.loaded={0}개 팀 불러옴!
