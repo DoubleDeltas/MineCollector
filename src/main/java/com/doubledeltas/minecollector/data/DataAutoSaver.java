@@ -27,6 +27,7 @@ public class DataAutoSaver implements McolInitializable {
         task = scheduler.runTaskTimer(
                 plugin, () -> {
                     plugin.getDataManager().saveAll();
+                    plugin.getTeamManager().saveAll();
                     if (isLogging) {
                         MessageUtil.log("data.auto_saved");
                     }

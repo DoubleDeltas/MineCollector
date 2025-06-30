@@ -107,3 +107,5 @@ lang.using_default=The language file ({0}) could not be found, so the default la
 collection.loaded={0} collection piece(s) loaded!
 
 team.loaded={0} teams loaded!
+team.default_name={0}'s Team
+team.save_failed=Failed to save team data!
