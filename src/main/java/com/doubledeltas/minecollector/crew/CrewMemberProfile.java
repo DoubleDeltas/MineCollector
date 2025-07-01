@@ -1,5 +1,6 @@
-package com.doubledeltas.minecollector.team;
+package com.doubledeltas.minecollector.crew;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -8,9 +9,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public class TeamMemberProfile implements Comparable<TeamMemberProfile> {
+@Getter
+public class CrewMemberProfile implements Comparable<CrewMemberProfile> {
     private final UUID uuid;
     private final LocalDateTime joinedTime;
+    private final boolean leader;
 
     public OfflinePlayer getOfflinePlayer() {
         return Bukkit.getOfflinePlayer(uuid);
@@ -21,7 +24,7 @@ public class TeamMemberProfile implements Comparable<TeamMemberProfile> {
     }
 
     @Override
-    public int compareTo(TeamMemberProfile o) {
+    public int compareTo(CrewMemberProfile o) {
         return joinedTime.compareTo(o.joinedTime);
     }
 }

@@ -56,6 +56,10 @@ command.reload_config.failed_to_reload=§c콘피그 로딩에 실패했습니다
 command.reload_config.lang_failed=§c콘피그 로딩은 성공했지만, 언어팩 로딩에 실패했습니다!
 command.reload_config.lang_failed_2=§7 - config에 명시된 언어팩({0})이 존재하지 않습니다!
 command.reload_data.data_reloaded=데이터를 리로드하였습니다!
+command.crew.generic.no_code=§c크루 코드가 반드시 입력되어야 합니다!
+command.crew.create.already_has_team=§c다른 크루에 가입되어 있는 상태로 크루를 만들 수 없습니다!
+command.crew.create.duplicated_id=§c크루 ID가 중복됩니다!
+command.crew.create.success="§e{0}§f" 크루를 생성했습니다!
 
 gui.hub.title=§8[ §2마인§0콜렉터 §8]§0
 gui.collection.title=§8[ §2마인§0콜렉터 §8]§0 - 도감
@@ -105,6 +109,6 @@ lang.using_default=lang 파일({0})을 찾을 수 없어 기본 언어를 사용
 
 collection.loaded={0}개 수집품 불러옴!
 
-team.loaded={0}개 팀 불러옴!
-team.default_name={0}의 팀
-team.save_failed=팀데이터 저장 실패!
+crew.loaded={0}개 크루 불러옴!
+crew.default_name={0}의 크루
+crew.save_failed=크루 데이터 저장 실패!

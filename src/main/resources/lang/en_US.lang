@@ -57,6 +57,10 @@ command.reload_config.lang_failed=§cThe config is reloaded successfully, but lo
 command.reload_config.lang_failed_2=§7 - The language file {0} specified in the config does not exist!
 command.reload_config.failed_to_reload=§cFailed to load configuration!
 command.reload_data.data_reloaded=Data reloaded!
+command.crew.generic.no_code=§cCrew ID must be given!
+command.crew.create.already_has_team=§cCan't create a crew while already in another crew!
+command.crew.create.duplicated_id=§cCrew ID is duplicated!
+command.crew.create.success=§fCreated the crew "§e{0}§f"!
 
 gui.hub.title=§8[ §2Mine§0Collector §8]§0
 gui.collection.title=§8[ §2Mine§0Collector §8]§0 - Collection
@@ -106,6 +110,6 @@ lang.using_default=The language file ({0}) could not be found, so the default la
 
 collection.loaded={0} collection piece(s) loaded!
 
-team.loaded={0} teams loaded!
-team.default_name={0}'s Team
-team.save_failed=Failed to save team data!
+crew.loaded={0} crews loaded!
+crew.default_name={0}'s Crew
+crew.save_failed=Failed to save team data!

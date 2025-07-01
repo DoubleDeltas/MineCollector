@@ -12,7 +12,7 @@ import com.doubledeltas.minecollector.item.InlineItemManager;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.lang.LangManager;
 import com.doubledeltas.minecollector.resource.ResourceManager;
-import com.doubledeltas.minecollector.team.TeamManager;
+import com.doubledeltas.minecollector.crew.CrewManager;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.version.VersionManager;
 import com.doubledeltas.minecollector.version.VersionSystem;
@@ -35,7 +35,7 @@ public final class MineCollector extends JavaPlugin {
     private final LangManager       langManager         = new LangManager();
     private final ResourceManager   resourceManager     = new ResourceManager();
     private final CollectionManager collectionManager   = new CollectionManager();
-    private final TeamManager       teamManager         = new TeamManager();
+    private final CrewManager crewManager = new CrewManager();
 
     @Getter(AccessLevel.NONE)
     private McolConfig config;
@@ -58,7 +58,7 @@ public final class MineCollector extends JavaPlugin {
         dataAutoSaver.init(this);
         langManager.init(this);
         resourceManager.init(this);
-        teamManager.init(this);
+        crewManager.init(this);
         gameDirector.init(this);
 
         this.config = configManager.load();
@@ -66,7 +66,7 @@ public final class MineCollector extends JavaPlugin {
         collectionManager.generatePieces();
         commandManager.loadCommands();
         dataManager.loadData();
-        teamManager.load();
+        crewManager.load();
         dataAutoSaver.start();
         MessageUtil.log(Level.INFO, "server.enabled");
     }
