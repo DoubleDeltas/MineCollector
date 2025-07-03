@@ -2,6 +2,7 @@ package com.doubledeltas.minecollector.command.impl.mcol;
 
 import com.doubledeltas.minecollector.command.CommandNode;
 import com.doubledeltas.minecollector.command.impl.mcol.reload.ReloadConfigCommand;
+import com.doubledeltas.minecollector.command.impl.mcol.reload.ReloadCrewCommand;
 import com.doubledeltas.minecollector.command.impl.mcol.reload.ReloadDataCommand;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import org.bukkit.command.Command;
@@ -19,7 +20,8 @@ public class ReloadCommand extends CommandNode {
     public ReloadCommand() {
         this.subcommands = List.of(
                 new ReloadConfigCommand(),
-                new ReloadDataCommand()
+                new ReloadDataCommand(),
+                new ReloadCrewCommand()
         );
     }
 

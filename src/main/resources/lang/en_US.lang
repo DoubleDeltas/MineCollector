@@ -57,6 +57,7 @@ command.reload_config.lang_failed=§cThe config is reloaded successfully, but lo
 command.reload_config.lang_failed_2=§7 - The language file {0} specified in the config does not exist!
 command.reload_config.failed_to_reload=§cFailed to load configuration!
 command.reload_data.data_reloaded=Data reloaded!
+command.reload_crew.crew_reloaded=Crew reloaded!
 command.crew.generic.no_code=§cCrew ID must be given!
 command.crew.create.already_has_team=§cCan't create a crew while already in another crew!
 command.crew.create.duplicated_id=§cCrew ID is duplicated!

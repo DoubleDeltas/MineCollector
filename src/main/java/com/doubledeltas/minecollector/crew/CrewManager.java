@@ -44,7 +44,7 @@ public class CrewManager implements McolInitializable {
 
         File[] teamFiles = teamDataPath.listFiles();
         for (File file: teamFiles) {
-            Crew crew = Yamls.getDataYaml().load(new FileReader(file));
+            Crew crew = Yamls.getCrewYaml().loadAs(new FileReader(file), Crew.class);
             byUuid.put(crew.getUuid(), crew);
             byId.put(crew.getId(), crew);
         }
