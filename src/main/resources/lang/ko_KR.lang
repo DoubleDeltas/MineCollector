@@ -48,6 +48,7 @@ command.ranking_item.nobody_collected= §7- 아직 아무도 아이템을 수집
 command.ranking_item.line_format= §7- §7{0}§e{1}. §f{2}§7: §e§l{3}
 command.ranking_item.line_format_2= §7- §7{0}§e{1}. §f{2}§7: §e§l{3} §7({4}셋 {5}개)
 command.guide.here=§e§n여기
+command.guide.url=https://github.com/DoubleDeltas/MineCollector/blob/main/README.md
 command.guide.message=§a{0}§a를 눌러 마인콜렉터에 대해 알아보세요!
 command.save.save_success=게임 데이터 저장 완료!
 command.save.save_failed=게임 데이터 저장에 실패했습니다.

@@ -48,6 +48,7 @@ command.ranking_item.nobody_collected= §7- No one has collected this item yet! 
 command.ranking_item.line_format= §7- §7{0}§e{1}. §f{2}§7: §e§l{3}
 command.ranking_item.line_format_2= §7- §7{0}§e{1}. §f{2}§7: §e§l{3} §7({4}s. + {5})
 command.guide.here=§e§nHere
+command.guide.url=https://github.com/DoubleDeltas/MineCollector/blob/main/README.md
 command.guide.message=§aClick {0}§a to learn more about MineCollector!
 command.save.save_success=Game data saved successfully!
 command.save.save_failed=Failed to save game data.
