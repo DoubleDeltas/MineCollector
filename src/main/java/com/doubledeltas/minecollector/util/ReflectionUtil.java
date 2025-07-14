@@ -2,9 +2,14 @@ package com.doubledeltas.minecollector.util;
 
 import lombok.experimental.UtilityClass;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 @UtilityClass
 public final class ReflectionUtil {
@@ -58,6 +63,34 @@ public final class ReflectionUtil {
             }
         }
         return curObj;
+    }
+
+    /**
+     * 클래스 내에서 타입이 특정 조건들을 만족하는 필드를 찾습니다. 여러 개가 있어도 하나만 찾습니다.
+     * @param rootClass 루트 클래스
+     * @param typeQuery 타입 조건
+     * @return 필드의 Optional 객체
+     */
+    public static Optional<Field> findFieldByType(Class<?> rootClass, Predicate<Type> typeQuery) {
+        return Arrays.stream(rootClass.getDeclaredFields())
+                .filter(field -> typeQuery.test(field.getGenericType()))
+                .findFirst();
+    }
+
+    /**
+     * 클래스 내에서 타입이 특정 조건들을 만족하는 필드를 찾습니다. 여러 개가 있어도 하나만 찾습니다.
+     * @param rootClassFqcn 루트 클래스의 FQCN, 유효하지 않으면 리턴값이 비어있습니다.
+     * @param typeQuery 타입 조건
+     * @return 필드의 Optional 객체
+     */
+    public static Optional<Field> findFieldByType(String rootClassFqcn, Predicate<Type> typeQuery) {
+        Class<?> rootClass;
+        try {
+            rootClass = Class.forName(rootClassFqcn);
+        } catch (ClassNotFoundException e) {
+            return Optional.empty();
+        }
+        return findFieldByType(rootClass, typeQuery);
     }
 
     private static Object findMapValue(Map<?, ?> map, String keyName) {
