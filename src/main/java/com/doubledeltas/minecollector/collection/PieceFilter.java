@@ -9,11 +9,14 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 @RequiredArgsConstructor
-public enum PieceFilter {
-    ALL((cm, data) -> piece -> true),
-    COLLECTED((cm, data) -> piece -> piece.isCollected(data)),
-    ;
+public class PieceFilter {
+    public static final PieceFilter ALL = new PieceFilter((cm, data) -> piece -> true);
+    public static final PieceFilter COLLECTED = new PieceFilter((cm, data) -> piece -> piece.isCollected(data));
 
     @Getter(AccessLevel.PACKAGE)
     private final BiFunction<CollectionManager, GameData, Predicate<Piece>> generator;
+
+    public static PieceFilter minLevel(int minLevel) {
+        return new PieceFilter((cm, data) -> piece -> piece.getLevel(data) >= minLevel);
+    }
 }

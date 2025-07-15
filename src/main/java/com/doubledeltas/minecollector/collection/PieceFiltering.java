@@ -3,13 +3,14 @@ package com.doubledeltas.minecollector.collection;
 import com.doubledeltas.minecollector.data.GameData;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
 public class PieceFiltering {
     public static final PieceFiltering DEFAULT = new PieceFiltering(Map.of());
 
-    private final Map<PieceFilter, Boolean> filterMap = new EnumMap<>(PieceFilter.class);
+    private final Map<PieceFilter, Boolean> filterMap = new HashMap<>();
 
     public PieceFiltering(Map<PieceFilter, Boolean> filterMap) {
         this.filterMap.putAll(filterMap);
