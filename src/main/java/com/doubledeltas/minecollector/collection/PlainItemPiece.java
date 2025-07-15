@@ -27,6 +27,11 @@ public class PlainItemPiece implements Piece {
     }
 
     @Override
+    public boolean isCollected(GameData data) {
+        return getAmount(data) > 0;
+    }
+
+    @Override
     public void addAmount(GameData data, int delta) {
         data.addCollection(material, delta);
     }
@@ -40,6 +45,7 @@ public class PlainItemPiece implements Piece {
     public BaseComponent toChatComponent() {
         return new TranslatableComponent(material.getItemTranslationKey());
     }
+
     @Override
     public String toPieceKey() {
         return material.getKey().toString();

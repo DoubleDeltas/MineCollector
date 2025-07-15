@@ -2,7 +2,10 @@ package com.doubledeltas.minecollector.collection;
 
 import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.util.MessageUtil;
+import com.doubledeltas.minecollector.util.page.Page;
+import com.doubledeltas.minecollector.util.page.PageRange;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -52,8 +55,11 @@ public class CollectionManager implements McolInitializable {
         return plainItemPieceMap.get(item.getType());
     }
 
-    public Piece getPieceOf(Material material) {
-        return plainItemPieceMap.get(material);
+    public Page<Piece> getPiecePage(GameData data, PageRange range, PieceFiltering filtering, PieceSort sort) {
+        return pieces.stream()
+                .filter(filtering.generate(this, data))
+                .sorted(sort.getGenerator().apply(this, data))
+                .collect(Page.collector(range));
     }
 
     public Optional<Piece> findPieceOf(String key) {

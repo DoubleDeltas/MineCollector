@@ -17,8 +17,17 @@ import com.doubledeltas.minecollector.version.VersionManager;
 import com.doubledeltas.minecollector.version.VersionSystem;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Registry;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.logging.Level;
 
 @Getter
@@ -65,6 +74,27 @@ public final class MineCollector extends JavaPlugin {
         dataManager.loadData();
         dataAutoSaver.start();
         MessageUtil.log(Level.INFO, "server.enabled");
+
+        try {
+            Class<?> nmcrBuiltInRegistries = Class.forName("net.minecraft.core.registries.BuiltInRegistries");
+            Field fItemRegistry = Arrays.stream(nmcrBuiltInRegistries.getDeclaredFields())
+                    .filter(field -> {
+                        field.setAccessible(true);
+                        if (!(field.getGenericType() instanceof ParameterizedType pType))
+                            return false;
+                        Type[] tArgs = pType.getActualTypeArguments();
+                        if (tArgs.length != 1)
+                            return false;
+                        return "net.minecraft.world.item.Item".equals(tArgs[0].getTypeName());
+                    })
+                    .findFirst().orElseThrow();
+            Iterable<?> itemRegistry = (Iterable<?>) fItemRegistry.get(null);
+            for (Object item : itemRegistry) {
+                getLogger().log(Level.INFO, item.toString());
+            }
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

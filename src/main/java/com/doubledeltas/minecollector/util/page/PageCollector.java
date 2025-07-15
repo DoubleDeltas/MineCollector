@@ -14,10 +14,12 @@ public class PageCollector<E, P extends Page<E>> implements Collector<E, Page.Bu
     private final int start;
     private final int end;
 
-    public PageCollector(int capacity, int page, Page.Builder<E, P> builder) {
+    public PageCollector(PageRange range, Page.Builder<E, P> builder) {
+        int cap = range.capacity();
+        int page = range.page();
         this.builder = builder;
-        this.start = capacity * (page - 1);
-        this.end = capacity * page;
+        this.start = cap * (page - 1);
+        this.end = start + cap;
     }
 
     @Override

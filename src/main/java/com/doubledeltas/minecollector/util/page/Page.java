@@ -24,8 +24,8 @@ public interface Page<E> extends Iterable<E> {
 
     long getTotalSize();
 
-    static <T> PageCollector<T, ? extends Page<T>> collector(int capacity, int page) {
-        return new PageCollector<>(capacity, page, new ArrayPage.Builder<>());
+    static <T> PageCollector<T, ? extends Page<T>> collector(PageRange range) {
+        return new PageCollector<>(range, new ArrayPage.Builder<>());
     }
 
     interface Builder<E, P extends Page<E>> {
