@@ -1,8 +1,8 @@
 package com.doubledeltas.minecollector.collection;
 
 import com.doubledeltas.minecollector.data.GameData;
-import com.doubledeltas.minecollector.gui.display.Display;
-import com.doubledeltas.minecollector.gui.display.PlainItemDisplay;
+import com.doubledeltas.minecollector.ui.gui.display.Display;
+import com.doubledeltas.minecollector.ui.gui.display.PlainItemDisplay;
 import lombok.Getter;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TranslatableComponent;

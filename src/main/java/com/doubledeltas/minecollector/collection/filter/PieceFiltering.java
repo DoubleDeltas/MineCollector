@@ -1,8 +1,9 @@
-package com.doubledeltas.minecollector.collection;
+package com.doubledeltas.minecollector.collection.filter;
 
+import com.doubledeltas.minecollector.collection.CollectionManager;
+import com.doubledeltas.minecollector.collection.Piece;
 import com.doubledeltas.minecollector.data.GameData;
 
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;

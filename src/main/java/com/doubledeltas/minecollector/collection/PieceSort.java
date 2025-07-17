@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
 
 @RequiredArgsConstructor
 public enum PieceSort {
-    VANILLA,
+    VANILLA     ((cm, data) -> getMojangComparator()),
     ALPHABETICAL((cm, data) -> Comparator.comparing(Piece::toPieceKey)),
     AMOUNT      ((cm, data) -> Comparator.comparingInt(piece -> piece.getAmount(data))),
     ;
@@ -20,10 +20,15 @@ public enum PieceSort {
     @Getter(AccessLevel.PACKAGE)
     private final @Nonnull BiFunction<CollectionManager, GameData, Comparator<Piece>> generator;
 
-    PieceSort() {
-        MaterialMojangOrderProvider provider = new MaterialMojangOrderProvider();
+    private static Comparator<Piece> MOJANG_COMPARATOR;
+
+    private static Comparator<Piece> getMojangComparator() {
+        if (MOJANG_COMPARATOR != null)
+            return MOJANG_COMPARATOR;
+
+        ItemMojangOrderProvider provider = new ItemMojangOrderProvider();
         provider.load();
-        this.generator = (cm, data) -> (p1, p2) -> {
+        return MOJANG_COMPARATOR = (p1, p2) -> {
             boolean plain1 = p1 instanceof PlainItemPiece;
             boolean plain2 = p2 instanceof PlainItemPiece;
             if ( plain1 && !plain2) return -1;

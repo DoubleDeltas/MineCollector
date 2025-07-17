@@ -2,6 +2,7 @@ package com.doubledeltas.minecollector.collection;
 
 import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.collection.filter.PieceFiltering;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.page.Page;

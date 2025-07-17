@@ -1,8 +1,8 @@
 package com.doubledeltas.minecollector.collection;
 
 import com.doubledeltas.minecollector.data.GameData;
-import com.doubledeltas.minecollector.gui.display.AirDisplay;
-import com.doubledeltas.minecollector.gui.display.Display;
+import com.doubledeltas.minecollector.ui.gui.display.AirDisplay;
+import com.doubledeltas.minecollector.ui.gui.display.Display;
 import org.bukkit.Material;
 
 public class AirPiece extends PlainItemPiece {
