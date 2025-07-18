@@ -1,22 +1,47 @@
 package com.doubledeltas.minecollector.ui.state;
 
-import lombok.Getter;
+import com.doubledeltas.minecollector.util.Range;
+import lombok.AllArgsConstructor;
 
-@Getter
+@AllArgsConstructor
 public class IntRangeState implements RangeState<Integer> {
-    private int maximum;
-    private int minimum;
-    private int upperCursor;
-    private int lowerCursor;
-    private int value;
+    private final int min;
+    private final int max;
+    private int low;
+    private int hi;
+
+    @Override
+    public Integer getLowerCursor() {
+        return low;
+    }
+
+    @Override
+    public Integer getUpperCursor() {
+        return hi;
+    }
+
+    @Override
+    public Integer getMaximum() {
+        return max;
+    }
+
+    @Override
+    public Integer getMinimum() {
+        return min;
+    }
 
     @Override
     public void setLowerCursor(Integer lower) {
-        this.lowerCursor = lower;
+        this.low = lower;
     }
 
     @Override
     public void setUpperCursor(Integer upper) {
-        this.upperCursor = upper;
+        this.hi = upper;
+    }
+
+    @Override
+    public Range<Integer> getValue() {
+        return new Range<>(low, hi);
     }
 }
