@@ -1,4 +1,4 @@
-package com.doubledeltas.minecollector.ui.gui.display;
+package com.doubledeltas.minecollector.ui.chest.display;
 
 import com.doubledeltas.minecollector.item.ItemBuilder;
 import net.md_5.bungee.api.chat.BaseComponent;

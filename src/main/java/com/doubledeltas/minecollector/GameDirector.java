@@ -8,7 +8,7 @@ import com.doubledeltas.minecollector.data.GameStatistics;
 import com.doubledeltas.minecollector.event.event.CollectionLevelUpEvent;
 import com.doubledeltas.minecollector.event.event.ItemCollectEvent;
 import com.doubledeltas.minecollector.event.event.TotalScoreUpEvent;
-import com.doubledeltas.minecollector.ui.gui.HubGui;
+import com.doubledeltas.minecollector.ui.chest.HubGui;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
 import com.doubledeltas.minecollector.lang.LangManager;

@@ -1,4 +1,4 @@
-package com.doubledeltas.minecollector.ui.gui;
+package com.doubledeltas.minecollector.ui.chest;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.item.ItemManager;
@@ -7,7 +7,7 @@ import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class HubGui extends Gui {
+public class HubGui extends AbstractChestGui {
     private static final int INDEX_COLLECTION = 20;
     private static final int INDEX_DUMP = 24;
     private static final int INDEX_RANKING = 46;

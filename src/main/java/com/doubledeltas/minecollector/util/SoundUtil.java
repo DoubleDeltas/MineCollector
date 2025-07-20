@@ -50,4 +50,8 @@ public class SoundUtil {
         SoundUtil.playFirework(player);
         player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1F, 2F);
     }
+
+    public static void playButton(Player player) {
+        player.playSound(player, Sound.UI_BUTTON_CLICK, 1F, 1F);
+    }
 }

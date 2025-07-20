@@ -1,7 +1,7 @@
 package com.doubledeltas.minecollector.collection;
 
 import com.doubledeltas.minecollector.data.GameData;
-import com.doubledeltas.minecollector.ui.gui.display.Display;
+import com.doubledeltas.minecollector.ui.chest.display.Display;
 import net.md_5.bungee.api.chat.BaseComponent;
 
 public interface Piece {

@@ -7,6 +7,10 @@ import lombok.Getter;
 public class TrileanState implements CyclicState<Trilean> {
     private Trilean value;
 
+    public TrileanState(Trilean defaultValue) {
+        this.value = defaultValue;
+    }
+
     @Override
     public Trilean getPrevValue() {
         return switch (value) {

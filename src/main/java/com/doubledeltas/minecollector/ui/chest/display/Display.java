@@ -1,4 +1,4 @@
-package com.doubledeltas.minecollector.ui.gui.display;
+package com.doubledeltas.minecollector.ui.chest.display;
 
 import org.bukkit.inventory.ItemStack;
 

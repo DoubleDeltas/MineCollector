@@ -1,4 +1,4 @@
-package com.doubledeltas.minecollector.ui.gui;
+package com.doubledeltas.minecollector.ui.chest;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.event.event.ItemCollectEvent;
@@ -18,7 +18,7 @@ import java.util.BitSet;
 import java.util.Collection;
 import java.util.Objects;
 
-public class DumpGui extends Gui {
+public class DumpGui extends AbstractChestGui {
     private static final int INDEX_COLLECT = 49;
     private static final int INDEX_BACK = 52;
 

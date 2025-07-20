@@ -1,4 +1,4 @@
-package com.doubledeltas.minecollector.ui.gui;
+package com.doubledeltas.minecollector.ui.chest;
 
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.collection.CollectionManager;
@@ -13,7 +13,7 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class CollectionGui extends Gui {
+public class CollectionGui extends AbstractChestGui {
     private static final int INDEX_PREV = 47;
     private static final int INDEX_CORE = 48;
     private static final int INDEX_NEXT = 49;
