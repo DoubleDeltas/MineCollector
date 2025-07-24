@@ -102,10 +102,12 @@ public class CollectionGui extends AbstractChestGui {
         else if (rawSlot == INDEX_FILTER) {
             player.closeInventory();
             new TestBookGui().openGui(player);
+            SoundUtil.playPage(player);
         }
         else if (rawSlot == INDEX_SORT) {
             player.closeInventory();
             new TestBookGui().openGui(player);
+            SoundUtil.playPage(player);
         }
         else if (rawSlot == INDEX_BACK) {
             new HubGui().openGui(player);
