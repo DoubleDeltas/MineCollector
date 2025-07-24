@@ -2,6 +2,7 @@ package com.doubledeltas.minecollector.collection;
 
 import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
+import com.doubledeltas.minecollector.collection.filter.PieceFilterContext;
 import com.doubledeltas.minecollector.collection.filter.PieceFiltering;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.util.MessageUtil;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class CollectionManager implements McolInitializable {
     protected MineCollector plugin;
@@ -58,7 +60,7 @@ public class CollectionManager implements McolInitializable {
 
     public Page<Piece> getPiecePage(GameData data, PageRange range, PieceFiltering filtering, PieceSort sort) {
         return pieces.stream()
-                .filter(filtering.generate(this, data))
+                .filter(filtering.toPredicate(new PieceFilterContext(this, data)))
                 .sorted(sort.getGenerator().apply(this, data))
                 .collect(Page.collector(range));
     }

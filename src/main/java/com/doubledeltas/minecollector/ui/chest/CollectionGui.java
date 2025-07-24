@@ -7,6 +7,7 @@ import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.data.GameStatistics;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.GuiItem;
+import com.doubledeltas.minecollector.ui.book.TestBookGui;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
@@ -14,9 +15,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class CollectionGui extends AbstractChestGui {
-    private static final int INDEX_PREV = 47;
-    private static final int INDEX_CORE = 48;
-    private static final int INDEX_NEXT = 49;
+    private static final int INDEX_PREV = 46;
+    private static final int INDEX_CORE = 47;
+    private static final int INDEX_NEXT = 48;
+    private static final int INDEX_FILTER = 50;
+    private static final int INDEX_SORT = 51;
     private static final int INDEX_BACK = 52;
 
     private static final int CAPACITY = 45;
@@ -88,6 +91,12 @@ public class CollectionGui extends AbstractChestGui {
                 new CollectionGui(player, page + 1).openGui(player);
                 SoundUtil.playPage(player);
             }
+        }
+        else if (rawSlot == INDEX_FILTER) {
+            new TestBookGui().openGui(player);
+        }
+        else if (rawSlot == INDEX_SORT) {
+            new TestBookGui().openGui(player);
         }
         else if (rawSlot == INDEX_BACK) {
             new HubGui().openGui(player);

@@ -1,28 +1,26 @@
 package com.doubledeltas.minecollector.collection.filter;
 
-import com.doubledeltas.minecollector.collection.CollectionManager;
 import com.doubledeltas.minecollector.collection.Piece;
-import com.doubledeltas.minecollector.data.GameData;
+import com.google.common.base.Predicates;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Predicate;
 
 public class PieceFiltering {
-    public static final PieceFiltering DEFAULT = new PieceFiltering(Map.of());
+    public static final PieceFiltering PASS_ALL = new PieceFiltering();
 
-    private final Map<PieceFilter, Boolean> filterMap = new HashMap<>();
+    private final Set<PieceFilterAndValue<?>> filterValueSet = new HashSet<>();
 
-    public PieceFiltering(Map<PieceFilter, Boolean> filterMap) {
-        this.filterMap.putAll(filterMap);
+    public PieceFiltering() {}
+
+    public <V> void addFilter(PieceFilter<V> filter, V value) {
+        filterValueSet.add(new PieceFilterAndValue<>(filter, value));
     }
 
-    public Predicate<Piece> generate(CollectionManager collectionManager, GameData data) {
-        return filterMap.entrySet().stream()
-                .map(entry -> {
-                    Predicate<Piece> predicate = entry.getKey().getGenerator().apply(collectionManager, data);
-                    return entry.getValue() ? predicate.negate() : predicate;
-                })
-                .reduce(piece -> true, Predicate::and);
+    public Predicate<Piece> toPredicate(PieceFilterContext context) {
+        return filterValueSet.stream()
+                .map(filterAndValue -> filterAndValue.toPredicate(context))
+                .reduce(Predicates.alwaysTrue(), Predicate::and);
     }
 }

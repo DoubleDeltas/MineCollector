@@ -6,6 +6,9 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import java.util.Arrays;
 
 public class Label implements BookComponent {
+    public static final Label SPACE     = new Label(" ");
+    public static final Label NEW_LINE  = new Label("\n");
+
     private final BaseComponent[] chatComponents;
 
     public Label(String content) {
