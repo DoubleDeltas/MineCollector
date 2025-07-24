@@ -12,14 +12,17 @@ public abstract class AbstractBookGui implements BookGui {
     @Getter protected int numberOfPages;
     protected BookGuiPage[] pages;
 
+    private static final int PAGE_MAX = 100;
+
     public AbstractBookGui() {
-        this.pages = new BookGuiPage[51];
+        this.pages = new BookGuiPage[PAGE_MAX + 1];
         setNumberOfPages(1);
     }
 
     @Override
     public void setNumberOfPages(int numberOfPages) {
-        Preconditions.checkArgument(1 <= numberOfPages && numberOfPages <= 50, "number of pages must be in 1-50");
+        Preconditions.checkArgument(1 <= numberOfPages && numberOfPages <= PAGE_MAX, "number of pages must be in 1-" + PAGE_MAX);
+
         if (numberOfPages < this.numberOfPages) {
             for (int i = numberOfPages + 1; i <= this.numberOfPages; i++) {
                 pages[i] = null;
