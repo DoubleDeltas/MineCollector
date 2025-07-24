@@ -9,10 +9,13 @@ import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.GuiItem;
 import com.doubledeltas.minecollector.ui.book.TestBookGui;
 import com.doubledeltas.minecollector.util.SoundUtil;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class CollectionGui extends AbstractChestGui {
     private static final int INDEX_PREV = 46;
@@ -62,6 +65,10 @@ public class CollectionGui extends AbstractChestGui {
 
         inventory.setItem(INDEX_PREV,   itemManager.getItem((page == 1) ? GuiItem.NO_PREV : GuiItem.PREV));
         inventory.setItem(INDEX_NEXT,   itemManager.getItem(isLastPage ? GuiItem.NO_NEXT : GuiItem.NEXT));
+
+        inventory.setItem(INDEX_FILTER, itemManager.getItem(GuiItem.OK));
+        inventory.setItem(INDEX_SORT,   itemManager.getItem(GuiItem.HMM));
+
         inventory.setItem(INDEX_BACK,   itemManager.getItem(GuiItem.BACK));
     }
 
@@ -93,9 +100,11 @@ public class CollectionGui extends AbstractChestGui {
             }
         }
         else if (rawSlot == INDEX_FILTER) {
+            player.closeInventory();
             new TestBookGui().openGui(player);
         }
         else if (rawSlot == INDEX_SORT) {
+            player.closeInventory();
             new TestBookGui().openGui(player);
         }
         else if (rawSlot == INDEX_BACK) {

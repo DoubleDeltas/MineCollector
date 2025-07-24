@@ -36,7 +36,7 @@ public abstract class AbstractBookGui implements BookGui {
     protected void setPage(int page, BookComponent... components) {
         if (page > numberOfPages)
             setNumberOfPages(page);
-        pages[page].clear();;
+        pages[page].clear();
         pages[page].addComponents(components);
     }
 
@@ -46,6 +46,7 @@ public abstract class AbstractBookGui implements BookGui {
         BookMeta meta = (BookMeta) item.getItemMeta();
         for (int i=1; i<=numberOfPages; i++)
             meta.spigot().addPage(pages[i].render());
+        item.setItemMeta(meta);
         player.openBook(item);
     }
 }
