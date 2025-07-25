@@ -22,7 +22,7 @@ public abstract class AbstractChestGui implements ChestGui, Listener {
     public AbstractChestGui(int row, String titleKey) {
         String title = LangManager.translateToText(titleKey);
         inventory = Bukkit.createInventory(null, row * 9, title);
-        MineCollector.getInstance().getServer().getPluginManager().registerEvents(this, MineCollector.getInstance());
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
