@@ -1,6 +1,6 @@
 package com.doubledeltas.minecollector.command.impl.mcol;
 
-import com.doubledeltas.minecollector.command.CommandNode;
+import com.doubledeltas.minecollector.command.AbstractCommandNode;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.command.Command;
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class SaveCommand extends CommandNode {
+public class SaveCommand extends AbstractCommandNode {
 
     @Override
     public List<String> getAliases() {

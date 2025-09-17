@@ -1,6 +1,6 @@
 package com.doubledeltas.minecollector.command.impl.mcol;
 
-import com.doubledeltas.minecollector.command.CommandNode;
+import com.doubledeltas.minecollector.command.AbstractCommandNode;
 import com.doubledeltas.minecollector.command.impl.mcol.reload.ReloadConfigCommand;
 import com.doubledeltas.minecollector.command.impl.mcol.reload.ReloadDataCommand;
 import com.doubledeltas.minecollector.util.MessageUtil;
@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class ReloadCommand extends CommandNode {
+public class ReloadCommand extends AbstractCommandNode {
 
     @Override
     public List<String> getAliases() {

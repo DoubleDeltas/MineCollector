@@ -1,6 +1,6 @@
 package com.doubledeltas.minecollector.command.impl;
 
-import com.doubledeltas.minecollector.command.CommandRoot;
+import com.doubledeltas.minecollector.command.StaticCommandRoot;
 import com.doubledeltas.minecollector.command.impl.ranking.RankingItemCommand;
 import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.data.GameData;
@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Function;
 
-public final class RankingCommand extends CommandRoot {
+public final class RankingCommand extends StaticCommandRoot {
 
     public RankingCommand() {
         this.subcommands = List.of(new RankingItemCommand());

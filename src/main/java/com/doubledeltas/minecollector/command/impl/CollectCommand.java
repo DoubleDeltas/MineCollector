@@ -1,7 +1,7 @@
 package com.doubledeltas.minecollector.command.impl;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.command.CommandRoot;
+import com.doubledeltas.minecollector.command.StaticCommandRoot;
 import com.doubledeltas.minecollector.event.event.ItemCollectEvent;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.stream.Stream;
 
-public final class CollectCommand extends CommandRoot {
+public final class CollectCommand extends StaticCommandRoot {
 
     @Override
     public String getName() { return "수집"; }

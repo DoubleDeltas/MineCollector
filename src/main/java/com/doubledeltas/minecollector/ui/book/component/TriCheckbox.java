@@ -13,15 +13,21 @@ public class TriCheckbox implements BookComponent {
     private static final HoverEvent HOVER_EVENT = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("test"));
     private static final ClickEvent CLICK_EVENT = new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/say hi");
 
+    private static final Map<Trilean, String> DEFAULT_OPTION_NAMES = new EnumMap<>(Map.of(
+            Trilean.FALSE,      "§c☒",
+            Trilean.UNKNOWN,    "§8☐",
+            Trilean.TRUE,       "§8☑"
+    ));
+
     private final CyclicState<Trilean> state;
     private final Map<Trilean, BaseComponent> chatComponentCache;
 
-    public TriCheckbox(Map<Trilean, String> optionNames, Trilean defaultValue) {
+    private TriCheckbox(Map<Trilean, String> optionNames, Trilean defaultValue) {
         this.state = new TrileanState(defaultValue);
 
         this.chatComponentCache = new EnumMap<>(Trilean.class);
         for (Trilean trilean : Trilean.values()) {
-            BaseComponent component = new TextComponent("§0[ " + optionNames.get(trilean) + " §0]");
+            BaseComponent component = new TextComponent(optionNames.get(trilean));
             component.setHoverEvent(HOVER_EVENT);
             component.setClickEvent(CLICK_EVENT);
 
@@ -35,6 +41,14 @@ public class TriCheckbox implements BookComponent {
                 Trilean.UNKNOWN, unknownOptionName,
                 Trilean.TRUE, trueOptionName
         ), defaultValue);
+    }
+
+    public TriCheckbox(Trilean defaultValue) {
+        this(DEFAULT_OPTION_NAMES, defaultValue);
+    }
+
+    public TriCheckbox() {
+        this(Trilean.UNKNOWN);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.doubledeltas.minecollector.command.impl;
 
-import com.doubledeltas.minecollector.command.CommandRoot;
+import com.doubledeltas.minecollector.command.StaticCommandRoot;
 import com.doubledeltas.minecollector.command.impl.mcol.ReloadCommand;
 import com.doubledeltas.minecollector.command.impl.mcol.SaveCommand;
 import com.doubledeltas.minecollector.util.MessageUtil;
@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class McolCommand extends CommandRoot {
+public class McolCommand extends StaticCommandRoot {
 
     public McolCommand() {
         this.subcommands = List.of(new ReloadCommand(), new SaveCommand());

@@ -1,9 +1,8 @@
 package com.doubledeltas.minecollector.command.impl.mcol.reload;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.command.CommandNode;
+import com.doubledeltas.minecollector.command.AbstractCommandNode;
 import com.doubledeltas.minecollector.config.InvalidConfigException;
-import com.doubledeltas.minecollector.lang.InvalidLangException;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.command.Command;
@@ -12,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class ReloadConfigCommand extends CommandNode {
+public class ReloadConfigCommand extends AbstractCommandNode {
     @Override
     public List<String> getAliases() {
         return List.of("config", "콘피그");

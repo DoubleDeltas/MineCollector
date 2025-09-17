@@ -1,7 +1,7 @@
 package com.doubledeltas.minecollector.command.impl.ranking;
 
 import com.doubledeltas.minecollector.collection.Piece;
-import com.doubledeltas.minecollector.command.CommandNode;
+import com.doubledeltas.minecollector.command.AbstractCommandNode;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class RankingItemCommand extends CommandNode {
+public class RankingItemCommand extends AbstractCommandNode {
     @Override
     public List<String> getAliases() {
         return List.of("아이템", "item");

@@ -1,6 +1,6 @@
 package com.doubledeltas.minecollector.command.impl;
 
-import com.doubledeltas.minecollector.command.CommandRoot;
+import com.doubledeltas.minecollector.command.StaticCommandRoot;
 import com.doubledeltas.minecollector.command.impl.book.BookOpenCommand;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.item.itemCode.StaticItem;
@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public final class BookCommand extends CommandRoot {
+public final class BookCommand extends StaticCommandRoot {
 
     public BookCommand() {
         this.subcommands = List.of(new BookOpenCommand());

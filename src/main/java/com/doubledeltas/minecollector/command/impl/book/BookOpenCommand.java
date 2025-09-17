@@ -1,6 +1,6 @@
 package com.doubledeltas.minecollector.command.impl.book;
 
-import com.doubledeltas.minecollector.command.CommandNode;
+import com.doubledeltas.minecollector.command.AbstractCommandNode;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class BookOpenCommand extends CommandNode {
+public class BookOpenCommand extends AbstractCommandNode {
     @Override
     public List<String> getAliases() {
         return List.of("열기", "open", "dufrl");

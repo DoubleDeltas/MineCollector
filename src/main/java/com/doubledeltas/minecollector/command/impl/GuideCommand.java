@@ -1,6 +1,6 @@
 package com.doubledeltas.minecollector.command.impl;
 
-import com.doubledeltas.minecollector.command.CommandRoot;
+import com.doubledeltas.minecollector.command.StaticCommandRoot;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import static com.doubledeltas.minecollector.lang.LangManager.translateToComponents;
 import static com.doubledeltas.minecollector.lang.LangManager.translateToPlainText;
 
-public final class GuideCommand extends CommandRoot {
+public final class GuideCommand extends StaticCommandRoot {
     @Override
     public String getName() { return "가이드"; }
 

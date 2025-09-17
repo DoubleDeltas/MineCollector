@@ -2,7 +2,7 @@ package com.doubledeltas.minecollector.command.impl;
 
 import com.doubledeltas.minecollector.collection.AirPiece;
 import com.doubledeltas.minecollector.collection.Piece;
-import com.doubledeltas.minecollector.command.CommandRoot;
+import com.doubledeltas.minecollector.command.StaticCommandRoot;
 import com.doubledeltas.minecollector.data.GameData;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Optional;
 
-public final class CheckCommand extends CommandRoot {
+public final class CheckCommand extends StaticCommandRoot {
 
     @Override
     public String getName() { return "체크"; }
