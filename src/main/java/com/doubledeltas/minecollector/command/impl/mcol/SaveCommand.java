@@ -32,4 +32,8 @@ public class SaveCommand extends CommandNode {
         return false;
     }
 
+    @Override
+    public String getRequiredPermissionKey() {
+        return "minecollector.mcol.save";
+    }
 }

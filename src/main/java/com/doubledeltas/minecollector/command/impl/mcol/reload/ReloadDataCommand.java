@@ -25,4 +25,9 @@ public class ReloadDataCommand extends CommandNode {
         
         return false;
     }
+
+    @Override
+    public String getRequiredPermissionKey() {
+        return "minecollector.mcol.reload.data";
+    }
 }

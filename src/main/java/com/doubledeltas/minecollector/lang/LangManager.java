@@ -49,6 +49,17 @@ public class LangManager implements McolInitializable {
         MessageKey key = MessageKey.of(msgKey, vars.length);
         return MineCollector.getInstance().getLangManager().translateToText(key, vars);
     }
+    
+    /**
+     * 현재 로딩된 LangManager로 평범한 텍스트로 번역합니다.
+     * @param msgKey 메시지 키
+     * @param vars 대입할 변수
+     * @return 번역한 문자열
+     */
+    public static String translateToPlainText(String msgKey, Object... vars) {
+        MessageKey key = MessageKey.of(msgKey, vars.length);
+        return MineCollector.getInstance().getLangManager().translateToText(key, vars);
+    }
 
     /**
      * 현재 로딩된 LangManager로 번역합니다.
@@ -145,6 +156,10 @@ public class LangManager implements McolInitializable {
 
     public String translateToText(MessageKey key, Object... vars) {
         return BaseComponent.toLegacyText(translate(key, vars));
+    }
+
+    public String translateToPlainText(MessageKey key, Object... vars) {
+        return BaseComponent.toPlainText(translate(key, vars));
     }
     
     private static void checkVariableCount(MessageKey key, Object[] vars) {

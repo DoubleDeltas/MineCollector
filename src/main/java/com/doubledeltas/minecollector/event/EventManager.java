@@ -11,7 +11,7 @@ import java.util.List;
 public class EventManager implements McolInitializable {
     private final List<Listener> listeners = Arrays.asList(
             new PlayerInteractEventListener(),
-            new PlayerLoginEventListener(),
+            new PlayerJoinEventListener(),
             new PlayerAdvancementDontEventListener(),
             new EntityDeathEventListener()
     );

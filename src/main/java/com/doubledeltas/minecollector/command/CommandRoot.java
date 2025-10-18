@@ -1,11 +1,8 @@
 package com.doubledeltas.minecollector.command;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.command.impl.*;
-import com.doubledeltas.minecollector.util.MessageUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabExecutor;
 
 import java.util.List;
@@ -15,7 +12,7 @@ public abstract class CommandRoot extends CommandNode implements TabExecutor {
 
     @Override
     public final List<String> getAliases() {
-        return MineCollector.getInstance().getCommand(this.getName()).getAliases();
+        return getCommand().getAliases();
     }
 
     @Override
@@ -26,5 +23,14 @@ public abstract class CommandRoot extends CommandNode implements TabExecutor {
     @Override
     public final List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         return resolveTabCompletion(sender, command, label, args);
+    }
+
+    public Command getCommand() {
+        return MineCollector.getInstance().getCommand(getName());
+    }
+
+    @Override
+    public String getRequiredPermissionKey() {
+        return getCommand().getPermission();
     }
 }

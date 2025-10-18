@@ -45,8 +45,17 @@ public class DumpGui extends Gui {
             e.setCancelled(true);
 
         if (rawSlot == INDEX_COLLECT && state == ProcessState.OK) {
+            boolean blocked = false;
             if (!MineCollector.getInstance().getMcolConfig().isEnabled()) {
                 MessageUtil.send(player, "game.cant_collect_now");
+                blocked = true;
+            }
+            if (!player.hasPermission("minecollector.collect.dump")) {
+                MessageUtil.send(player, "game.cant_collect_no_permission");
+                blocked = true;
+            }
+
+            if (blocked) {
                 player.closeInventory();
                 SoundUtil.playFail(player);
                 return;
