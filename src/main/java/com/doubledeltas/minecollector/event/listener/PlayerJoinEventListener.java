@@ -6,16 +6,17 @@ import com.doubledeltas.minecollector.item.itemCode.StaticItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
-public class PlayerLoginEventListener implements Listener {
+public class PlayerJoinEventListener implements Listener {
     @EventHandler
-    public void handleEvent(PlayerLoginEvent e) {
-        DataManager dataManager = MineCollector.getInstance().getDataManager();
+    public void handleEvent(PlayerJoinEvent e) {
+        MineCollector plugin = MineCollector.getInstance();
+        DataManager dataManager = plugin.getDataManager();
 
         Player player = e.getPlayer();
         if (!dataManager.hasData(player)) {
-            player.getInventory().addItem(MineCollector.getInstance().getItemManager().getItem(StaticItem.COLLECTION_BOOK));
+            player.getInventory().addItem(plugin.getItemManager().getItem(StaticItem.COLLECTION_BOOK));
             dataManager.addNewPlayerData(player);
         }
 
