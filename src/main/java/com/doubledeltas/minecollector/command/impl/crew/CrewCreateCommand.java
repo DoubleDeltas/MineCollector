@@ -50,7 +50,7 @@ public class CrewCreateCommand extends CommandNode {
     @Override
     public List<String> getTabRecommendation(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1)
-            return List.of("<team_id>");
+            return List.of("<crew_id>");
         return List.of();
     }
 
