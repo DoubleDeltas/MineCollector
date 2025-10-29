@@ -15,10 +15,6 @@ public class VersionUpdaterChain<T> {
         chain(initialVersion, null);
     }
 
-    public VersionUpdaterChain<T> chain(String targetVersion, VersionUpdater<? extends T, ? extends T> updater) {
-        return chain(versionManager.parse(targetVersion), updater);
-    }
-
     public VersionUpdaterChain<T> chain(Version<?> targetVersion, VersionUpdater<? extends T, ? extends T> updater) {
         assertValidVersion(targetVersion);
         if (!registeredVersions.isEmpty()) {

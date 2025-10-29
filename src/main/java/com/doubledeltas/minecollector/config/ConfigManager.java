@@ -8,7 +8,6 @@ import com.doubledeltas.minecollector.util.ReflectionUtil;
 import com.doubledeltas.minecollector.version.*;
 import com.doubledeltas.minecollector.yaml.Yamls;
 import lombok.SneakyThrows;
-import org.yaml.snakeyaml.error.YAMLException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -34,45 +33,33 @@ public class ConfigManager implements McolInitializable {
                 McolConfigMeta.class,
                 (table, schema) -> table.getVersionManager().parse(schema.getConfigVersion())
         );
-        schemaTable.registerSchema("unlabeled", McolConfigSchemaUnlabeled.class);
-        schemaTable.registerSchema("1.3.0",     McolConfigSchema1_3_0.class);
+        schemaTable.registerSchema(Versions.UNLABELED,  McolConfigSchemaUnlabeled.class);
+        schemaTable.registerSchema(Versions.V1_3_0,     McolConfigSchema1_3_0.class);
 
-        this.updaterChain = new VersionUpdaterChain<>(versionManager, UnlabeledVersion.INSTANCE);
-        updaterChain.chain("1.3.0", new McolConfigSchema1_3_0.Updater());
+        this.updaterChain = new VersionUpdaterChain<>(versionManager, Versions.UNLABELED);
+        updaterChain.chain(Versions.V1_3_0, new McolConfigSchema1_3_0.Updater());
     }
 
-    public McolConfig load() throws InvalidConfigException {
+    public McolConfig load() throws SchemaLoadingException {
         // 파일이 없으면 기본 콘피그 파일 생성
         if (!configPath.isFile()) {
             saveConfig();
             MessageUtil.log("config.default_created");
         }
 
-        McolConfigSchema schema;
-        try (FileReader fileReader = new FileReader(configPath)) {
-            schema = Yamls.getConfigYaml().load(fileReader, schemaTable);
-        } catch (FileNotFoundException e) {
-            throw new InvalidConfigException("Could not found config.yml file", e);
-        } catch (YAMLException e) {
-            throw new InvalidConfigException("An error occurred while loading config.yml file", e);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        String schemaVersionName = schema.getConfigVersion();
-        Version<?> schemaVersion = Version.parse(schemaVersionName);
-        int versionComparison = Version.compare(Version.parse(schemaVersionName), schemaTable.getLatestVersion());
-        if (versionComparison < 0) {
-            schema = updaterChain.updateToLatest(schema, schemaVersion);
-            saveConfig(schema, true);
-            MessageUtil.log("config.updated", schemaVersionName);
-        }
-        else if (versionComparison > 0) {
-            MessageUtil.log(Level.WARNING, "config.higher_version_warning");
-        }
-        MessageUtil.log("config.loaded");
-        return ((CurrentMcolConfigSchema) schema).convert();
+        return new SchemaLoader<>(Yamls.CONFIG, schemaTable, updaterChain)
+                .onOlderVersionDetected(ctx -> {
+                    ctx.updateToLatest();
+                    saveConfig(ctx.getSchema(), true);
+                    MessageUtil.log("config.updated", ctx.getSchemaVersion());
+                })
+                .onNewerVersionDetected(ctx ->
+                        MessageUtil.log(Level.WARNING, "config.higher_version_warning")
+                )
+                .onFinished(ctx ->
+                        MessageUtil.log("config.loaded")
+                )
+                .load(configPath);
     }
 
     private static final Pattern PLACEHOLDER_PATTERN

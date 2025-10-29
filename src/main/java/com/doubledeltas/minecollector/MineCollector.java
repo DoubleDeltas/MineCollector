@@ -3,7 +3,7 @@ package com.doubledeltas.minecollector;
 import com.doubledeltas.minecollector.collection.CollectionManager;
 import com.doubledeltas.minecollector.command.CommandManager;
 import com.doubledeltas.minecollector.config.ConfigManager;
-import com.doubledeltas.minecollector.config.InvalidConfigException;
+import com.doubledeltas.minecollector.version.SchemaLoadingException;
 import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.data.DataAutoSaver;
 import com.doubledeltas.minecollector.data.DataManager;
@@ -81,7 +81,7 @@ public final class MineCollector extends JavaPlugin {
         return this.config;
     }
 
-    public void reloadMcolConfig() throws InvalidConfigException {
+    public void reloadMcolConfig() throws SchemaLoadingException {
         this.config = configManager.load();
         dataAutoSaver.restart();
     }

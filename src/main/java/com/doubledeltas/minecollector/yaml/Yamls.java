@@ -2,28 +2,20 @@ package com.doubledeltas.minecollector.yaml;
 
 import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.crew.Crew;
-import com.doubledeltas.minecollector.crew.CrewMemberProfile;
 import lombok.Getter;
+import lombok.experimental.UtilityClass;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.representer.Representer;
 
-import java.util.UUID;
-
+@UtilityClass
 public final class Yamls {
-    @Getter
-    private static final Yaml dataYaml = createDataYaml();
-    @Getter
-    private static final MultiVersionYaml configYaml = createConfigYaml();
-    @Getter
-    private static final Yaml crewYaml = createCrewYaml();
-
-    private Yamls() {}
-
+    public static final Yaml DATA = createDataYaml();
+    public static final MultiVersionYaml CONFIG = createConfigYaml();
+    public static final MultiVersionYaml GENERAL = createGeneralYaml();
 
     private static Yaml createDataYaml() {
         DumperOptions dumperOptions = new DumperOptions();
@@ -50,19 +42,11 @@ public final class Yamls {
         return yaml;
     }
 
-    private static Yaml createCrewYaml() {
+    private static MultiVersionYaml createGeneralYaml() {
         LoaderOptions loaderOptions = new LoaderOptions();
-
         DumperOptions dumperOptions = new DumperOptions();
-
         Constructor constructor = new Constructor(Crew.class, loaderOptions);
-        TypeDescription crewDescription = new TypeDescription(Crew.class);
-        crewDescription.addPropertyParameters("memberProfileMap", UUID.class, CrewMemberProfile.class);
-        constructor.addTypeDescription(crewDescription);
-        constructor.addTypeDescription(new TypeDescription(CrewMemberProfile.class));
-
         Representer representer = new Representer(dumperOptions);
-
-        return new Yaml(constructor, representer);
+        return new MultiVersionYaml(constructor, representer);
     }
 }

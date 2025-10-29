@@ -32,10 +32,6 @@ public class VersionSchemaTable<T> {
         this.versionMap = new TreeMap<>(versionManager::compareVersions);
     }
 
-    public void registerSchema(String ver, Class<? extends T> schemaType) {
-        registerSchema(versionManager.parse(ver), schemaType);
-    }
-
     public void registerSchema(Version<?> ver, Class<? extends T> schemaType) {
         versionMap.put(ver, schemaType);
     }

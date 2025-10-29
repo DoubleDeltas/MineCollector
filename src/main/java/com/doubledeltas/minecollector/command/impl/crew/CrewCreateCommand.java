@@ -26,7 +26,7 @@ public class CrewCreateCommand extends CommandNode {
         }
 
         if (player != null) {
-            if (!player.hasPermission("minecollector.crew.create.force") && plugin.getCrewManager().hasTeam(player)) {
+            if (!player.hasPermission("minecollector.crew.create.force") && plugin.getCrewManager().hasCrew(player)) {
                 fail(sender, "command.crew.create.already_has_team");
                 return false;
             }
@@ -36,6 +36,8 @@ public class CrewCreateCommand extends CommandNode {
         Crew crew;
         try {
             crew = plugin.getCrewManager().createNewCrew(player, args[0], crewName);
+            if (plugin.getCrewManager().hasCrew(player))
+                crew.addMember(player, true);
         } catch (DuplicatedIdException ex) {
             fail(sender, "command.crew.create.duplicated_id");
             return false;
@@ -51,6 +53,8 @@ public class CrewCreateCommand extends CommandNode {
     public List<String> getTabRecommendation(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1)
             return List.of("<crew_id>");
+        else if (args.length == 2)
+            return List.of("[<crew_name>]");
         return List.of();
     }
 

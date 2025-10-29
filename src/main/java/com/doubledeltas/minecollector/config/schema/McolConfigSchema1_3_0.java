@@ -1,7 +1,7 @@
 package com.doubledeltas.minecollector.config.schema;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.config.InvalidConfigException;
+import com.doubledeltas.minecollector.version.SchemaLoadingException;
 import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.lang.LangManager;
 import com.doubledeltas.minecollector.version.Version;
@@ -33,18 +33,18 @@ public class McolConfigSchema1_3_0 extends McolConfigSchemaUnlabeled implements 
     }
 
     @Override
-    public void validate() throws InvalidConfigException {
+    public void validate() throws SchemaLoadingException {
         super.validate();
 
         try {
             MineCollector.getInstance().getVersionManager().parse(configVersion);
         } catch (IllegalArgumentException ex) {
-            throw new InvalidConfigException("version이 잘못되었습니다!", ex);
+            throw new SchemaLoadingException("version이 잘못되었습니다!", ex);
         }
     }
 
     @Override
-    public McolConfig convert() throws InvalidConfigException {
+    public McolConfig convert() throws SchemaLoadingException {
         validate();
         return McolConfig.builder()
                 .enabled(isEnabled())
