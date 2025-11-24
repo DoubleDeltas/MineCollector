@@ -78,10 +78,12 @@ public class CrewManager implements McolInitializable {
     public Crew createNewCrew(@Nullable Player creator, @NonNull String id, @Nullable String name) {
         if (byId.containsKey(id))
             throw new DuplicatedIdException();
+
         String leaderName = creator != null ? creator.getName() : "???";
         String defaultName = translateToPlainText("crew.default_name", leaderName);
         Crew crew = new Crew(id, name != null ? name : defaultName, LocalDateTime.now());
-        save(crew);
+
+        byId.put(crew.getId(), crew);
         return crew;
     }
 

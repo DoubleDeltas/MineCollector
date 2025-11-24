@@ -2,6 +2,8 @@ package com.doubledeltas.minecollector.command.impl.crew;
 
 import com.doubledeltas.minecollector.command.CommandNode;
 import com.doubledeltas.minecollector.crew.Crew;
+import com.doubledeltas.minecollector.crew.CrewManager;
+import com.doubledeltas.minecollector.crew.CrewMember;
 import com.doubledeltas.minecollector.crew.DuplicatedIdException;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
@@ -33,11 +35,13 @@ public class CrewCreateCommand extends CommandNode {
         }
 
         String crewName = args.length >= 2 ? args[1] : null;
+        CrewManager crewManager = plugin.getCrewManager();
         Crew crew;
         try {
-            crew = plugin.getCrewManager().createNewCrew(player, args[0], crewName);
-            if (player != null && !plugin.getCrewManager().hasCrew(player))
+            crew = crewManager.createNewCrew(player, args[0], crewName);
+            if (player != null && !crewManager.hasCrew(player))
                 crew.addMember(player, true);
+            crewManager.save(crew);
         } catch (DuplicatedIdException ex) {
             fail(sender, "command.crew.create.duplicated_id");
             return false;
