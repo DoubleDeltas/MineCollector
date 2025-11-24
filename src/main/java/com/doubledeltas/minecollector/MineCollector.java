@@ -35,7 +35,7 @@ public final class MineCollector extends JavaPlugin {
     private final LangManager       langManager         = new LangManager();
     private final ResourceManager   resourceManager     = new ResourceManager();
     private final CollectionManager collectionManager   = new CollectionManager();
-    private final CrewManager crewManager = new CrewManager();
+    private final CrewManager       crewManager         = new CrewManager();
 
     @Getter(AccessLevel.NONE)
     private McolConfig config;
