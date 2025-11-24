@@ -36,7 +36,7 @@ public class CrewCreateCommand extends CommandNode {
         Crew crew;
         try {
             crew = plugin.getCrewManager().createNewCrew(player, args[0], crewName);
-            if (plugin.getCrewManager().hasCrew(player))
+            if (player != null && !plugin.getCrewManager().hasCrew(player))
                 crew.addMember(player, true);
         } catch (DuplicatedIdException ex) {
             fail(sender, "command.crew.create.duplicated_id");

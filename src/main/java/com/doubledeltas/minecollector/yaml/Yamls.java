@@ -1,15 +1,23 @@
 package com.doubledeltas.minecollector.yaml;
 
 import com.doubledeltas.minecollector.config.McolConfig;
-import com.doubledeltas.minecollector.crew.Crew;
-import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.BeanAccess;
+import org.yaml.snakeyaml.introspector.Property;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
+
+import java.time.LocalDateTime;
+import java.util.*;
 
 @UtilityClass
 public final class Yamls {
@@ -44,9 +52,19 @@ public final class Yamls {
 
     private static MultiVersionYaml createGeneralYaml() {
         LoaderOptions loaderOptions = new LoaderOptions();
+
+        Constructor constructor = new CustomConstructor(loaderOptions);
+
         DumperOptions dumperOptions = new DumperOptions();
-        Constructor constructor = new Constructor(Crew.class, loaderOptions);
-        Representer representer = new Representer(dumperOptions);
+        dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        dumperOptions.setPrettyFlow(true);
+        dumperOptions.setExplicitStart(false);
+        dumperOptions.setExplicitEnd(false);
+
+        Representer representer = new CustomRepresenter(dumperOptions);
+        representer.setPropertyUtils(new DeclOrderingPropertyUtils());
+        representer.getPropertyUtils().setBeanAccess(BeanAccess.FIELD);
+
         return new MultiVersionYaml(constructor, representer);
     }
 }

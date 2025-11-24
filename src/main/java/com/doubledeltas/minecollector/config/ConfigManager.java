@@ -47,19 +47,22 @@ public class ConfigManager implements McolInitializable {
             MessageUtil.log("config.default_created");
         }
 
-        return new SchemaLoader<>(Yamls.CONFIG, schemaTable, updaterChain)
-                .onOlderVersionDetected(ctx -> {
-                    ctx.updateToLatest();
-                    saveConfig(ctx.getSchema(), true);
-                    MessageUtil.log("config.updated", ctx.getSchemaVersion());
-                })
-                .onNewerVersionDetected(ctx ->
-                        MessageUtil.log(Level.WARNING, "config.higher_version_warning")
-                )
-                .onFinished(ctx ->
-                        MessageUtil.log("config.loaded")
-                )
-                .load(configPath);
+        McolConfig config = new SchemaLoader<>(Yamls.CONFIG, schemaTable, updaterChain) {
+            @Override
+            public void onOlderVersionDetected() {
+                updateToLatest();
+                saveConfig(schema, true);
+                MessageUtil.log("config.updated", schemaVersion.toString());
+            }
+
+            @Override
+            public void onNewerVersionDetected() {
+                MessageUtil.log(Level.WARNING, "config.higher_version_warning");
+            }
+        }.load(configPath);
+
+        MessageUtil.log("config.loaded");
+        return config;
     }
 
     private static final Pattern PLACEHOLDER_PATTERN

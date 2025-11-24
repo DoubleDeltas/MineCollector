@@ -4,21 +4,21 @@ import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.crew.schema.McolCrewMeta;
 import com.doubledeltas.minecollector.crew.schema.McolCrewSchema;
+import com.doubledeltas.minecollector.crew.schema.McolCrewSchema1_4_0;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.version.*;
 import com.doubledeltas.minecollector.yaml.Yamls;
 import lombok.NonNull;
-import lombok.SneakyThrows;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.yaml.snakeyaml.error.YAMLException;
 
 import javax.annotation.Nullable;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.NavigableMap;
 import java.util.TreeMap;
-import java.util.UUID;
 import java.util.logging.Level;
 
 import static com.doubledeltas.minecollector.lang.LangManager.translateToPlainText;
@@ -27,7 +27,6 @@ public class CrewManager implements McolInitializable {
     private MineCollector plugin;
     private File teamDataPath;
 
-    private final NavigableMap<UUID, Crew> byUuid = new TreeMap<>();
     private final NavigableMap<String, Crew> byId = new TreeMap<>();
 
     private VersionSchemaTable<McolCrewSchema> schemaTable;
@@ -44,7 +43,7 @@ public class CrewManager implements McolInitializable {
                 McolCrewMeta.class,
                 (table, schema) -> table.getVersionManager().parse(schema.getDataVersion())
         );
-        schemaTable.registerSchema(Versions.V1_4_0, McolCrewSchema.class);
+        schemaTable.registerSchema(Versions.V1_4_0, McolCrewSchema1_4_0.class);
 
         this.updaterChain = new VersionUpdaterChain<>(versionManager, Versions.V1_4_0);
     }
@@ -56,48 +55,40 @@ public class CrewManager implements McolInitializable {
 
         File[] teamFiles = teamDataPath.listFiles();
         for (File file: teamFiles) {
-            Crew crew = loadCrewData(file);
+            Crew crew = new SchemaLoader<>(Yamls.GENERAL, schemaTable, updaterChain) {
+                @Override
+                public void onNewerVersionDetected() {
+                    MessageUtil.log(Level.WARNING, "crew.higher_version_warning");
+                }
+            }.load(file);
 
-            byUuid.put(crew.getUuid(), crew);
             byId.put(crew.getId(), crew);
         }
 
         MessageUtil.log("crew.loaded", teamFiles.length);
     }
 
-    public Crew loadCrewData(File file) {
-        return new SchemaLoader<>(Yamls.GENERAL, schemaTable, updaterChain)
-                .onNewerVersionDetected(ctx ->
-                        MessageUtil.log(Level.WARNING, "config.higher_version_warning")
-                )
-                .onFinished(ctx ->
-                        MessageUtil.log("config.loaded")
-                )
-                .load(file);
-    }
-
     /**
      * 새로운 팀을 만들고 팀 데이터를 저장합니다.
-     * @param player    팀을 만드는 플레이어
+     * @param creator    팀을 만드는 플레이어
      * @param id        팀 ID
      * @param name      팀 이름 (선택)
      * @return          생성된 팀
      */
-    public Crew createNewCrew(@Nullable Player player, @NonNull String id, @Nullable String name) {
+    public Crew createNewCrew(@Nullable Player creator, @NonNull String id, @Nullable String name) {
         if (byId.containsKey(id))
             throw new DuplicatedIdException();
-        String leaderName = player != null ? player.getName() : "???";
+        String leaderName = creator != null ? creator.getName() : "???";
         String defaultName = translateToPlainText("crew.default_name", leaderName);
-        Crew crew = new Crew(UUID.randomUUID(), id, LocalDateTime.now());
-        crew.setName(name != null ? name : defaultName);
+        Crew crew = new Crew(id, name != null ? name : defaultName, LocalDateTime.now());
         save(crew);
         return crew;
     }
 
     public boolean save(Crew crew) {
-        File path = new File(teamDataPath, crew.getUuid() + ".yml");
+        File path = new File(teamDataPath, crew.getId() + ".yml");
         try (FileWriter fw = new FileWriter(path)) {
-            Yamls.DATA.dump(crew, fw);
+            Yamls.GENERAL.dump(McolCrewSchema.deserialize(crew), fw);
             return true;
         } catch (IOException ex) {
             return false;
@@ -105,7 +96,7 @@ public class CrewManager implements McolInitializable {
     }
 
     public boolean saveAll() {
-        for (Crew crew : byUuid.values()) {
+        for (Crew crew : byId.values()) {
             boolean result = save(crew);
             if (!result) {
                 MessageUtil.log(Level.SEVERE, "crew.save_failed");
@@ -116,7 +107,7 @@ public class CrewManager implements McolInitializable {
     }
 
     public Crew getCrew(OfflinePlayer player) {
-        for (Crew crew : byUuid.values()) {
+        for (Crew crew : byId.values()) {
             if (crew.isMember(player))
                 return crew;
         }

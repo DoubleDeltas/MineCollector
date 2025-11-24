@@ -98,7 +98,7 @@ item.gui.raw_core.lore_2=§7 - Stack Score: §a§l{0}
 item.gui.raw_core.lore_3=§7 - Advancement Score: §b§l{0}
 
 config.default_created=Default config file created!
-config.updated=The config of older version({0}) has been updated to current version!
+config.updated=The older({0}) config has been updated to current version!
 config.higher_version_warning=The version of config is higher than current version! Have you ever used the plugin of higher version or modified config version?
 config.loaded=Config loaded!
 config.already_exist_warning=Could not save config.yml because config.yml already exists.
@@ -112,6 +112,7 @@ lang.using_default=The language file ({0}) could not be found, so the default la
 
 collection.loaded={0} collection piece(s) loaded!
 
-crew.loaded={0} crews loaded!
+crew.loaded={0} crew data loaded!
 crew.default_name={0}'s Crew
 crew.save_failed=Failed to save team data!
+config.updated=The older({0}) crew data has been updated to current version!

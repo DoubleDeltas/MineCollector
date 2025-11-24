@@ -114,3 +114,4 @@ collection.loaded={0}개 수집품 불러옴!
 crew.loaded={0}개 크루 불러옴!
 crew.default_name={0}의 크루
 crew.save_failed=크루 데이터 저장 실패!
+crew.updated=오래된 버전({0})의 크루 데이터를 현재 버전에 맞게 업데이트했습니다!
