@@ -13,11 +13,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 public class CustomRepresenter extends Representer {
     CustomRepresenter(DumperOptions dumperOptions) {
         super(dumperOptions);
 
+        this.representers.put(UUID.class, new RepresentRawUuid());
         this.representers.put(LocalDateTime.class, new RepresentLocalDateTime());
     }
 
@@ -34,7 +36,7 @@ public class CustomRepresenter extends Representer {
                 values.put(property.getName(), property.get(javaBean));
             } catch (Exception ignored) {}
         }
-        return (MappingNode) representMapping(Tag.MAP, values, DumperOptions.FlowStyle.BLOCK);
+        return (MappingNode) representMapping(Tag.MAP, values, DumperOptions.FlowStyle.AUTO);
     }
 
     private class RepresentLocalDateTime implements Represent {
@@ -43,6 +45,13 @@ public class CustomRepresenter extends Representer {
             LocalDateTime ldt = (LocalDateTime) data;
             String value = ldt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             return CustomRepresenter.this.representScalar(Tag.TIMESTAMP, value);
+        }
+    }
+
+    private class RepresentRawUuid implements Represent {
+        @Override
+        public Node representData(Object data) {
+            return representScalar(Tag.STR, data.toString());
         }
     }
 }

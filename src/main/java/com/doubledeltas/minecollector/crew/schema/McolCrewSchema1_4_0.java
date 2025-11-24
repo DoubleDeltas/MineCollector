@@ -1,8 +1,6 @@
 package com.doubledeltas.minecollector.crew.schema;
 
-import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.crew.Crew;
-import com.doubledeltas.minecollector.crew.CrewMember;
 import com.doubledeltas.minecollector.crew.CrewMembersImpl;
 import com.doubledeltas.minecollector.version.SchemaLoadingException;
 import lombok.AllArgsConstructor;
@@ -23,7 +21,7 @@ public class McolCrewSchema1_4_0 implements CurrentMcolCrewSchema {
     private List<CrewMember>    members;
     private String              dataVersion;
 
-    @Data @AllArgsConstructor
+    @Data @NoArgsConstructor @AllArgsConstructor
     public static class CrewMember implements McolCrewSchema.CrewMember {
         private UUID            uuid;
         private String          nickname;
