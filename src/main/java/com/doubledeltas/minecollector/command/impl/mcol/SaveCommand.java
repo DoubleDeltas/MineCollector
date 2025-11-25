@@ -18,7 +18,9 @@ public class SaveCommand extends CommandNode {
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (plugin.getDataManager().saveAll()) {
+        boolean result = plugin.getDataManager().saveAll() && plugin.getCrewManager().saveAll();
+
+        if (result) {
             MessageUtil.send(sender, "command.save.save_success");
             if (sender instanceof Player player)
                 SoundUtil.playHighRing(player);

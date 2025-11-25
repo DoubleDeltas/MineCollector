@@ -3,7 +3,7 @@ package com.doubledeltas.minecollector;
 import com.doubledeltas.minecollector.collection.CollectionManager;
 import com.doubledeltas.minecollector.command.CommandManager;
 import com.doubledeltas.minecollector.config.ConfigManager;
-import com.doubledeltas.minecollector.config.InvalidConfigException;
+import com.doubledeltas.minecollector.version.SchemaLoadingException;
 import com.doubledeltas.minecollector.config.McolConfig;
 import com.doubledeltas.minecollector.data.DataAutoSaver;
 import com.doubledeltas.minecollector.data.DataManager;
@@ -12,6 +12,7 @@ import com.doubledeltas.minecollector.item.InlineItemManager;
 import com.doubledeltas.minecollector.item.ItemManager;
 import com.doubledeltas.minecollector.lang.LangManager;
 import com.doubledeltas.minecollector.resource.ResourceManager;
+import com.doubledeltas.minecollector.crew.CrewManager;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.version.VersionManager;
 import com.doubledeltas.minecollector.version.VersionSystem;
@@ -34,6 +35,7 @@ public final class MineCollector extends JavaPlugin {
     private final LangManager       langManager         = new LangManager();
     private final ResourceManager   resourceManager     = new ResourceManager();
     private final CollectionManager collectionManager   = new CollectionManager();
+    private final CrewManager       crewManager         = new CrewManager();
 
     @Getter(AccessLevel.NONE)
     private McolConfig config;
@@ -56,6 +58,7 @@ public final class MineCollector extends JavaPlugin {
         dataAutoSaver.init(this);
         langManager.init(this);
         resourceManager.init(this);
+        crewManager.init(this);
         gameDirector.init(this);
 
         this.config = configManager.load();
@@ -63,6 +66,7 @@ public final class MineCollector extends JavaPlugin {
         collectionManager.generatePieces();
         commandManager.loadCommands();
         dataManager.loadData();
+        crewManager.load();
         dataAutoSaver.start();
         MessageUtil.log(Level.INFO, "server.enabled");
     }
@@ -77,7 +81,7 @@ public final class MineCollector extends JavaPlugin {
         return this.config;
     }
 
-    public void reloadMcolConfig() throws InvalidConfigException {
+    public void reloadMcolConfig() throws SchemaLoadingException {
         this.config = configManager.load();
         dataAutoSaver.restart();
     }

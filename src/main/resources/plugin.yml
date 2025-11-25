@@ -30,6 +30,10 @@ commands:
     aliases: [rkdlem, guide, 도움, ehdna, help, 도움말]
     description: 마인콜렉터 가이드를 봅니다.
     permission: minecollector.expose.guide
+  크루:
+    aliases: [zmfn, crew]
+    description: 크루 관련 명령어를 봅니다.
+    permission: minecollector.expose.crew
 
 
 permissions:
@@ -51,6 +55,9 @@ permissions:
     default: false
   minecollector.expose.ranking:
     description: Expose '/ranking' command to the player
+    default: false
+  minecollector.expose.crew:
+    description: Expose '/crew' command to the player
     default: false
 
 # permissions
@@ -147,3 +154,15 @@ permissions:
     default: true
     children:
       minecollector.expose.ranking: true
+
+  minecollector.crew.create:
+    description: Allow the player to create a crew
+    default: true
+    children:
+      minecollector.expose.crew: true
+
+  minecollector.crew.create.force:
+    description: Allow the player to create a crew even if the player already has a team.
+    default: op
+    children:
+      minecollector.expose.crew: true

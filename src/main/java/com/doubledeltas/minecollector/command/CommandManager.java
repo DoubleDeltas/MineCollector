@@ -17,7 +17,8 @@ public class CommandManager implements McolInitializable {
             new CollectCommand(),
             new GuideCommand(),
             new McolCommand(),
-            new RankingCommand()
+            new RankingCommand(),
+            new CrewCommand()
     );
 
     @Override

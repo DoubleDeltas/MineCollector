@@ -1,20 +1,20 @@
 package com.doubledeltas.minecollector.config.schema;
 
 import com.doubledeltas.minecollector.MineCollector;
-import com.doubledeltas.minecollector.config.InvalidConfigException;
+import com.doubledeltas.minecollector.config.McolConfig;
+import com.doubledeltas.minecollector.version.Schema;
+import com.doubledeltas.minecollector.version.SchemaLoadingException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-public interface McolConfigSchema {
+public interface McolConfigSchema extends Schema<McolConfig> {
     interface Scoring {}
     interface Announcement {}
     interface Game {}
     interface DB {}
 
     String getConfigVersion();
-
-    void validate() throws InvalidConfigException;
 
     @Data @NoArgsConstructor @AllArgsConstructor
     class PlaceholderContext {

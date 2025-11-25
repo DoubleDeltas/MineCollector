@@ -72,7 +72,7 @@ public class GameData {
      * @param writer 데이터를 저장할 {@code Writer}
      */
     public void saveToYaml(Writer writer) {
-        Yamls.getDataYaml().dump(this.toMap(), writer);
+        Yamls.DATA.dump(this.toMap(), writer);
     }
 
     /**
@@ -83,7 +83,7 @@ public class GameData {
     public static GameData loadFromYaml(Reader reader)
         throws YAMLException
     {
-        return new GameData(Yamls.getDataYaml().loadAs(reader, Map.class));
+        return new GameData(Yamls.DATA.loadAs(reader, Map.class));
     }
 
     /**
