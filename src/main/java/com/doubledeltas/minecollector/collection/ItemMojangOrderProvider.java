@@ -1,6 +1,5 @@
 package com.doubledeltas.minecollector.collection;
 
-import com.doubledeltas.minecollector.util.ReflectionUtil;
 import com.google.common.base.Preconditions;
 import lombok.Getter;
 import lombok.SneakyThrows;
