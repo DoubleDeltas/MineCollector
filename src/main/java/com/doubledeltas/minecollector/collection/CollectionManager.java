@@ -27,19 +27,22 @@ public class CollectionManager implements McolInitializable {
     public void generatePieces() {
         pieces.clear();
 
-        for (Material material : Material.values()) {
-            if (!material.isItem())
-                continue;
+        ItemMojangOrderProvider orderProvider = new ItemMojangOrderProvider();
+        orderProvider.load();
 
-            PlainItemPiece plainItemPiece;
-            if (material == Material.AIR)
-                plainItemPiece = AirPiece.INSTANCE;
-            else
-                plainItemPiece = new PlainItemPiece(material);
-            pieces.add(plainItemPiece);
-            keyPieceMap.put(plainItemPiece.toPieceKey(), plainItemPiece);
-            plainItemPieceMap.put(material, plainItemPiece);
-        }
+        Arrays.stream(Material.values())
+                .filter(Material::isItem)
+                .sorted(orderProvider.getComparator())
+                .forEach(material -> {
+                    PlainItemPiece plainItemPiece;
+                    if (material == Material.AIR)
+                        plainItemPiece = AirPiece.INSTANCE;
+                    else
+                        plainItemPiece = new PlainItemPiece(material);
+                    pieces.add(plainItemPiece);
+                    keyPieceMap.put(plainItemPiece.toPieceKey(), plainItemPiece);
+                    plainItemPieceMap.put(material, plainItemPiece);
+                });
 
         MessageUtil.log("collection.loaded", pieces.size());
     }
