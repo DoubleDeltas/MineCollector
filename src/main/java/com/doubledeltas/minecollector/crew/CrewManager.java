@@ -6,6 +6,7 @@ import com.doubledeltas.minecollector.crew.schema.McolCrewMeta;
 import com.doubledeltas.minecollector.crew.schema.McolCrewSchema;
 import com.doubledeltas.minecollector.crew.schema.McolCrewSchema1_4_0;
 import com.doubledeltas.minecollector.util.MessageUtil;
+import com.doubledeltas.minecollector.util.TimedSet;
 import com.doubledeltas.minecollector.version.*;
 import com.doubledeltas.minecollector.yaml.Yamls;
 import lombok.NonNull;
@@ -16,9 +17,11 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.NavigableMap;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import static com.doubledeltas.minecollector.lang.LangManager.translateToPlainText;
@@ -31,6 +34,8 @@ public class CrewManager implements McolInitializable {
 
     private VersionSchemaTable<McolCrewSchema> schemaTable;
     private VersionUpdaterChain<McolCrewSchema> updaterChain;
+
+    private final TimedSet<UUID> invitationCache = TimedSet.of(Duration.ofMinutes(1));
 
     @Override
     public void init(MineCollector plugin) {
