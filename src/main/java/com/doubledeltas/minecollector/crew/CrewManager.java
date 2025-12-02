@@ -9,9 +9,12 @@ import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.TimedSet;
 import com.doubledeltas.minecollector.version.*;
 import com.doubledeltas.minecollector.yaml.Yamls;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import lombok.NonNull;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -35,7 +38,8 @@ public class CrewManager implements McolInitializable {
     private VersionSchemaTable<McolCrewSchema> schemaTable;
     private VersionUpdaterChain<McolCrewSchema> updaterChain;
 
-    private final TimedSet<UUID> invitationCache = TimedSet.of(Duration.ofMinutes(1));
+    private Multimap<UUID, String> joinRequests = ArrayListMultimap.create();
+    private Multimap<String, UUID> invitations = ArrayListMultimap.create();
 
     @Override
     public void init(MineCollector plugin) {
@@ -131,4 +135,13 @@ public class CrewManager implements McolInitializable {
             return false;
         return getCrew(player) != null;
     }
+
+    public void sendJoinRequest(Player player, Crew crew) {
+
+    }
+
+    public void sendInvitation(Crew crew, Player player) {
+
+    }
+
 }
