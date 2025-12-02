@@ -5,6 +5,7 @@ import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.crew.schema.McolCrewMeta;
 import com.doubledeltas.minecollector.crew.schema.McolCrewSchema;
 import com.doubledeltas.minecollector.crew.schema.McolCrewSchema1_4_0;
+import com.doubledeltas.minecollector.util.BukkitTaskChain;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.TimedSet;
 import com.doubledeltas.minecollector.version.*;
@@ -137,7 +138,12 @@ public class CrewManager implements McolInitializable {
     }
 
     public void sendJoinRequest(Player player, Crew crew) {
+        BukkitTaskChain.create(plugin)
+                .then(() -> {
 
+                })
+                .waitForSeconds(60)
+                .run();
     }
 
     public void sendInvitation(Crew crew, Player player) {
