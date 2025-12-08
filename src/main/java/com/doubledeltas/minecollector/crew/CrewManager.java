@@ -7,15 +7,14 @@ import com.doubledeltas.minecollector.crew.schema.McolCrewSchema;
 import com.doubledeltas.minecollector.crew.schema.McolCrewSchema1_4_0;
 import com.doubledeltas.minecollector.util.BukkitTaskChain;
 import com.doubledeltas.minecollector.util.MessageUtil;
-import com.doubledeltas.minecollector.util.TimedSet;
+import com.doubledeltas.minecollector.util.SoundUtil;
 import com.doubledeltas.minecollector.version.*;
 import com.doubledeltas.minecollector.yaml.Yamls;
-import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import lombok.NonNull;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -25,7 +24,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.NavigableMap;
 import java.util.TreeMap;
-import java.util.UUID;
 import java.util.logging.Level;
 
 import static com.doubledeltas.minecollector.lang.LangManager.translateToPlainText;
@@ -39,8 +37,11 @@ public class CrewManager implements McolInitializable {
     private VersionSchemaTable<McolCrewSchema> schemaTable;
     private VersionUpdaterChain<McolCrewSchema> updaterChain;
 
-    private Multimap<UUID, String> joinRequests = ArrayListMultimap.create();
-    private Multimap<String, UUID> invitations = ArrayListMultimap.create();
+    private final Multimap<Player, Crew> applications = HashMultimap.create();
+    private final Multimap<Crew, Player> invitations = HashMultimap.create();
+
+    private static final Duration APPLICATION_TTL = Duration.ofSeconds(60);
+    private static final Duration INVITATION_TTL = Duration.ofSeconds(60);
 
     @Override
     public void init(MineCollector plugin) {
@@ -137,17 +138,53 @@ public class CrewManager implements McolInitializable {
         return getCrew(player) != null;
     }
 
-    public void sendJoinRequest(Player player, Crew crew) {
+    public void apply(Player player, Crew crew) {
         BukkitTaskChain.create(plugin)
                 .then(() -> {
-
+                    applications.put(player, crew);
                 })
-                .waitForSeconds(60)
+                .waitForSeconds(APPLICATION_TTL.getSeconds())
+                .then(() -> {
+                    if (applications.containsEntry(player, crew)) {
+                        applications.remove(player, crew);
+                    }
+                })
                 .run();
     }
 
-    public void sendInvitation(Crew crew, Player player) {
+    public void acceptApplication(Player applicant, Crew crew) {
 
     }
 
+    public void invite(Crew crew, Player inviter, Player invitee) {
+        BukkitTaskChain.create(plugin)
+                .then(() -> {
+                    invitations.put(crew, invitee);
+                })
+                .waitForSeconds(INVITATION_TTL.getSeconds())
+                .then(() -> {
+                    if (invitations.containsEntry(crew, invitee)) {
+                        invitations.remove(crew, invitee);
+                    }
+                })
+                .run();
+    }
+
+    public void acceptInvitation(Crew crew, Player invitee) {
+        invitations.remove(crew, invitee);
+        crew.addMember(invitee, false);
+
+        crew.getMembers().getOnlinePlayers(plugin.getServer()).forEach(player -> {
+            MessageUtil.send(player, "crew.newcomer_joined");
+            SoundUtil.playHighRing(player);
+        });
+    }
+
+    public boolean isApplicationPending(Player player, Crew crew) {
+        return applications.containsEntry(player, crew);
+    }
+
+    public boolean isInvitationPending(Crew crew, Player player) {
+        return invitations.containsEntry(crew, player);
+    }
 }

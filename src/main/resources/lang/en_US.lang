@@ -63,6 +63,10 @@ command.crew.generic.no_code=§cCrew ID must be given!
 command.crew.create.already_has_team=§cCan't create a crew while already in another crew!
 command.crew.create.duplicated_id=§cCrew ID is duplicated!
 command.crew.create.success=§fCreated the crew "§e{0}§f"!
+command.crew.invite.no_team=You are not part of any crew!
+command.crew.invite.no_args=Please enter the name of the player you want to invite!
+command.crew.invite.no_player_found=The specified player could not be found!
+command.crew.invite.player_has_team=§e{0}§f is already a member of a crew!
 
 gui.hub.title=§8[ §2Mine§0Collector §8]§0
 gui.collection.title=§8[ §2Mine§0Collector §8]§0 - Collection
@@ -115,4 +119,4 @@ collection.loaded={0} collection piece(s) loaded!
 crew.loaded={0} crew data loaded!
 crew.default_name={0}'s Crew
 crew.save_failed=Failed to save team data!
-config.updated=The older({0}) crew data has been updated to current version!
+crew.newcomer_joined=§e{0} §fjoined the crew!

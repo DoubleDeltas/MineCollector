@@ -1,8 +1,13 @@
 package com.doubledeltas.minecollector.crew;
 
+import com.doubledeltas.minecollector.MineCollector;
+import com.google.common.xml.XmlEscapers;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Server;
+import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -40,5 +45,12 @@ public class CrewMembersImpl implements CrewMembers {
     @Override
     public List<CrewMember> toList() {
         return membership.values().stream().toList();
+    }
+
+    @Override
+    public Collection<? extends Player> getOnlinePlayers(Server server) {
+        return server.getOnlinePlayers().stream()
+                .filter(player -> membership.containsKey(player.getUniqueId()))
+                .toList();
     }
 }

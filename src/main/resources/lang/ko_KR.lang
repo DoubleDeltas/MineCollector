@@ -62,6 +62,10 @@ command.crew.generic.no_code=§c크루 코드가 반드시 입력되어야 합�
 command.crew.create.already_has_team=§c다른 크루에 가입되어 있는 상태로 크루를 만들 수 없습니다!
 command.crew.create.duplicated_id=§c크루 ID가 중복됩니다!
 command.crew.create.success="§e{0}§f" 크루를 생성했습니다!
+command.crew.invite.no_team=소속되어 있는 크루가 없습니다!
+command.crew.invite.no_args=초대할 플레이어의 이름을 입력해주세요!
+command.crew.invite.no_player_found=해당 플레이어를 찾을 수 없습니다!
+command.crew.invite.player_has_team=§e{0}§f님은 이미 크루에 가입되어 있습니다!
 
 gui.hub.title=§8[ §2마인§0콜렉터 §8]§0
 gui.collection.title=§8[ §2마인§0콜렉터 §8]§0 - 도감
@@ -114,4 +118,4 @@ collection.loaded={0}개 수집품 불러옴!
 crew.loaded={0}개 크루 불러옴!
 crew.default_name={0}의 크루
 crew.save_failed=크루 데이터 저장 실패!
-crew.updated=오래된 버전({0})의 크루 데이터를 현재 버전에 맞게 업데이트했습니다!
+crew.newcomer_joined=§e{0}§f님이 크루에 합류했습니다!
