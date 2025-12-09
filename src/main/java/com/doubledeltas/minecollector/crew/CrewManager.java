@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.NavigableMap;
+import java.util.Optional;
 import java.util.TreeMap;
 import java.util.logging.Level;
 
@@ -125,6 +126,10 @@ public class CrewManager implements McolInitializable {
                 return crew;
         }
         return null;
+    }
+
+    public @Nullable Crew findCrew(String id) {
+        return byId.get(id);
     }
 
     /**

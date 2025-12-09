@@ -26,7 +26,7 @@ public class CrewInviteCommand extends CommandNode {
             return true;
         }
         if (!crewManager.hasCrew(inviter)) {
-            MessageUtil.send(sender, "command.crew.invite.no_team");
+            MessageUtil.send(sender, "command.crew.invite.no_crew");
             return true;
         }
         if (args.length < 1) {
