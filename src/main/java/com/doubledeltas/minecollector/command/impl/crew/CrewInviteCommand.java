@@ -4,6 +4,7 @@ import com.doubledeltas.minecollector.command.CommandNode;
 import com.doubledeltas.minecollector.crew.Crew;
 import com.doubledeltas.minecollector.crew.CrewManager;
 import com.doubledeltas.minecollector.util.MessageUtil;
+import com.doubledeltas.minecollector.util.SoundUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -49,7 +50,9 @@ public class CrewInviteCommand extends CommandNode {
             crewManager.acceptApplication(invitee, crew);
         }
         else {
-            crewManager.invite(crew, inviter, invitee);
+            crewManager.invite(crew, invitee);
+            MessageUtil.send(sender, "command.crew.invite.success", invitee.getName());
+            SoundUtil.playHighRing(inviter);
         }
 
         return true;

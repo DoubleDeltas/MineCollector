@@ -67,6 +67,7 @@ command.crew.invite.no_team=You are not part of any crew!
 command.crew.invite.no_args=Please enter the name of the player you want to invite!
 command.crew.invite.no_player_found=The specified player could not be found!
 command.crew.invite.player_has_team=§e{0}§f is already a member of a crew!
+command.crew.invite.success=The crew invitation is sent to §e{0}!
 
 gui.hub.title=§8[ §2Mine§0Collector §8]§0
 gui.collection.title=§8[ §2Mine§0Collector §8]§0 - Collection

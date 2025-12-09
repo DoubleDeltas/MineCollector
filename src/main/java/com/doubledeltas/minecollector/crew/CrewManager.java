@@ -153,10 +153,12 @@ public class CrewManager implements McolInitializable {
     }
 
     public void acceptApplication(Player applicant, Crew crew) {
-
+        applications.remove(applicant, crew);
+        crew.addMember(applicant, false);
+        onNewcomerJoined(crew, applicant);
     }
 
-    public void invite(Crew crew, Player inviter, Player invitee) {
+    public void invite(Crew crew, Player invitee) {
         BukkitTaskChain.create(plugin)
                 .then(() -> {
                     invitations.put(crew, invitee);
@@ -173,7 +175,10 @@ public class CrewManager implements McolInitializable {
     public void acceptInvitation(Crew crew, Player invitee) {
         invitations.remove(crew, invitee);
         crew.addMember(invitee, false);
+        onNewcomerJoined(crew, invitee);
+    }
 
+    private void onNewcomerJoined(Crew crew, Player newcomer) {
         crew.getMembers().getOnlinePlayers(plugin.getServer()).forEach(player -> {
             MessageUtil.send(player, "crew.newcomer_joined");
             SoundUtil.playHighRing(player);
