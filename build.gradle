@@ -21,6 +21,10 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
     compileOnly 'org.spigotmc:spigot-api:1.19.3-R0.1-SNAPSHOT'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:6.1.0-M1'
+    testImplementation "com.github.seeseemelk:MockBukkit-1.19:3.3.0"
+
 }
 
 def targetJavaVersion = 17
