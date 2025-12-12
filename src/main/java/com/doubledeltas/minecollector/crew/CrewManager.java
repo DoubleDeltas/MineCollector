@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.NavigableMap;
-import java.util.Optional;
 import java.util.TreeMap;
 import java.util.logging.Level;
 
@@ -185,9 +184,23 @@ public class CrewManager implements McolInitializable {
 
     private void onNewcomerJoined(Crew crew, Player newcomer) {
         crew.getMembers().getOnlinePlayers(plugin.getServer()).forEach(player -> {
-            MessageUtil.send(player, "crew.newcomer_joined");
+            MessageUtil.send(player, "crew.newcomer_joined", newcomer.getName());
             SoundUtil.playHighRing(player);
         });
+    }
+
+    /**
+     * 크루에서 나갑니다.
+     * @param offlinePlayer 크루에서 나갈 플레이어
+     * @return 나간 크루, 없으면 {@code null}
+     */
+    public @Nullable Crew leaveCrew(OfflinePlayer offlinePlayer) {
+        if (!hasCrew(offlinePlayer)) {
+            return null;
+        }
+        Crew crew = getCrew(offlinePlayer);
+        boolean result = crew.getMembers().removeMember(offlinePlayer);
+        return result ? crew : null;
     }
 
     public boolean isApplicationPending(Player player, Crew crew) {

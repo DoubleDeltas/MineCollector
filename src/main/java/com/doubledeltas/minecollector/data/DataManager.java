@@ -3,8 +3,10 @@ package com.doubledeltas.minecollector.data;
 import com.doubledeltas.minecollector.McolInitializable;
 import com.doubledeltas.minecollector.MineCollector;
 import com.doubledeltas.minecollector.util.MessageUtil;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
 import java.io.*;
 import java.util.*;
 import java.util.function.Function;

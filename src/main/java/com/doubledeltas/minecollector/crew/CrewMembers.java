@@ -15,7 +15,11 @@ public interface CrewMembers {
 
     boolean addMember(OfflinePlayer offlinePlayer, boolean isLeader);
 
+    boolean removeMember(OfflinePlayer offlinePlayer);
+
     List<CrewMember> toList();
 
     Collection<? extends Player> getOnlinePlayers(Server server);
+
+    Collection<? extends OfflinePlayer> getOfflinePlayers();
 }

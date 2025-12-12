@@ -19,6 +19,7 @@ command.generic.player_only=This command can be used only by players!
 command.generic.invalid=The command is invalid!
 command.generic.correct_command=Correct command: §e{0}
 command.generic.no_permission=You don't have the permission to use this command!
+command.generic.no_player_found=
 command.book.already_have=You already have the collection book! Try checking your inventory again.
 command.book.received=The collection book has been added to your inventory! Be careful not to lose it next time!
 command.check.no_exist=§e{0} §citem does not exist!
@@ -72,6 +73,7 @@ command.crew.join.already_has_crew=You are already a member of the §e{0}§f cre
 command.crew.join.no_args=Please enter the name of the player you want to join!
 command.crew.join.no_crew_found=No crew with the matching ID could be found!
 command.crew.join.success=A join request has been sent to the §e{0} §fcrew!
+command.crew.leave.no_crew=§e{0}§f님은 이미 가입되어 있는 크루가 없습니다!
 
 gui.hub.title=§8[ §2Mine§0Collector §8]§0
 gui.collection.title=§8[ §2Mine§0Collector §8]§0 - Collection

@@ -43,6 +43,14 @@ public class CrewMembersImpl implements CrewMembers {
     }
 
     @Override
+    public boolean removeMember(OfflinePlayer offlinePlayer) {
+        if (!isMember(offlinePlayer))
+            return false;
+        membership.remove(offlinePlayer.getUniqueId());
+        return true;
+    }
+
+    @Override
     public List<CrewMember> toList() {
         return membership.values().stream().toList();
     }
@@ -51,6 +59,13 @@ public class CrewMembersImpl implements CrewMembers {
     public Collection<? extends Player> getOnlinePlayers(Server server) {
         return server.getOnlinePlayers().stream()
                 .filter(player -> membership.containsKey(player.getUniqueId()))
+                .toList();
+    }
+
+    @Override
+    public Collection<? extends OfflinePlayer> getOfflinePlayers() {
+        return membership.values().stream()
+                .map(CrewMember::player)
                 .toList();
     }
 }
