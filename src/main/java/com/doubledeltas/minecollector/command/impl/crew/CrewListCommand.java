@@ -20,6 +20,6 @@ public class CrewListCommand extends CommandNode {
 
     @Override
     public String getRequiredPermissionKey() {
-        return null;
+        return "minecollector.crew.list";
     }
 }

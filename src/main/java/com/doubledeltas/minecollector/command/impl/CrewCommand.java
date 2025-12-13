@@ -12,7 +12,7 @@ public class CrewCommand extends CommandRoot {
 
     public CrewCommand() {
         this.subcommands = List.of(
-                new CrewListCommand(),
+//                new CrewListCommand(),
                 new CrewCreateCommand(),
                 new CrewRemoveCommand(),
                 new CrewJoinCommand(),
