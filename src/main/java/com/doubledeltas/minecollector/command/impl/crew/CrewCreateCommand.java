@@ -23,7 +23,7 @@ public class CrewCreateCommand extends CommandNode {
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = sender instanceof Player p ? p : null;
         if (args.length == 0) {
-            fail(sender, "crew.generic.no_code");
+            fail(sender, "command.crew.generic.no_code");
             return false;
         }
 
