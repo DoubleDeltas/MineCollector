@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class CrewLeaveCommand extends CommandNode {
     @Override
@@ -36,9 +35,7 @@ public class CrewLeaveCommand extends CommandNode {
             self = true;
         }
         else {
-            var playerOptional = Arrays.stream(plugin.getServer().getOfflinePlayers())
-                    .filter(offlinePlayer -> Objects.equals(offlinePlayer.getName(), args[0]))
-                    .findAny();
+            var playerOptional = plugin.findOfflinePlayer(args[0]);
             if (playerOptional.isEmpty()) {
                 MessageUtil.send(sender, "command.generic.no_player_found");
                 return true;
@@ -75,7 +72,8 @@ public class CrewLeaveCommand extends CommandNode {
             if (sender instanceof Player player)
                 SoundUtil.playHighRing(player);
 
-            if (leaver instanceof Player leftPlayer) {
+            if (leaver.isOnline()) {
+                Player leftPlayer = leaver.getPlayer();
                 MessageUtil.send(leftPlayer, "command.crew.leave.kicked", leftCrew.getName());
                 SoundUtil.playHighRing(leftPlayer);
             }

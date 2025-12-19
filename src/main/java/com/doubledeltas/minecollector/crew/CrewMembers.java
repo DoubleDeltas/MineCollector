@@ -22,4 +22,13 @@ public interface CrewMembers {
     Collection<? extends Player> getOnlinePlayers(Server server);
 
     Collection<? extends OfflinePlayer> getOfflinePlayers();
+
+    /**
+     * 크루 멤버의 리더 상태를 변경합니다.
+     * @param offlinePlayer 플레이어
+     * @param leader 리더 여부
+     * @return 변경 여부
+     */
+    boolean setLeader(OfflinePlayer offlinePlayer, boolean leader);
+
 }

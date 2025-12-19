@@ -1,13 +1,10 @@
 package com.doubledeltas.minecollector.crew;
 
-import com.doubledeltas.minecollector.MineCollector;
-import com.google.common.xml.XmlEscapers;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -18,7 +15,7 @@ public class CrewMembersImpl implements CrewMembers {
 
     public CrewMembersImpl(Collection<CrewMember> members) {
         for (CrewMember member : members) {
-            membership.put(member.player().getUniqueId(), member);
+            membership.put(member.getPlayer().getUniqueId(), member);
         }
     }
 
@@ -65,7 +62,22 @@ public class CrewMembersImpl implements CrewMembers {
     @Override
     public Collection<? extends OfflinePlayer> getOfflinePlayers() {
         return membership.values().stream()
-                .map(CrewMember::player)
+                .map(CrewMember::getPlayer)
                 .toList();
+    }
+
+    @Override
+    public boolean setLeader(OfflinePlayer offlinePlayer, boolean leader) {
+        if (isMember(offlinePlayer) == leader)
+            throwMemberNotFoundException();
+        CrewMember member = membership.get(offlinePlayer.getUniqueId());
+        if (member.isLeader())
+            return false;   // already leader
+        member.setLeader(true);
+        return true;
+    }
+
+    private void throwMemberNotFoundException() {
+        throw new NoSuchElementException("No offline player found in the crew");
     }
 }

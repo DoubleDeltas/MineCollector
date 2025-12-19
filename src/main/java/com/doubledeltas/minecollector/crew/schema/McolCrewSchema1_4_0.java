@@ -36,10 +36,10 @@ public class McolCrewSchema1_4_0 implements CurrentMcolCrewSchema {
                 .creationTime(crew.getCreationTime())
                 .members(crew.getMembers().toList().stream()
                         .map(src -> new CrewMember(
-                                src.player().getUniqueId(),
-                                src.player().getName(),
-                                src.joinedTime(),
-                                src.leader()
+                                src.getPlayer().getUniqueId(),
+                                src.getPlayer().getName(),
+                                src.getJoinedTime(),
+                                src.isLeader()
                         ))
                         .toList()
                 )

@@ -18,8 +18,12 @@ import com.doubledeltas.minecollector.version.VersionManager;
 import com.doubledeltas.minecollector.version.VersionSystem;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Level;
 
 @Getter
@@ -93,5 +97,16 @@ public final class MineCollector extends JavaPlugin {
     @Deprecated
     public void saveDefaultConfig() {
         configManager.saveConfig();
+    }
+
+    /**
+     * 마지막에 들어온 기준 닉네임으로 {@link OfflinePlayer}를 찾습니다.
+     * @param nickname 닉네임
+     * @return 찾은 {@link OfflinePlayer}, 없으면 {@link Optional#empty()}
+     */
+    public Optional<OfflinePlayer> findOfflinePlayer(String nickname) {
+        return Arrays.stream(getServer().getOfflinePlayers())
+                .filter(offlinePlayer -> Objects.equals(offlinePlayer.getName(), nickname))
+                .findAny();
     }
 }
