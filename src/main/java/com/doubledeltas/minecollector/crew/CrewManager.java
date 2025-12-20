@@ -60,6 +60,8 @@ public class CrewManager implements McolInitializable {
     }
 
     public void load() {
+        byId.clear();
+
         if (!teamDataPath.isDirectory()) {
             teamDataPath.mkdirs();
         }
