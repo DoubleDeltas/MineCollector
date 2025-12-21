@@ -18,7 +18,7 @@ public final class GuideCommand extends CommandRoot {
 
     @Override
     public boolean onRawCommand(CommandSender sender, Command command, String label, String[] args) {
-        BaseComponent[] hereComponents = translateToComponents("command.guide.here");
+        BaseComponent[] hereComponents = translateToComponents("command.generic.here");
         ClickEvent clickEvent = new ClickEvent(
                 ClickEvent.Action.OPEN_URL,
                 translateToPlainText("command.guide.url")

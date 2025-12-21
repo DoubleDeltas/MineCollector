@@ -40,8 +40,8 @@ public class CrewManager implements McolInitializable {
     private final Multimap<Player, Crew> applications = HashMultimap.create();
     private final Multimap<Crew, Player> invitations = HashMultimap.create();
 
-    private static final Duration APPLICATION_TTL = Duration.ofSeconds(60);
-    private static final Duration INVITATION_TTL = Duration.ofSeconds(60);
+    public static final Duration APPLICATION_TTL = Duration.ofSeconds(60);
+    public static final Duration INVITATION_TTL = Duration.ofSeconds(60);
 
     @Override
     public void init(MineCollector plugin) {

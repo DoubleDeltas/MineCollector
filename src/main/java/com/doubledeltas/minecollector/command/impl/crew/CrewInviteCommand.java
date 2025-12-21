@@ -3,13 +3,19 @@ package com.doubledeltas.minecollector.command.impl.crew;
 import com.doubledeltas.minecollector.command.CommandNode;
 import com.doubledeltas.minecollector.crew.Crew;
 import com.doubledeltas.minecollector.crew.CrewManager;
+import com.doubledeltas.minecollector.lang.LangManager;
 import com.doubledeltas.minecollector.util.MessageUtil;
 import com.doubledeltas.minecollector.util.SoundUtil;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+
+import static com.doubledeltas.minecollector.lang.LangManager.translateToComponents;
 
 public class CrewInviteCommand extends CommandNode {
     @Override
@@ -26,7 +32,7 @@ public class CrewInviteCommand extends CommandNode {
             return true;
         }
         if (!crewManager.hasCrew(inviter)) {
-            MessageUtil.send(sender, "command.generic.no_crew");
+            MessageUtil.send(sender, "command.crew.generic.no_crew");
             return true;
         }
         if (args.length < 1) {
@@ -35,12 +41,20 @@ public class CrewInviteCommand extends CommandNode {
         }
 
         Crew crew = crewManager.getCrew(inviter);
-        Player invitee = plugin.getServer().getPlayer(args[0]);
+        var offlineInviteeOptional = plugin.findOfflinePlayer(args[0]);
 
-        if (invitee == null) {
+        if (offlineInviteeOptional.isEmpty()) {
             MessageUtil.send(sender, "command.crew.invite.no_player_found");
             return true;
         }
+
+        OfflinePlayer offlineInvitee = offlineInviteeOptional.get();
+        if (!offlineInvitee.isOnline()) {
+            MessageUtil.send(sender, "command.crew.invite.invitee_not_online");
+            return true;
+        }
+
+        Player invitee = offlineInvitee.getPlayer();
         if (crewManager.hasCrew(invitee)) {
             MessageUtil.send(sender, "command.crew.invite.player_has_team", invitee.getName());
             return true;
@@ -53,6 +67,15 @@ public class CrewInviteCommand extends CommandNode {
             crewManager.invite(crew, invitee);
             MessageUtil.send(sender, "command.crew.invite.success", invitee.getName());
             SoundUtil.playHighRing(inviter);
+
+            MessageUtil.sendRaw(invitee, "");
+            MessageUtil.send(invitee, "command.crew.invite.got_invited_1", crew.getName());
+            MessageUtil.send(invitee,"command.crew.invite.got_invited_2",
+                    getAcceptButtonComponents(crew.getId()),
+                    CrewManager.INVITATION_TTL.getSeconds()
+            );
+            MessageUtil.sendRaw(invitee, "");
+            SoundUtil.playHighRing(invitee);
         }
 
         return true;
@@ -74,5 +97,17 @@ public class CrewInviteCommand extends CommandNode {
     @Override
     public String getRequiredPermissionKey() {
         return "minecollector.crew.invite";
+    }
+
+    private BaseComponent[] getAcceptButtonComponents(String crewId) {
+        BaseComponent[] components = translateToComponents("command.generic.here");
+        ClickEvent clickEvent = new ClickEvent(
+                ClickEvent.Action.RUN_COMMAND,
+                "/crew join " + crewId  // TODO: remove hardcoding
+        );
+        for (BaseComponent component : components) {
+            component.setClickEvent(clickEvent);
+        }
+        return components;
     }
 }
